@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { site } from "@/content/site";
 import { doctorSlugs, getDoctor } from "@/content/doctors";
 import { DoctorHero } from "@/components/doctor/doctor-hero";
+import { DoctorFacts } from "@/components/doctor/doctor-facts";
 import { DoctorStory } from "@/components/doctor/doctor-story";
 import { DoctorJourney } from "@/components/doctor/doctor-journey";
 import { DoctorFocus } from "@/components/doctor/doctor-focus";
@@ -73,6 +74,7 @@ export default async function DoctorPage({ params }: PageProps<"/about-us/[docto
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <DoctorHero doctor={doctor} profile={profile} />
+      <DoctorFacts doctor={doctor} profile={profile} />
       <DoctorStory doctor={doctor} profile={profile} />
       <DoctorJourney doctor={doctor} profile={profile} />
       <DoctorFocus doctor={doctor} profile={profile} />

@@ -17,7 +17,7 @@ const promises: { icon: LucideIcon; title: string; text: string; image: string; 
     icon: HeartHandshake,
     title: "Gentle with anxiety",
     text: "A soothing, unhurried approach for nervous patients. We take the time to hear your concerns first.",
-    image: "/images/hero/banner-4.jpg",
+    image: "/images/hero/young-patient-smile.jpg",
     alt: "A young patient smiling in the dental chair",
   },
   {
@@ -38,7 +38,7 @@ const promises: { icon: LucideIcon; title: string; text: string; image: string; 
     icon: Baby,
     title: "Toddlers to grandparents",
     text: "Individualized attention, courtesy and thoughtful care for every generation.",
-    image: "/images/hero/section-bg.jpg",
+    image: "/images/hero/mother-daughter.jpg",
     alt: "A smiling mother and daughter",
   },
   {

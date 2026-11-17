@@ -213,7 +213,7 @@ export const serviceGroups = [
     title: "Preventative Care",
     blurb: "Check-ups, cleanings, gum care and children's dentistry that keep every generation healthy.",
     href: "/preventative-care",
-    image: "/images/hero/banner-4.jpg",
+    image: "/images/hero/young-patient-smile.jpg",
     sections: serviceSections.general,
     total: serviceSections.general.flatMap((s) => s.links).length,
     links: pick(serviceSections.general, [
@@ -235,7 +235,7 @@ export const serviceGroups = [
     title: "Cosmetic Dentistry",
     blurb: "Natural-looking smile design, from whitening to porcelain veneers.",
     href: "/cosmetic-dentistry",
-    image: "/images/services/cosmetic-dentistry.webp",
+    image: "/images/services/natural-smile.jpg",
     sections: serviceSections.cosmetic,
     total: serviceSections.cosmetic.flatMap((s) => s.links).length,
     links: serviceSections.cosmetic.flatMap((s) => s.links),
@@ -246,7 +246,7 @@ export const serviceGroups = [
     title: "Restorative Dentistry",
     blurb: "Implants, crowns, bridges, dentures and root canals, all handled in the same practice.",
     href: "/restorative-dentistry",
-    image: "/images/services/dental-implants.jpg",
+    image: "/images/services/implant-consult.jpg",
     sections: serviceSections.restorative,
     total: serviceSections.restorative.flatMap((s) => s.links).length,
     links: pick(serviceSections.restorative, [

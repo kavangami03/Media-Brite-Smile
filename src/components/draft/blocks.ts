@@ -105,7 +105,11 @@ export function toBlocks(items: DraftItem[]): Block[] {
   // singletons read better as plain paragraphs
   return merged.map((b) => {
     if (b.kind === "features" && b.rows.length === 1)
-      return { kind: "p", text: `${b.rows[0].label}. ${b.rows[0].text}` };
+      /* "Label: lowercase text" was split at a colon, "Label. Sentence" at a full stop: rejoin with the same mark */
+      return {
+        kind: "p",
+        text: `${b.rows[0].label}${/^[a-z]/.test(b.rows[0].text) ? ":" : "."} ${b.rows[0].text}`,
+      };
     if (b.kind === "list" && b.items.length === 1 && !b.items[0].href) return { kind: "p", text: b.items[0].text };
     return b;
   });

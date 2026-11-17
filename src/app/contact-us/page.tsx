@@ -66,7 +66,7 @@ const ways = [
     icon: Globe,
     title: "Online",
     text: "Send an appointment request at any hour and we will reply with the closest available times across the three dentists.",
-    action: { label: "Request a time", href: "#request" },
+    action: { label: "Request a time", href: "#appointment-form" },
   },
   {
     icon: Footprints,
@@ -89,50 +89,70 @@ export default function ContactPage() {
           </>
         }
         lead={`Our dental office in Media, PA is at ${site.address.street}. Call ${site.phone.display}, or send an appointment request and we will come back to you with a time.`}
-        aside={
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <a
-              href={site.phone.href}
-              className="group col-span-full flex items-center gap-5 overflow-hidden rounded-4xl bg-linear-to-br from-brand-500 to-brand-800 p-7 text-white shadow-lift"
-            >
-              <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white text-brand-600 transition-transform duration-500 group-hover:-rotate-6">
-                <Phone className="size-7" />
+        actions={false}
+      >
+        {/* one column across the full container: the form first, contact details under it */}
+        <div
+          id="request"
+          className="mt-10 scroll-mt-28 rounded-4xl bg-white p-6 shadow-lift ring-1 ring-line sm:rounded-5xl sm:p-10 lg:p-12"
+        >
+          <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Request an appointment</h2>
+            <p className="text-lg text-body">Tell us what is going on and we will call you back with a time.</p>
+          </div>
+          <div className="mt-8">
+            <AppointmentForm />
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr]">
+          <a
+            href={site.phone.href}
+            className="group col-span-full flex items-center gap-4 overflow-hidden rounded-3xl bg-linear-to-br from-brand-500 to-brand-800 p-5 text-white shadow-lift sm:p-6 lg:col-span-1"
+          >
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-brand-600 transition-transform duration-500 group-hover:-rotate-6">
+              <Phone className="size-6" />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-sm text-white/75">Call the practice</span>
+              <span className="block text-2xl font-bold tracking-tight sm:text-3xl">{site.phone.display}</span>
+            </span>
+          </a>
+          <a
+            href={site.address.directions}
+            target="_blank"
+            rel="noopener"
+            className="group flex items-center gap-4 rounded-3xl bg-white p-5 ring-1 ring-line transition-shadow duration-500 hover:shadow-lift sm:p-6"
+          >
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">
+              <MapPin className="size-5" />
+            </span>
+            <span className="min-w-0">
+              <span className="block font-semibold text-ink">{site.address.street}</span>
+              <span className="block text-sm text-muted">
+                {site.address.city}, {site.address.region} {site.address.zip}
               </span>
-              <span className="min-w-0">
-                <span className="block text-sm text-white/75">Call the practice</span>
-                <span className="block text-3xl font-bold tracking-tight sm:text-4xl">{site.phone.display}</span>
-              </span>
-            </a>
-            <a
-              href={site.address.directions}
-              target="_blank"
-              rel="noopener"
-              className="group flex flex-col gap-4 rounded-4xl bg-white p-6 ring-1 ring-line transition-shadow duration-500 hover:shadow-lift"
-            >
-              <MapPin className="size-6 text-brand-500" />
-              <span>
-                <span className="block font-semibold text-ink">{site.address.street}</span>
-                <span className="block text-sm text-muted">
-                  {site.address.city}, {site.address.region} {site.address.zip}
-                </span>
-              </span>
-              <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
+              <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
                 Directions <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
               </span>
-            </a>
-            <a
-              href="#hours"
-              className="flex flex-col gap-4 rounded-4xl bg-white p-6 ring-1 ring-line transition-shadow duration-500 hover:shadow-lift"
-            >
-              <CalendarClock className="size-6 text-brand-500" />
+            </span>
+          </a>
+          <a
+            href="#hours"
+            className="flex items-center gap-4 rounded-3xl bg-white p-5 ring-1 ring-line transition-shadow duration-500 hover:shadow-lift sm:p-6"
+          >
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-600 ring-1 ring-brand-100">
+              <CalendarClock className="size-5" />
+            </span>
+            <span className="min-w-0">
               <OpenStatus />
-              <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
+              <span className="mt-1.5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600">
                 All opening hours
               </span>
-            </a>
-          </div>
-        }
-      />
+            </span>
+          </a>
+        </div>
+      </PageHero>
 
       {/* ---------- Map + hours ---------- */}
       <section id="hours" className="scroll-mt-28 bg-white section-y" aria-labelledby="where-heading">
@@ -200,7 +220,7 @@ export default function ContactPage() {
       </section>
 
       {/* ---------- Ways to reach us + form ---------- */}
-      <section id="request" className="scroll-mt-28 bg-pearl section-y" aria-labelledby="reach-heading">
+      <section className="bg-pearl section-y" aria-labelledby="reach-heading">
         <div className="container-site">
           <SectionHead
             id="reach-heading"
@@ -232,33 +252,24 @@ export default function ContactPage() {
             ))}
           </RevealGroup>
 
-          <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-[1.3fr_0.7fr]">
-            <Reveal>
-              <div className="h-full rounded-4xl bg-white p-6 shadow-soft ring-1 ring-line sm:rounded-5xl sm:p-10">
-                <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">Request an appointment</h3>
-                <p className="mt-2 text-lg text-body">
-                  Tell us what is going on and we will call you back with a time.
-                </p>
-                <div className="mt-8">
-                  <AppointmentForm />
-                </div>
-              </div>
-            </Reveal>
+          <div className="mt-6">
             <Reveal delay={0.1}>
-              <div className="flex h-full flex-col rounded-4xl bg-ink p-7 text-white sm:rounded-5xl sm:p-9">
-                <span className="grid size-14 place-items-center rounded-2xl bg-rose-500 text-white">
-                  <Siren className="size-6" />
-                </span>
-                <h3 className="mt-7 text-2xl font-bold tracking-tight text-white">If this is a dental emergency</h3>
-                <p className="mt-3 leading-relaxed text-white/75">
-                  Call {site.phone.display} rather than using the form, and say what has happened. You will be told how
-                  soon you need to be seen.
-                </p>
-                <p className="mt-4 rounded-2xl bg-white/5 p-4 text-[0.9375rem] leading-relaxed text-white/80 ring-1 ring-white/10">
-                  Severe facial swelling, trouble breathing or trouble swallowing? Go to an emergency room or call 911.
-                  That is beyond what a dental office can treat.
-                </p>
-                <div className="mt-auto flex flex-col gap-2 pt-8">
+              <div className="grid grid-cols-1 gap-6 rounded-4xl bg-ink p-7 text-white sm:rounded-5xl sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+                <div>
+                  <span className="grid size-14 place-items-center rounded-2xl bg-rose-500 text-white">
+                    <Siren className="size-6" />
+                  </span>
+                  <h3 className="mt-7 text-2xl font-bold tracking-tight text-white">If this is a dental emergency</h3>
+                  <p className="mt-3 leading-relaxed text-white/75">
+                    Call {site.phone.display} rather than using the form, and say what has happened. You will be told
+                    how soon you need to be seen.
+                  </p>
+                  <p className="mt-4 rounded-2xl bg-white/5 p-4 text-[0.9375rem] leading-relaxed text-white/80 ring-1 ring-white/10">
+                    Severe facial swelling, trouble breathing or trouble swallowing? Go to an emergency room or call
+                    911. That is beyond what a dental office can treat.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 lg:min-w-72">
                   <a
                     href={site.phone.href}
                     className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-ink hover:bg-glow"

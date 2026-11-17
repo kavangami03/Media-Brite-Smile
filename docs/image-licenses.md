@@ -68,15 +68,12 @@
 | public/images/topics/child-exam.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/8224633/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/child-mirror.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/6502554/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/family-brushing.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/10566162/ | Pexels | see source page | 2026-11-16 |
-| public/images/topics/piggy-bank.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/1602726/ | Pexels | see source page | 2026-11-16 |
-| public/images/topics/medications.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/9902277/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/medication-organizer.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/8376201/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/reading-documents.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/8428049/ | Pexels | see source page | 2026-11-16 |
-| public/images/topics/writing-documents.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/8730385/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/driving.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/3767207/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/house-autumn.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/34503455/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/neighborhood-aerial.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/5580644/ | Pexels | see source page | 2026-11-16 |
-| public/images/topics/aligner-smile.jpg | Section images, Cosmetic and Service + Location pages | https://www.pexels.com/photo/11887613/ | Pexels | see source page | 2026-11-16 |
+| public/images/topics/aligner-smile.jpg | Section images, Cosmetic and Service + Location pages, home page signature treatments (Invisalign card) | https://www.pexels.com/photo/11887613/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/aligners-hands.jpg | Section images, Cosmetic and Service + Location pages | https://www.pexels.com/photo/28407748/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/smile-closeup.jpg | Section images, Cosmetic and Service + Location pages | https://www.pexels.com/photo/12474261/ | Pexels | see source page | 2026-11-16 |
 | public/images/topics/smile-portrait.jpg | Section images, Cosmetic and Service + Location pages | https://www.pexels.com/photo/20130737/ | Pexels | see source page | 2026-11-16 |
@@ -97,7 +94,6 @@
 | topics/pregnancy.jpg | Preventative Care pages, X-rays and pregnancy section | https://www.pexels.com/photo/7088480/ | Pexels | see source page | 2026-11-16 |
 | topics/headache.jpg | Preventative Care pages, TMJ and jaw-related headache sections | https://www.pexels.com/photo/12955556/ | Pexels | see source page | 2026-11-16 |
 | topics/headache-home.jpg | Preventative Care pages, TMD self-care section | https://www.pexels.com/photo/4153230/ | Pexels | see source page | 2026-11-16 |
-| topics/night-sleep.jpg | Preventative Care pages, night-time grinding sections | https://www.pexels.com/photo/6943434/ | Pexels | see source page | 2026-11-16 |
 | topics/healthy-food.jpg | Preventative Care pages, diet and teeth section | https://www.pexels.com/photo/5966430/ | Pexels | see source page | 2026-11-16 |
 | topics/healthy-groceries.jpg | Preventative Care pages, diet and decay-risk sections | https://www.pexels.com/photo/4137772/ | Pexels | see source page | 2026-11-16 |
 | topics/teeth-model-demo.jpg | Preventative Care pages, oral hygiene teaching sections | https://www.pexels.com/photo/4269698/ | Pexels | see source page | 2026-11-16 |
@@ -105,7 +101,6 @@
 | topics/checkup-light.jpg | Preventative Care pages, check-up and exam sections | https://www.pexels.com/photo/3881451/ | Pexels | see source page | 2026-11-16 |
 | topics/dentures-held.jpg | Restorative Dentistry pages, denture types and fitting sections | https://www.pexels.com/photo/11768114/ | Pexels | see source page | 2026-11-16 |
 | topics/soft-food-yogurt.jpg | Restorative Dentistry pages, eating after treatment sections | https://www.pexels.com/photo/12042271/ | Pexels | see source page | 2026-11-16 |
-| topics/senior-smile.jpg | Restorative Dentistry pages, natural-looking denture and implant sections | https://www.pexels.com/photo/12644996/ | Pexels | see source page | 2026-11-16 |
 | topics/soft-food-soup.jpg | Restorative Dentistry pages, what to eat after an extraction section | https://www.pexels.com/photo/15108369/ | Pexels | see source page | 2026-11-16 |
 | topics/broth-bowl.jpg | Restorative Dentistry pages, wisdom teeth recovery diet section | https://www.pexels.com/photo/3559899/ | Pexels | see source page | 2026-11-16 |
 | topics/dentist-handpiece.jpg | Restorative Dentistry pages, filling and restoration sections | https://www.pexels.com/photo/3779697/ | Pexels | see source page | 2026-11-16 |
@@ -162,3 +157,22 @@ posts across. They were supplied by the old site's vendor (PBHS), so their licen
 | blog/best-dental-implant-dentist-in-media-pa-3932e670.jpg | Blog post /blog/best-dental-implant-dentist-in-media-pa | https://www.pexels.com/photo/37194806/ | Pexels | Pexels License (free for commercial use, no attribution required). Replaced the old site's blurry 300px image | 2026-11-17 |
 | blog/best-dental-implants-treatment-near-me-in-media-pa-d62e4104.jpg | Blog post /blog/best-dental-implants-treatment-near-me-in-media-pa | https://www.pexels.com/photo/12746003/ | Pexels | Pexels License (free for commercial use, no attribution required). Replaced the old site's blurry 300px image | 2026-11-17 |
 | blog/top-rated-dental-implant-dentist-in-media-pa-c13d1cee.jpg | Blog post /blog/top-rated-dental-implant-dentist-in-media-pa | https://www.pexels.com/photo/4687905/ | Pexels | Pexels License (free for commercial use, no attribution required). Replaced the old site's blurry 300px image | 2026-11-17 |
+
+## Replacements, 17 Nov 2026 (photography consistency audit)
+
+Replaced: 8 hero/service images carried over from the old website with no licence on record (likely paid stock), and 4 topic photos that did not match the site's lighting and setting. Crops: young-patient-smile, mother-daughter, woman-smiling and natural-smile were cropped from portrait originals to 3:2.
+
+| File | Used on | Source | Licence | Date |
+|---|---|---|---|---|
+| public/images/hero/young-patient-smile.jpg | Home: hero photo wall, comfort, FAQ, signature treatments (Family & Kids); Preventative category card | https://www.pexels.com/photo/3845808/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/hero/mother-daughter.jpg | Home: hero photo wall, intro, comfort, FAQ | https://www.pexels.com/photo/8489720/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/hero/woman-smiling.jpg | Home: hero photo wall, Visit section; header menu | https://www.pexels.com/photo/35555197/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/hero/family-sofa.jpg | Home: hero photo wall | https://www.pexels.com/photo/7492987/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/services/natural-smile.jpg | Home: hero photo wall, signature treatments (Porcelain Veneers); Cosmetic category card | https://www.pexels.com/photo/3402510/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/services/whitening-result.jpg | Home: hero photo wall, signature treatments (Teeth Whitening) | https://www.pexels.com/photo/6627574/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/services/implant-consult.jpg | Home: signature treatments (Dental Implants); Restorative category card | https://www.pexels.com/photo/14052564/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/topics/sleep-bedroom.jpg | Preventative Care pages, night-time grinding sections | https://www.pexels.com/photo/7640997/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/topics/paperwork-home.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/8062280/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/topics/medicine-bottle.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/4492114/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/topics/bills-review.jpg | Section images, Patient Info and town pages | https://www.pexels.com/photo/6964107/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+| public/images/topics/denture-craft.jpg | Restorative Dentistry pages, natural-looking denture and implant sections (replaces senior-smile.jpg) | https://www.pexels.com/photo/7788493/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |

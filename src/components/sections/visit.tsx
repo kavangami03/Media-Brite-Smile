@@ -42,7 +42,7 @@ export function Visit() {
               </div>
               <div className="relative order-first h-72 self-stretch sm:h-80 lg:order-none lg:h-auto lg:min-h-[34rem]">
                 <Image
-                  src="/images/hero/girl-smiling.webp"
+                  src="/images/hero/woman-smiling.jpg"
                   alt="A woman smiling confidently"
                   fill
                   sizes="(min-width:1024px) 50vw, 100vw"

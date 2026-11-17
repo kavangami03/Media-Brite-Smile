@@ -32,7 +32,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
     tiles: [
       {
         kind: "photo",
-        src: "/images/hero/banner-2.jpg",
+        src: "/images/hero/family-sofa.jpg",
         alt: "A smiling family",
         h: "h-80",
         shape: "arch",
@@ -41,7 +41,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
       { kind: "rating" },
       {
         kind: "photo",
-        src: "/images/hero/girl-smiling.webp",
+        src: "/images/hero/woman-smiling.jpg",
         alt: "A woman with a bright smile",
         h: "h-64",
         shape: "round",
@@ -65,7 +65,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
     tiles: [
       {
         kind: "photo",
-        src: "/images/hero/section-bg.jpg",
+        src: "/images/hero/mother-daughter.jpg",
         alt: "A smiling mother and daughter",
         h: "h-64",
         shape: "round",
@@ -74,7 +74,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
       { kind: "emergency" },
       {
         kind: "photo",
-        src: "/images/services/cosmetic-dentistry.webp",
+        src: "/images/services/natural-smile.jpg",
         alt: "A bright, healthy smile",
         h: "h-72",
         shape: "arch",
@@ -98,7 +98,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
     tiles: [
       {
         kind: "photo",
-        src: "/images/hero/banner-4.jpg",
+        src: "/images/hero/young-patient-smile.jpg",
         alt: "A young patient smiling in the dental chair",
         h: "h-72",
         shape: "arch",
@@ -107,7 +107,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
       { kind: "team" },
       {
         kind: "photo",
-        src: "/images/services/teeth-whitening.jpg",
+        src: "/images/services/whitening-result.jpg",
         alt: "Teeth whitening results",
         h: "h-56",
         shape: "round",

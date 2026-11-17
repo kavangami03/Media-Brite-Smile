@@ -137,8 +137,8 @@ export function AppointmentForm() {
             </motion.fieldset>
           ) : (
             /* ---------- step 2: details ---------- */
-            <motion.div key="details" {...step} className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div className="sm:col-span-2">
+            <motion.div key="details" {...step} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="col-span-full">
                 <span className="inline-flex items-center gap-3 rounded-2xl bg-brand-50 py-2 pr-4 pl-2 ring-1 ring-brand-200">
                   <span className="grid size-9 place-items-center rounded-xl bg-brand-600 text-white">
                     <chosen.icon className="size-4" />
@@ -154,7 +154,7 @@ export function AppointmentForm() {
                 </span>
               </div>
 
-              <label className="block sm:col-span-2">
+              <label className="block sm:col-span-2 lg:col-span-1">
                 <span className="text-sm font-semibold text-ink">
                   Full Name <Req />
                 </span>
@@ -201,11 +201,11 @@ export function AppointmentForm() {
                 {errors.email && <span className="mt-1.5 block text-sm text-rose-600">{errors.email}</span>}
               </label>
 
-              <fieldset className="sm:col-span-2" aria-invalid={!!errors.service}>
+              <fieldset className="col-span-full" aria-invalid={!!errors.service}>
                 <legend className="text-sm font-semibold text-ink">
                   Services <Req /> <span className="ml-1 font-normal text-muted">Select all that apply</span>
                 </legend>
-                <div className="mt-3 grid grid-cols-1 gap-2.5 md:grid-cols-2">
+                <div className="mt-3 grid grid-cols-1 gap-2.5 md:grid-cols-2 lg:grid-cols-3">
                   {services.map((s) => (
                     <label
                       key={s.title}
@@ -233,7 +233,7 @@ export function AppointmentForm() {
                 {errors.service && <span className="mt-2 block text-sm text-rose-600">{errors.service}</span>}
               </fieldset>
 
-              <label className="block sm:col-span-2">
+              <label className="col-span-full block">
                 <span className="text-sm font-semibold text-ink">Message</span>
                 <textarea
                   name="message"
@@ -255,7 +255,7 @@ export function AppointmentForm() {
                 </label>
               </div>
 
-              <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="col-span-full flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <button
                     type="submit"

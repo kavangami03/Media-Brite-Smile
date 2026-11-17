@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, Check, CreditCard, Gift, PiggyBank, Receipt, UserPlus } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  CreditCard,
+  Crown,
+  Gift,
+  PiggyBank,
+  Receipt,
+  Smile,
+  Sparkles,
+  UserPlus,
+} from "lucide-react";
 import { membership, site } from "@/content/site";
 import { PageHero, type Crumb } from "@/components/page/page-hero";
 import { SectionHead } from "@/components/page/section-head";
@@ -27,6 +38,7 @@ const crumbs: Crumb[] = [{ label: "Home", href: "/" }, { label: "Special Offers"
 const deals = [
   {
     id: "new-patient",
+    icon: UserPlus,
     short: "$99 new patient",
     value: "$99",
     unit: "exam",
@@ -40,6 +52,7 @@ const deals = [
   },
   {
     id: "invisalign",
+    icon: Smile,
     short: "$1,000 off Invisalign",
     value: "$1,000",
     unit: "off",
@@ -55,6 +68,7 @@ const deals = [
   },
   {
     id: "implants",
+    icon: Crown,
     short: "$500 off implants",
     value: "$500",
     unit: "off",
@@ -70,6 +84,7 @@ const deals = [
   },
   {
     id: "whitening",
+    icon: Sparkles,
     short: "$100 off whitening",
     value: "$100",
     unit: "off",
@@ -112,79 +127,116 @@ const faqs: QA[] = [
   },
 ];
 
+/** A price-tag card: value stub on top, a perforated tear line, then what is included and the claim button. */
 function Coupon({ d }: { d: (typeof deals)[number] }) {
   const dark = d.featured;
+  const Icon = d.icon;
+  const book = d.links.find((l) => l.href === site.bookingHref);
+  const more = d.links.filter((l) => l !== book);
   return (
     <article
       id={d.id}
-      className={cn(
-        "relative flex h-full scroll-mt-28 flex-col overflow-hidden rounded-4xl ring-1 sm:flex-row",
-        dark
-          ? "bg-linear-to-br from-brand-600 via-brand-700 to-brand-900 text-white ring-brand-700"
-          : "bg-white ring-line",
-      )}
       aria-labelledby={`${d.id}-name`}
+      className={cn(
+        "group relative flex h-full scroll-mt-28 flex-col rounded-4xl shadow-lift transition-transform duration-500 ease-out-expo hover:-translate-y-1.5",
+        dark ? "bg-linear-to-br from-brand-500 via-brand-600 to-brand-800 text-white" : "bg-white text-ink",
+      )}
     >
-      {/* value stub */}
-      <div
-        className={cn(
-          "relative flex shrink-0 flex-row items-center justify-between gap-4 border-b-2 border-dashed p-6 sm:w-56 sm:flex-col sm:items-start sm:justify-center sm:border-r-2 sm:border-b-0 sm:p-8",
-          dark ? "border-white/25 bg-white/5" : "border-line bg-pearl",
-        )}
-      >
-        <div>
-          <p className={cn("text-xs font-bold tracking-[0.16em] uppercase", dark ? "text-glow" : "text-brand-600")}>
+      {/* value */}
+      <div className="relative p-6 pb-5 sm:p-7 sm:pb-6">
+        <div className="flex items-center justify-between gap-3">
+          <p className={cn("text-xs font-bold tracking-[0.16em] uppercase", dark ? "text-white/85" : "text-brand-600")}>
             {d.who}
           </p>
-          <p className="mt-2 flex items-baseline gap-1.5">
-            <span className="text-5xl leading-none font-bold tracking-tighter">{d.value}</span>
-            <span className={cn("text-sm font-semibold", dark ? "text-white/70" : "text-muted")}>{d.unit}</span>
-          </p>
+          <span
+            className={cn(
+              "grid size-11 shrink-0 place-items-center rounded-2xl",
+              dark ? "bg-white/15 text-white ring-1 ring-white/25" : "bg-brand-50 text-brand-600 ring-1 ring-brand-100",
+            )}
+          >
+            <Icon className="size-5" />
+          </span>
         </div>
-        <p className={cn("text-sm line-through decoration-1", dark ? "text-white/55" : "text-muted")}>{d.regular}</p>
-        {/* ticket notches */}
+        <p className="mt-5 flex items-baseline gap-2">
+          <span className="text-[clamp(3rem,2.4rem+1.8vw,4rem)] leading-none font-bold tracking-tighter">
+            {d.value}
+          </span>
+          <span className={cn("text-base font-semibold", dark ? "text-white/80" : "text-muted")}>{d.unit}</span>
+        </p>
+        <p className={cn("mt-2 text-sm line-through decoration-1", dark ? "text-white/65" : "text-muted")}>
+          {d.regular}
+        </p>
+      </div>
+
+      {/* perforation: dashed tear line with notches cut into the card edges */}
+      <div aria-hidden="true" className="relative h-6">
         <span
-          aria-hidden="true"
-          className="absolute -bottom-3 -left-3 size-6 rounded-full bg-pearl sm:-top-3 sm:-right-3 sm:bottom-auto sm:left-auto"
+          className={cn(
+            "absolute inset-x-6 top-1/2 border-t-2 border-dashed",
+            dark ? "border-white/30" : "border-line",
+          )}
         />
-        <span
-          aria-hidden="true"
-          className="absolute -right-3 -bottom-3 size-6 rounded-full bg-pearl sm:-right-3 sm:-bottom-3"
-        />
+        <span className="absolute top-0 -left-3 size-6 rounded-full bg-ink" />
+        <span className="absolute top-0 -right-3 size-6 rounded-full bg-ink" />
       </div>
 
       {/* details */}
-      <div className="flex min-w-0 flex-1 flex-col p-6 sm:p-8">
-        <h3 id={`${d.id}-name`} className={cn("text-2xl font-bold tracking-tight", dark ? "text-white" : "text-ink")}>
+      <div className="flex flex-1 flex-col p-6 pt-4 sm:p-7 sm:pt-5">
+        <h3
+          id={`${d.id}-name`}
+          className={cn("text-xl leading-snug font-bold tracking-tight sm:text-2xl", dark ? "text-white" : "text-ink")}
+        >
           {d.name}
         </h3>
-        <ul className="mt-4 flex flex-wrap gap-2">
+        <ul className="mt-4 space-y-2">
           {d.includes.map((i) => (
-            <li
-              key={i}
-              className={cn(
-                "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium",
-                dark ? "bg-white/10 text-white ring-1 ring-white/15" : "bg-mist text-brand-800",
-              )}
-            >
-              <Check className={cn("size-3.5", dark ? "text-glow" : "text-brand-600")} /> {i}
+            <li key={i} className="flex items-start gap-2.5 font-medium">
+              <span
+                className={cn(
+                  "mt-0.5 grid size-5 shrink-0 place-items-center rounded-full",
+                  dark ? "bg-white text-brand-600" : "bg-brand-500 text-white",
+                )}
+              >
+                <Check className="size-3" strokeWidth={3} />
+              </span>
+              {i}
             </li>
           ))}
         </ul>
         <p className={cn("mt-4 leading-relaxed", dark ? "text-white/80" : "text-body")}>{d.body}</p>
-        <div className="mt-auto flex flex-wrap gap-x-5 gap-y-1 pt-6">
-          {d.links.map((l) => (
+
+        <div className="mt-auto pt-6">
+          {more.map((l) => (
             <Link
               key={l.label}
               href={l.href}
               className={cn(
-                "inline-flex min-h-11 items-center gap-2 text-sm font-semibold",
-                dark ? "text-glow hover:text-white" : "text-brand-600 hover:text-brand-700",
+                "mb-3 inline-flex min-h-11 items-center gap-2 font-semibold",
+                dark ? "text-white hover:text-glow" : "text-brand-600 hover:text-brand-700",
               )}
             >
               {l.label} <ArrowUpRight className="size-4" />
             </Link>
           ))}
+          {book && (
+            <Link
+              href={book.href}
+              className={cn(
+                "flex min-h-13 w-full items-center justify-between gap-3 rounded-full py-2 pr-2 pl-6 font-semibold transition-colors duration-300",
+                dark ? "bg-white text-ink hover:bg-brand-50" : "bg-ink text-white hover:bg-brand-600",
+              )}
+            >
+              {book.label}
+              <span
+                className={cn(
+                  "grid size-9 shrink-0 place-items-center rounded-full transition-transform duration-500 group-hover:rotate-45",
+                  dark ? "bg-brand-500 text-white" : "bg-white/15 text-white",
+                )}
+              >
+                <ArrowUpRight className="size-4" />
+              </span>
+            </Link>
+          )}
         </div>
       </div>
     </article>
@@ -251,15 +303,24 @@ export default function SpecialOffersPage() {
         }
       />
 
-      {/* ---------- Offers ---------- */}
-      <section className="bg-pearl section-y" aria-labelledby="offers-heading">
+      {/* ---------- Offers: a dark band so the four price tags stand out ---------- */}
+      <section
+        className="relative isolate overflow-hidden bg-ink pt-[clamp(2.5rem,1.5rem+3vw,4.5rem)] pb-[clamp(2rem,1.5rem+1.5vw,3rem)] text-white"
+        aria-labelledby="offers-heading"
+      >
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-48 -left-40 size-160 rounded-full glow-blob text-brand-500/30" />
+          <div className="absolute -right-40 -bottom-56 size-160 rounded-full glow-blob text-glow/15" />
+          <div className="absolute inset-0 [background-image:radial-gradient(rgb(255_255_255/0.07)_1px,transparent_1px)] [mask-image:linear-gradient(to_bottom,black,transparent_85%)] [background-size:22px_22px]" />
+        </div>
         <div className="container-site">
           <SectionHead
             id="offers-heading"
+            tone="light"
             eyebrow="The four offers"
             title={
               <>
-                Every price next to <span className="text-brand-500">what it replaces</span>
+                Every price next to <span className="text-glow">what it replaces</span>
               </>
             }
             aside={
@@ -268,7 +329,7 @@ export default function SpecialOffersPage() {
                   <a
                     key={d.id}
                     href={`#${d.id}`}
-                    className="inline-flex min-h-11 items-center rounded-full bg-white px-4 text-sm font-semibold text-ink ring-1 ring-line hover:ring-brand-400"
+                    className="inline-flex min-h-11 items-center rounded-full bg-white/5 px-4 text-sm font-semibold text-white ring-1 ring-white/15 transition-colors hover:bg-white/10 hover:ring-glow/60"
                   >
                     {d.short}
                   </a>
@@ -276,13 +337,19 @@ export default function SpecialOffersPage() {
               </nav>
             }
           />
-          <RevealGroup className="mt-12 grid grid-cols-1 gap-5 xl:grid-cols-2" stagger={0.1}>
+          <RevealGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4" stagger={0.1}>
             {deals.map((d) => (
-              <RevealItem key={d.id}>
+              <RevealItem key={d.id} className="h-full">
                 <Coupon d={d} />
               </RevealItem>
             ))}
           </RevealGroup>
+          <Reveal className="mt-6">
+            <p className="text-sm text-white/60">
+              Mention the offer when you call {site.phone.display} or send an appointment request. Prices are the
+              practice&apos;s published rates.
+            </p>
+          </Reveal>
         </div>
       </section>
 

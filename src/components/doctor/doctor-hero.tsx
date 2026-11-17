@@ -29,9 +29,10 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
             <ToothWatermark size={620} className="absolute -right-40 -bottom-40 text-white/3" />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:items-center">
+          {/* hero keeps only the essentials; the full credentials list sits in the section below */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 lg:items-end">
             {/* copy */}
-            <div className="flex flex-col p-6 pt-10 sm:p-10 lg:col-span-7 lg:py-14 lg:pr-6 lg:pl-14 xl:pl-16">
+            <div className="flex flex-col p-6 pt-10 sm:p-10 lg:col-span-7 lg:self-center lg:py-16 lg:pr-6 lg:pl-14 xl:pl-16">
               <Eyebrow tone="light">Meet the doctor</Eyebrow>
               <SplitReveal
                 as="h1"
@@ -52,7 +53,7 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
                   </span>
                 </div>
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">{profile.lead}</p>
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-9 flex flex-wrap gap-3">
                   <Button href={site.bookingHref} size="lg">
                     {profile.bookLabel}
                   </Button>
@@ -61,25 +62,14 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
                   </Button>
                 </div>
               </Reveal>
-
-              <Reveal delay={0.3}>
-                <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-3 lg:max-[1200px]:grid-cols-1">
-                  {profile.facts.map((f) => (
-                    <div key={f.label} className="bg-ink/80 p-5">
-                      <dt className="text-xs font-semibold tracking-[0.16em] text-glow uppercase">{f.label}</dt>
-                      <dd className="mt-1.5 text-[0.9375rem] leading-snug font-semibold text-white">{f.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </Reveal>
             </div>
 
-            {/* portrait in an arch */}
-            <div className="relative px-6 pb-8 sm:px-10 lg:col-span-5 lg:py-12 lg:pr-12 lg:pl-0">
+            {/* portrait in an arch, standing on the bottom edge of the card */}
+            <div className="relative px-6 sm:px-10 lg:col-span-5 lg:pt-12 lg:pr-12 lg:pl-0">
               <ImageReveal
                 immediate
                 delay={0.2}
-                className="relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-t-full rounded-b-4xl bg-linear-to-b from-brand-400 to-brand-700 ring-1 ring-white/10 lg:mr-0"
+                className="relative mx-auto aspect-4/5 w-full max-w-md overflow-hidden rounded-t-full bg-linear-to-b from-brand-400 to-brand-700 ring-1 ring-white/10 lg:mr-0"
               >
                 <Image
                   src={doctor.image}

@@ -35,7 +35,7 @@ export function Intro() {
           </h2>
           <ScrubText className="mt-10 max-w-[68rem] text-[clamp(1.75rem,1.1rem+2.6vw,3.5rem)] leading-[1.18] font-semibold tracking-[-0.025em] text-ink">
             <span data-scrub>Preventative, restorative and cosmetic dentistry</span>
-            <Pill src="/images/hero/section-bg.jpg" alt="A happy mother and daughter" />
+            <Pill src="/images/hero/mother-daughter.jpg" alt="A happy mother and daughter" />
             <span data-scrub>for adults and children in Media, PA and the surrounding Delaware County boroughs.</span>
             <Pill src="/images/office/cbct-scanner.webp" alt="3D CBCT imaging" w="w-24 md:w-32" />
             <span data-scrub>Most of what a dental office sends elsewhere</span>

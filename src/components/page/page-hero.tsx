@@ -21,6 +21,7 @@ export function PageHero({
   primary = { label: "Request an Appointment", href: site.bookingHref },
   aside,
   children,
+  actions = true,
   id = "page-title",
 }: {
   eyebrow: string;
@@ -29,6 +30,8 @@ export function PageHero({
   primary?: { label: string; href: string };
   aside?: ReactNode;
   children?: ReactNode;
+  /** false hides the two buttons, for a page whose aside already is the action (the contact form) */
+  actions?: boolean;
   id?: string;
 }) {
   return (
@@ -52,20 +55,22 @@ export function PageHero({
             </SplitReveal>
             <Reveal delay={0.25} y={24}>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty sm:text-xl">{lead}</p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Button href={primary.href} size="lg">
-                  {primary.label}
-                </Button>
-                {primary.href.startsWith("tel:") ? (
-                  <Button href={site.bookingHref} variant="outline" size="lg">
-                    Request an Appointment
+              {actions && (
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <Button href={primary.href} size="lg">
+                    {primary.label}
                   </Button>
-                ) : (
-                  <Button href={site.phone.href} variant="outline" size="lg" icon={<Phone className="size-4" />}>
-                    Call {site.phone.display}
-                  </Button>
-                )}
-              </div>
+                  {primary.href.startsWith("tel:") ? (
+                    <Button href={site.bookingHref} variant="outline" size="lg">
+                      Request an Appointment
+                    </Button>
+                  ) : (
+                    <Button href={site.phone.href} variant="outline" size="lg" icon={<Phone className="size-4" />}>
+                      Call {site.phone.display}
+                    </Button>
+                  )}
+                </div>
+              )}
               {children}
             </Reveal>
           </div>

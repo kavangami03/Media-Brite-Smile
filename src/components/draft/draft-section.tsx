@@ -124,7 +124,7 @@ function Blocks({
                           </p>
                           <p
                             className={cn(
-                              "mt-1.5 text-[0.9375rem] leading-relaxed",
+                              "mt-1.5 text-[0.9375rem] leading-relaxed first-letter:uppercase",
                               dark ? "text-white/70" : "text-body",
                             )}
                           >
@@ -135,6 +135,42 @@ function Blocks({
                     </li>
                   ))}
                 </ol>
+              );
+            /* glossary (many short "Term: definition" rows): a compact three-column definition list */
+            if (b.rows.length >= 6 && b.rows.every((r) => r.label && r.label.length <= 28 && r.text.length <= 110))
+              return (
+                <RevealGroup key={i} className="grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:grid-cols-3" stagger={0.03}>
+                  {b.rows.map((r, j) => (
+                    <RevealItem key={`${j}-${r.label}`}>
+                      <dl
+                        className={cn("flex items-start gap-4 border-t py-5", dark ? "border-white/10" : "border-line")}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={cn(
+                            "grid size-10 shrink-0 place-items-center rounded-xl text-base font-bold",
+                            dark ? "bg-brand-500/15 text-glow ring-1 ring-brand-500/30" : "bg-brand-50 text-brand-600",
+                          )}
+                        >
+                          {r.label.charAt(0).toUpperCase()}
+                        </span>
+                        <div className="min-w-0">
+                          <dt className={cn("text-lg leading-snug font-semibold", dark ? "text-white" : "text-ink")}>
+                            {r.label}
+                          </dt>
+                          <dd
+                            className={cn(
+                              "mt-1 text-[0.9375rem] leading-relaxed first-letter:uppercase",
+                              dark ? "text-white/65" : "text-body",
+                            )}
+                          >
+                            {r.text}
+                          </dd>
+                        </div>
+                      </dl>
+                    </RevealItem>
+                  ))}
+                </RevealGroup>
               );
             return (
               <RevealGroup
@@ -167,7 +203,10 @@ function Blocks({
                         {r.label}
                       </p>
                       <p
-                        className={cn("mt-1.5 text-[0.9375rem] leading-relaxed", dark ? "text-white/70" : "text-body")}
+                        className={cn(
+                          "mt-1.5 text-[0.9375rem] leading-relaxed first-letter:uppercase",
+                          dark ? "text-white/70" : "text-body",
+                        )}
                       >
                         {r.text}
                       </p>
@@ -394,7 +433,12 @@ function DoctorCards({ items, dark }: { items: { text: string; href?: string }[]
                   {d.name}, {d.credential}
                 </span>
                 {focus && (
-                  <span className={cn("mt-1.5 text-[0.9375rem] leading-relaxed", dark ? "text-white/70" : "text-body")}>
+                  <span
+                    className={cn(
+                      "mt-1.5 text-[0.9375rem] leading-relaxed first-letter:uppercase",
+                      dark ? "text-white/70" : "text-body",
+                    )}
+                  >
                     {focus.charAt(0).toUpperCase() + focus.slice(1)}
                   </span>
                 )}
@@ -465,6 +509,44 @@ function textLength(blocks: Block[]) {
  * Feature cards with the section photo as one tile of the grid.
  * The photo spans k rows so the cards always fill whole rows (no empty cells).
  */
+/** One option card: number, label and text. The first card is the highlighted one. */
+function FeatureCard({ row, j, dark }: { row: { label: string; text: string }; j: number; dark: boolean }) {
+  return (
+    <div
+      className={cn(
+        "flex h-full flex-col rounded-4xl p-6 ring-1 sm:p-7",
+        j === 0
+          ? "bg-linear-to-br from-brand-500 to-brand-700 text-white ring-transparent"
+          : dark
+            ? "bg-white/5 ring-white/10"
+            : "bg-white ring-line",
+      )}
+    >
+      <span
+        className={cn(
+          "grid size-10 place-items-center rounded-full text-xs font-bold tabular-nums",
+          j === 0 ? "bg-white text-brand-600" : dark ? "bg-brand-500 text-white" : "bg-brand-50 text-brand-700",
+        )}
+      >
+        {String(j + 1).padStart(2, "0")}
+      </span>
+      {row.label && (
+        <p className={cn("mt-5 text-lg font-semibold tracking-tight", j === 0 || dark ? "text-white" : "text-ink")}>
+          {row.label}
+        </p>
+      )}
+      <p
+        className={cn(
+          "mt-1.5 text-[0.9375rem] leading-relaxed first-letter:uppercase",
+          j === 0 ? "text-white/85" : dark ? "text-white/70" : "text-body",
+        )}
+      >
+        {row.text}
+      </p>
+    </div>
+  );
+}
+
 function FeatureBento({
   rows,
   image,
@@ -501,40 +583,7 @@ function FeatureBento({
       </RevealItem>
       {rows.map((row, j) => (
         <RevealItem key={`${j}-${row.label}`} className="h-full">
-          <div
-            className={cn(
-              "flex h-full flex-col rounded-4xl p-6 ring-1 sm:p-7",
-              j === 0
-                ? "bg-linear-to-br from-brand-500 to-brand-700 text-white ring-transparent"
-                : dark
-                  ? "bg-white/5 ring-white/10"
-                  : "bg-white ring-line",
-            )}
-          >
-            <span
-              className={cn(
-                "grid size-10 place-items-center rounded-full text-xs font-bold tabular-nums",
-                j === 0 ? "bg-white text-brand-600" : dark ? "bg-brand-500 text-white" : "bg-brand-50 text-brand-700",
-              )}
-            >
-              {String(j + 1).padStart(2, "0")}
-            </span>
-            {row.label && (
-              <p
-                className={cn("mt-5 text-lg font-semibold tracking-tight", j === 0 || dark ? "text-white" : "text-ink")}
-              >
-                {row.label}
-              </p>
-            )}
-            <p
-              className={cn(
-                "mt-1.5 text-[0.9375rem] leading-relaxed",
-                j === 0 ? "text-white/85" : dark ? "text-white/70" : "text-body",
-              )}
-            >
-              {row.text}
-            </p>
-          </div>
+          <FeatureCard row={row} j={j} dark={dark} />
         </RevealItem>
       ))}
     </RevealGroup>
@@ -693,7 +742,9 @@ export function DraftSectionView({
       else if (b.kind === "list") steps.push(...b.items.map((it) => ({ label: "", text: it.text })));
       else others.push(b);
     }
-    const closing = steps.length > 3 && !steps[steps.length - 1].label ? steps.pop() : undefined;
+    /* an unlabelled last line closes labelled steps; when no step has a label it is simply the last step */
+    const closing =
+      steps.length > 3 && steps.some((s) => s.label) && !steps[steps.length - 1].label ? steps.pop() : undefined;
     if (steps.length >= 3) {
       rest = [
         { kind: "features", rows: steps },
@@ -709,21 +760,56 @@ export function DraftSectionView({
     </p>
   ));
 
-  /* compact heading row used above full-width content */
+  /* compact heading row used above full-width content.
+     - a closing "...:" paragraph ("Without insurance, you have three routes:") introduces the
+       cards below, so it moves down to sit right above them instead of floating in the right column
+     - with a long intro the heading lines up with its top; bottom-aligning left a tall gap above it */
+  const lastIntro = intro[intro.length - 1];
+  const leadIn = intro.length > 1 && lastIntro?.kind === "p" && /:\s*$/.test(lastIntro.text) ? lastIntro : undefined;
+  const headIntro = leadIn ? intro.slice(0, -1) : intro;
   const headerRow = (heading || intro.length > 0) && (
     <Reveal y={24}>
-      <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr] lg:gap-16",
+          textLength(headIntro) > 300 ? "lg:items-start" : "lg:items-end",
+          leadIn ? "mb-0" : "mb-10",
+        )}
+      >
         <div>
           {number}
           {heading}
         </div>
-        {intro.length > 0 && <div>{introText}</div>}
+        {headIntro.length > 0 && (
+          <div className="[&>p:first-child]:lg:mt-0">
+            {headIntro.map((b, i) => (
+              <p
+                key={i}
+                className={cn("mt-5 text-lg leading-relaxed text-pretty", dark ? "text-white/75" : "text-body")}
+              >
+                {b.kind === "p" ? b.text : null}
+              </p>
+            ))}
+          </div>
+        )}
       </div>
+      {leadIn?.kind === "p" && (
+        <p className={cn("mt-10 mb-5 text-xl font-semibold tracking-tight lg:mt-12", dark ? "text-white" : "text-ink")}>
+          {leadIn.text}
+        </p>
+      )}
     </Reveal>
   );
 
   const first = rest[0];
   const introLen = textLength(intro);
+
+  /* short, unlabelled steps read best as a horizontal process across the full width */
+  const shortSteps =
+    timeline &&
+    rest[0]?.kind === "features" &&
+    rest[0].rows.length <= 6 &&
+    rest[0].rows.every((r) => !r.label && r.text.length < 180);
 
   let body;
   if (hasHours) {
@@ -741,7 +827,94 @@ export function DraftSectionView({
         </Reveal>
       </div>
     );
-  } else if (rich && image && timeline) {
+  } else if (shortSteps && rest[0]?.kind === "features") {
+    /* short, unlabelled steps: a horizontal process across the full width instead of a
+       half-width vertical timeline that leaves the other half of the section empty */
+    const steps = rest[0].rows;
+    const cols = {
+      2: "lg:grid-cols-2",
+      3: "lg:grid-cols-3",
+      4: "lg:grid-cols-4",
+      5: "lg:grid-cols-5",
+      6: "lg:grid-cols-3",
+    }[steps.length];
+    body = (
+      <>
+        {image ? (
+          <div className="mb-12 grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16">
+            <Reveal y={24}>
+              {number}
+              {heading}
+              {introText}
+            </Reveal>
+            <ImageReveal
+              direction="left"
+              className={cn("aspect-16/9 rounded-4xl shadow-lift sm:rounded-5xl", dark && "ring-1 ring-white/10")}
+            >
+              <Image
+                data-reveal-media
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(min-width:1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </ImageReveal>
+          </div>
+        ) : (
+          headerRow
+        )}
+        {/* a simple journey: numbered circles joined by a line, text beneath; no boxes, no arrows */}
+        <RevealGroup stagger={0.08} className={cn("grid grid-cols-1 gap-7 lg:gap-0", cols)}>
+          {steps.map((s, j) => {
+            const last = j === steps.length - 1;
+            return (
+              <RevealItem key={j} className="relative grid grid-cols-[auto_1fr] gap-x-5 lg:block">
+                {/* phones: vertical line down to the next number */}
+                {!last && (
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "absolute top-14 -bottom-7 left-6 w-px lg:hidden",
+                      dark ? "bg-white/15" : "bg-brand-200",
+                    )}
+                  />
+                )}
+                <div className="flex items-center gap-4 self-start">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-full bg-linear-to-br from-brand-400 to-brand-600 text-base font-bold text-white tabular-nums shadow-glow">
+                    {String(j + 1).padStart(2, "0")}
+                  </span>
+                  {/* desktop: line across to the next number */}
+                  {!last && (
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        "mr-4 hidden h-px flex-1 bg-linear-to-r lg:block",
+                        dark ? "from-brand-400/70 to-white/10" : "from-brand-400 to-brand-100",
+                      )}
+                    />
+                  )}
+                </div>
+                <p
+                  className={cn(
+                    "pt-2.5 text-[1.0625rem] leading-relaxed text-pretty first-letter:uppercase lg:mt-6 lg:pt-0 lg:pr-8",
+                    dark ? "text-white/80" : "text-body",
+                  )}
+                >
+                  {s.text}
+                </p>
+              </RevealItem>
+            );
+          })}
+        </RevealGroup>
+        {rest.length > 1 && (
+          <div className="mt-10">
+            <Blocks blocks={rest.slice(1)} dark={dark} />
+          </div>
+        )}
+      </>
+    );
+  } else if (rich && image && timeline && !shortSteps) {
     /* steps: sticky heading + photo on the left, the timeline scrolls on the right */
     body = (
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
@@ -772,6 +945,70 @@ export function DraftSectionView({
         </div>
       </div>
     );
+  } else if (
+    rich &&
+    image &&
+    first?.kind === "features" &&
+    first.rows.length >= 2 &&
+    first.rows.length <= 5 &&
+    textLength(headIntro) > 250
+  ) {
+    /* a long intro and a few option cards: two columns, the words on one side,
+       the photo and the cards (2 per row) on the other */
+    const photoWide = (first.rows.length + 1) % 2 === 1;
+    body = (
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+        <Reveal y={24} className="min-w-0 lg:col-span-5">
+          <div className="lg:sticky lg:top-28">
+            {number}
+            {heading}
+            {headIntro.map((b, i) => (
+              <p
+                key={i}
+                className={cn("mt-5 text-lg leading-relaxed text-pretty", dark ? "text-white/75" : "text-body")}
+              >
+                {b.kind === "p" ? b.text : null}
+              </p>
+            ))}
+            {rest.length > 1 && (
+              <div className="mt-8">
+                <Blocks blocks={rest.slice(1)} dark={dark} />
+              </div>
+            )}
+          </div>
+        </Reveal>
+        <div className="min-w-0 lg:col-span-7">
+          {leadIn?.kind === "p" && (
+            <p className={cn("mb-5 text-xl font-semibold tracking-tight", dark ? "text-white" : "text-ink")}>
+              {leadIn.text}
+            </p>
+          )}
+          <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2" stagger={0.06}>
+            <RevealItem
+              className={cn(
+                "relative min-h-56 overflow-hidden rounded-4xl",
+                photoWide && "sm:col-span-2 sm:aspect-2/1 sm:min-h-0",
+                dark && "ring-1 ring-white/10",
+              )}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(min-width:1024px) 30vw, (min-width:640px) 50vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-ink/30 to-transparent" />
+            </RevealItem>
+            {first.rows.map((row, j) => (
+              <RevealItem key={`${j}-${row.label}`} className="h-full">
+                <FeatureCard row={row} j={j} dark={dark} />
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        </div>
+      </div>
+    );
   } else if (rich && image && first?.kind === "features" && first.rows.length >= 2) {
     /* cards: the photo becomes a tile inside the card grid */
     body = (
@@ -784,6 +1021,41 @@ export function DraftSectionView({
           </div>
         )}
       </>
+    );
+  } else if (rich && first?.kind === "list" && first.items.length >= 4 && textLength(headIntro) > 150) {
+    /* checklist with a real description: heading and description on the left, the checklist cards on the right */
+    body = (
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+        <Reveal y={24} className="min-w-0 lg:col-span-5">
+          <div className="lg:sticky lg:top-28">
+            {number}
+            {heading}
+            {headIntro.map((b, i) => (
+              <p
+                key={i}
+                className={cn("mt-5 text-lg leading-relaxed text-pretty", dark ? "text-white/75" : "text-body")}
+              >
+                {b.kind === "p" ? b.text : null}
+              </p>
+            ))}
+          </div>
+        </Reveal>
+        <div className="min-w-0 lg:col-span-7 lg:self-center">
+          {leadIn?.kind === "p" && (
+            <p className={cn("mb-5 text-xl font-semibold tracking-tight", dark ? "text-white" : "text-ink")}>
+              {leadIn.text}
+            </p>
+          )}
+          <Reveal y={24} delay={0.08}>
+            <Blocks blocks={[first]} dark={dark} listCols={1} />
+          </Reveal>
+          {rest.length > 1 && (
+            <div className="mt-10">
+              <Blocks blocks={rest.slice(1)} dark={dark} />
+            </div>
+          )}
+        </div>
+      </div>
     );
   } else if (rich && image && first?.kind === "list" && first.items.length >= 4) {
     /* checklist: photo stretched to the height of a single-column list */
@@ -855,6 +1127,42 @@ export function DraftSectionView({
           </Reveal>
         </div>
       );
+  } else if (rest.length > 0 && rest.every((b) => b.kind === "links")) {
+    /* a section that is only links ("Other pages patients look for"): heading beside a grid of
+       link cards; an odd last card spans the row so none sits alone */
+    const links = rest.flatMap((b) => (b.kind === "links" ? b.links : []));
+    body = (
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
+        <Reveal y={24} className="min-w-0 lg:col-span-4">
+          {number}
+          {heading}
+        </Reveal>
+        <RevealGroup
+          stagger={0.06}
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-8 sm:[&>*:last-child:nth-child(odd)]:col-span-2"
+        >
+          {links.map((l, j) => (
+            <RevealItem key={l.href + l.text} className="h-full">
+              <Link
+                href={l.href}
+                className={cn(
+                  "group flex h-full items-center gap-4 rounded-3xl p-5 ring-1 transition-[background-color,box-shadow,color] duration-300 sm:p-6",
+                  dark
+                    ? "bg-white/5 text-white ring-white/10 hover:bg-white hover:text-ink"
+                    : "bg-white text-ink ring-line hover:shadow-lift hover:ring-brand-300",
+                )}
+              >
+                <span className="text-sm font-bold text-brand-500 tabular-nums">{String(j + 1).padStart(2, "0")}</span>
+                <span className="min-w-0 flex-1 text-lg leading-snug font-semibold tracking-tight">{l.text}</span>
+                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-600 transition-[transform,background-color,color] duration-500 group-hover:rotate-45 group-hover:bg-brand-500 group-hover:text-white">
+                  <ArrowUpRight className="size-5" />
+                </span>
+              </Link>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </div>
+    );
   } else if (!rich && textLength(rest) < 380) {
     /* a short thought: centred statement instead of a half-empty two-column row */
     body = (

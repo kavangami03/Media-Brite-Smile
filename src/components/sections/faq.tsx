@@ -13,13 +13,13 @@ import { cn } from "@/lib/utils";
 
 /** One real office / patient photo per question, in FAQ order. */
 const photos = [
-  { src: "/images/hero/section-bg.jpg", alt: "A smiling mother and daughter" },
+  { src: "/images/hero/mother-daughter.jpg", alt: "A smiling mother and daughter" },
   { src: "/images/office/office-41.jpg", alt: "The Media Brite Smile building at 8 N Pennell Rd" },
   { src: "/images/office/operatory-1.webp", alt: "A treatment room ready for patients" },
   { src: "/images/office/office-5.jpg", alt: "The Media Brite Smile front desk" },
   { src: "/images/office/waiting-room-2.webp", alt: "The comfortable waiting area" },
   { src: "/images/office/in-house-lab.webp", alt: "The in-house dental lab" },
-  { src: "/images/hero/banner-4.jpg", alt: "A young patient smiling in the dental chair" },
+  { src: "/images/hero/young-patient-smile.jpg", alt: "A young patient smiling in the dental chair" },
 ];
 
 const pad = (n: number) => String(n).padStart(2, "0");

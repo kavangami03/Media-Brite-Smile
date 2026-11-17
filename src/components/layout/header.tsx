@@ -444,7 +444,7 @@ function ServicesMega({ onNavigate }: { onNavigate: () => void }) {
 
       <FeatureCard
         href="/special-offers"
-        image="/images/hero/girl-smiling.webp"
+        image="/images/hero/woman-smiling.jpg"
         eyebrow="New patient special"
         title={
           <>

@@ -137,52 +137,67 @@ export default function AboutPage() {
             </Reveal>
           </div>
 
-          <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2" stagger={0.08}>
-            {doctors.map((d) => (
-              <RevealItem key={d.href}>
-                <Link
-                  href={d.href}
-                  className="group flex h-full items-center gap-4 rounded-3xl bg-pearl p-4 ring-1 ring-line transition-[box-shadow,background-color] duration-500 hover:bg-white hover:shadow-lift"
-                >
-                  <span className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-mist">
+          <div className="flex min-w-0 flex-col gap-4 lg:justify-center">
+            {/* three portrait cards: a swipeable row on phones, three columns from 640px */}
+            <RevealGroup
+              className="-mx-4 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+              stagger={0.08}
+            >
+              {doctors.map((d) => (
+                <RevealItem key={d.href} className="w-[68%] shrink-0 snap-start min-[481px]:w-[46%] sm:w-auto">
+                  <Link
+                    href={d.href}
+                    className="group relative block aspect-3/4 overflow-hidden rounded-3xl bg-mist ring-1 ring-line"
+                  >
                     <Image
                       src={d.image}
                       alt={`${d.name}, ${d.credential}`}
                       fill
-                      sizes="80px"
-                      className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
+                      sizes="(min-width:1024px) 17vw, (min-width:640px) 31vw, 68vw"
+                      className="object-cover transition-transform duration-1000 ease-out-expo group-hover:scale-105"
                       style={{ objectPosition: d.position }}
                     />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-bold tracking-[0.14em] text-brand-600 uppercase">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-ink/90 via-ink/45 to-transparent"
+                    />
+                    <span className="absolute top-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold tracking-[0.12em] text-brand-700">
                       {d.credential}
                     </span>
-                    <span className="mt-0.5 block text-lg leading-snug font-bold tracking-tight text-ink">
-                      {d.name}
+                    <span className="absolute top-3 right-3 grid size-9 place-items-center rounded-full bg-white/95 text-ink transition-[transform,background-color,color] duration-500 group-hover:rotate-45 group-hover:bg-brand-500 group-hover:text-white">
+                      <ArrowUpRight className="size-4" />
                     </span>
-                    <span className="mt-0.5 block text-sm text-body">{d.focus}</span>
-                  </span>
-                  <ArrowUpRight className="size-4 shrink-0 text-brand-500 transition-transform duration-500 group-hover:rotate-45" />
-                </Link>
-              </RevealItem>
-            ))}
-            <RevealItem>
+                    <span className="absolute inset-x-0 bottom-0 p-4">
+                      <span className="block text-base leading-tight font-bold tracking-tight text-white sm:text-lg">
+                        {d.name}
+                      </span>
+                      <span className="mt-1 block text-sm leading-snug text-white/80">{d.focus}</span>
+                    </span>
+                  </Link>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+
+            <Reveal y={16}>
               <Link
                 href="/about-us/meet-the-staff"
-                className="group flex h-full items-center gap-4 rounded-3xl bg-ink p-5 text-white transition-shadow duration-500 hover:shadow-lift"
+                className="group flex items-center gap-4 rounded-3xl bg-ink p-4 text-white transition-shadow duration-500 hover:shadow-lift sm:p-5"
               >
-                <span className="grid size-20 shrink-0 place-items-center rounded-2xl bg-white/10 text-glow">
-                  <Users className="size-7" />
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-white/10 text-glow">
+                  <Users className="size-5" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-lg leading-snug font-bold tracking-tight">The rest of the team</span>
+                  <span className="block leading-snug font-bold tracking-tight sm:text-lg">The rest of the team</span>
                   <span className="mt-0.5 block text-sm text-white/65">Hygienists, assistants and the front desk</span>
                 </span>
-                <ArrowUpRight className="size-4 shrink-0 text-glow transition-transform duration-500 group-hover:rotate-45" />
+                <span className="hidden items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-glow transition-colors duration-300 group-hover:bg-brand-500 group-hover:text-white min-[481px]:inline-flex">
+                  Meet the team
+                  <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
+                </span>
+                <ArrowUpRight className="size-4 shrink-0 text-glow min-[481px]:hidden" />
               </Link>
-            </RevealItem>
-          </RevealGroup>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -264,8 +279,50 @@ export default function AboutPage() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-40 right-0 size-160 rounded-full glow-blob text-brand-500/25" />
         </div>
-        <div className="container-site">
-          <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="container-site grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-16 xl:gap-24">
+          {/* the room, with a "lens" that magnifies part of it: the idea of the section in one picture */}
+          <Reveal>
+            <div className="relative pb-10 sm:pb-14 lg:pb-0">
+              <div className="relative aspect-4/3 overflow-hidden rounded-4xl ring-1 ring-white/10 lg:aspect-4/5">
+                <Image
+                  src="/images/office/operatory-1.webp"
+                  alt={`Treatment room at ${site.name}, Media PA`}
+                  fill
+                  sizes="(min-width:1024px) 45vw, 100vw"
+                  className="object-cover"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-linear-to-t from-ink/50 via-transparent to-transparent"
+                />
+                <span className="absolute top-4 left-4 inline-flex items-center gap-2 rounded-full bg-ink/80 px-3.5 py-1.5 text-sm font-semibold text-white ring-1 ring-white/15">
+                  <Microscope className="size-4 text-glow" /> Treatment room, Media PA
+                </span>
+              </div>
+
+              {/* magnifier: the same photo, zoomed in on the chair and light */}
+              <div
+                aria-hidden="true"
+                className="absolute right-4 bottom-0 size-36 rounded-full bg-ink p-2 shadow-lift sm:right-8 sm:size-48 lg:-right-6 lg:-bottom-6 lg:size-56"
+              >
+                <div className="relative size-full overflow-hidden rounded-full ring-2 ring-glow/70">
+                  <Image
+                    src="/images/office/operatory-1.webp"
+                    alt=""
+                    fill
+                    sizes="240px"
+                    className="origin-[18%_50%] scale-[2.4] object-cover"
+                  />
+                  {/* reticle */}
+                  <span className="absolute inset-x-1/2 top-3 bottom-3 w-px -translate-x-1/2 bg-white/35" />
+                  <span className="absolute inset-y-1/2 right-3 left-3 h-px -translate-y-1/2 bg-white/35" />
+                  <span className="absolute inset-[22%] rounded-full ring-1 ring-white/40" />
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <div>
             <SectionHead
               id="micro-heading"
               tone="light"
@@ -277,39 +334,35 @@ export default function AboutPage() {
               }
               lead="A margin that looks fine to the naked eye can still leave a gap for bacteria. Restorative work here is prepared and checked under magnification. It is slower. It is also the difference between a restoration that lasts and one you are back for."
             />
-            <Reveal>
-              <div className="relative aspect-4/3 overflow-hidden rounded-4xl ring-1 ring-white/10">
-                <Image
-                  src="/images/office/operatory-1.webp"
-                  alt={`Treatment room at ${site.name}, Media PA`}
-                  fill
-                  sizes="(min-width:1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
+            <RevealGroup className="mt-10" stagger={0.1}>
+              <ol className="border-b border-white/10">
+                {tech.map(({ icon: Icon, title: t, text }, i) => (
+                  <li key={t} className="border-t border-white/10">
+                    <RevealItem className="group grid grid-cols-[auto_1fr] items-start gap-5 py-6">
+                      <span className="relative grid size-14 place-items-center rounded-2xl bg-white/5 text-glow ring-1 ring-white/10 transition-colors duration-500 group-hover:bg-brand-500 group-hover:text-white">
+                        <Icon className="size-6" />
+                        <span className="absolute -top-2 -right-2 grid size-6 place-items-center rounded-full bg-brand-500 text-xs font-bold text-white ring-2 ring-ink">
+                          {i + 1}
+                        </span>
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-xl font-semibold tracking-tight text-white">{t}</span>
+                        <span className="mt-1.5 block leading-relaxed text-white/65">{text}</span>
+                      </span>
+                    </RevealItem>
+                  </li>
+                ))}
+              </ol>
+            </RevealGroup>
+            <Reveal className="mt-8">
+              <Link
+                href="/patient-information/care-and-comfort/advanced-technology"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full bg-white/10 px-6 font-semibold text-glow ring-1 ring-white/15 transition-colors hover:bg-brand-500 hover:text-white"
+              >
+                The equipment we use and why <ArrowUpRight className="size-4" />
+              </Link>
             </Reveal>
           </div>
-          <RevealGroup className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3" stagger={0.1}>
-            {tech.map(({ icon: Icon, title: t, text }) => (
-              <RevealItem key={t}>
-                <div className="h-full rounded-3xl bg-white/5 p-7 ring-1 ring-white/10">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-brand-500 text-white">
-                    <Icon className="size-5" />
-                  </span>
-                  <p className="mt-6 text-xl font-semibold tracking-tight text-white">{t}</p>
-                  <p className="mt-2 leading-relaxed text-white/65">{text}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-          <Reveal className="mt-8">
-            <Link
-              href="/patient-information/care-and-comfort/advanced-technology"
-              className="inline-flex min-h-11 items-center gap-2 font-semibold text-glow hover:text-white"
-            >
-              The equipment we use and why <ArrowUpRight className="size-4" />
-            </Link>
-          </Reveal>
         </div>
       </section>
 
