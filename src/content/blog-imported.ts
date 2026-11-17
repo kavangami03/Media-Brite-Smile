@@ -300,10 +300,10 @@ export const importedPosts: BlogPost[] = [
       },
     ],
     image: {
-      src: "/images/blog/how-invisalign-works-in-media-3.jpg",
-      alt: "How Invisalign works in Media: clear aligners",
-      width: 768,
-      height: 512,
+      src: "/images/blog/invisalign-aligner-in-hand.jpg",
+      alt: "A hand holding a clear aligner against a white background",
+      width: 1600,
+      height: 1067,
     },
   },
   {
@@ -939,10 +939,10 @@ export const importedPosts: BlogPost[] = [
       },
     ],
     image: {
-      src: "/images/blog/best-candidate-for-dental-implants-near-me-media.jpg",
-      alt: "Best Candidate for Dental Implants Near Me. Media: replacing a missing tooth with a dental implant",
-      width: 1000,
-      height: 590,
+      src: "/images/blog/implant-candidate-xray-review.jpg",
+      alt: "A dentist going through a panoramic X-ray with a patient in the chair",
+      width: 1600,
+      height: 1067,
     },
   },
   {
@@ -1369,10 +1369,10 @@ export const importedPosts: BlogPost[] = [
       },
     ],
     image: {
-      src: "/images/blog/dental-implants-associated-costs-in-media-pa.jpg",
-      alt: "Dental Implants – Associated Costs in Media PA: replacing a missing tooth with a dental implant",
-      width: 1000,
-      height: 667,
+      src: "/images/blog/implant-cost-consultation.jpg",
+      alt: "A dentist talking a seated patient through a scan on a tablet",
+      width: 1600,
+      height: 1067,
     },
   },
   {
@@ -1435,10 +1435,10 @@ export const importedPosts: BlogPost[] = [
       },
     ],
     image: {
-      src: "/images/blog/invisalign-for-adults-in-media.jpg",
-      alt: "Invisalign for Adults in Media: clear aligners",
-      width: 768,
-      height: 513,
+      src: "/images/blog/invisalign-adult-at-work.jpg",
+      alt: "A smiling woman at her desk in a bright modern office",
+      width: 1600,
+      height: 1067,
     },
   },
   {
