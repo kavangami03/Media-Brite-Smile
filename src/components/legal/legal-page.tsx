@@ -1,12 +1,14 @@
 import Link from "next/link";
 import {
+  Accessibility,
   ArrowUpRight,
   BadgePercent,
+  Hourglass,
+  LockKeyhole,
   CalendarCheck,
   CalendarClock,
   Check,
   CheckCircle2,
-  ChevronRight,
   Clock,
   Copyright,
   FileText,
@@ -49,13 +51,24 @@ const icons: Record<LegalIcon, LucideIcon> = {
   sparkles: Sparkles,
   star: Star,
   percent: BadgePercent,
+  accessibility: Accessibility,
+  lock: LockKeyhole,
 };
 
 const nn = (i: number) => String(i + 1).padStart(2, "0");
 
-const blockText = (b: LegalBlock) => (typeof b === "string" ? b : "list" in b ? b.list.join(" ") : b.note);
+const blockText = (b: LegalBlock) =>
+  typeof b === "string"
+    ? b
+    : "list" in b
+      ? b.list.join(" ")
+      : "links" in b
+        ? b.links.map((l) => l.text).join(" ")
+        : "pending" in b
+          ? b.pending
+          : b.note;
 
-/** Privacy Policy, Terms of Use and Disclaimer share this layout. */
+/** Every website policy (Privacy, HIPAA notice, Accessibility, Terms, Disclaimer) shares this layout. */
 export function LegalPage({ doc }: { doc: LegalDoc }) {
   const words = doc.sections
     .flatMap((s) => s.body.map(blockText))
@@ -66,7 +79,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
   return (
     <>
       <Hero doc={doc} minutes={minutes} />
-      <Glance doc={doc} />
+      {doc.glance.length > 0 && <Glance doc={doc} />}
 
       {/* ---------- the full text ---------- */}
       <section className="bg-pearl section-y" aria-label={`${doc.title} in full`}>
@@ -131,7 +144,7 @@ function Hero({ doc, minutes }: { doc: LegalDoc; minutes: number }) {
   const Icon = icons[doc.icon];
 
   const meta = [
-    { Icon: CalendarClock, text: `Updated ${doc.updated}` },
+    { Icon: CalendarClock, text: doc.updated.startsWith("Effective") ? doc.updated : `Updated ${doc.updated}` },
     { Icon: Clock, text: `${minutes} min read` },
     { Icon: ListOrdered, text: `${doc.sections.length} sections` },
   ];
@@ -139,25 +152,11 @@ function Hero({ doc, minutes }: { doc: LegalDoc; minutes: number }) {
   return (
     <section className="relative bg-pearl pt-30 pb-6 lg:pt-36" aria-labelledby="legal-title">
       <div className="container-site">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
-          <ol className="flex flex-wrap items-center gap-1.5">
-            <li>
-              <Link href="/" className="hover:text-ink">
-                Home
-              </Link>
-            </li>
-            <ChevronRight className="size-3.5" aria-hidden="true" />
-            <li aria-current="page" className="font-medium text-ink">
-              {doc.title}
-            </li>
-          </ol>
-        </nav>
-
         <div className="relative isolate overflow-hidden rounded-4xl bg-ink text-white sm:rounded-5xl">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgb(255_255_255/0.07)_1px,transparent_0)] mask-[radial-gradient(ellipse_at_70%_40%,#000_20%,transparent_70%)] bg-size-[26px_26px]" />
-            <div className="absolute -top-40 right-0 size-160 rounded-full bg-brand-500/30 blur-[140px]" />
-            <div className="absolute -bottom-48 -left-24 size-120 rounded-full bg-glow/15 blur-[120px]" />
+            <div className="absolute -top-40 right-0 size-160 rounded-full glow-blob text-brand-500/30" />
+            <div className="absolute -bottom-48 -left-24 size-120 rounded-full glow-blob text-glow/15" />
             <ToothWatermark size={560} className="absolute -bottom-56 left-1/3 text-white/3" />
           </div>
 
@@ -169,6 +168,20 @@ function Hero({ doc, minutes }: { doc: LegalDoc; minutes: number }) {
                 <span className="text-gradient-brand">{last}</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">{doc.intro}</p>
+              {doc.introMore?.map((b, i) =>
+                typeof b === "string" ? (
+                  <p key={i} className="mt-3 max-w-xl leading-relaxed text-white/60">
+                    {b}
+                  </p>
+                ) : "pending" in b ? (
+                  <p
+                    key={i}
+                    className="mt-3 inline-flex max-w-xl items-center gap-2 rounded-full bg-amber-400/15 px-3.5 py-1.5 text-sm text-amber-200 ring-1 ring-amber-300/30"
+                  >
+                    <Hourglass className="size-4 shrink-0" /> Pending from the practice: {b.pending}
+                  </p>
+                ) : null,
+              )}
               <ul className="mt-8 flex flex-wrap gap-2">
                 {meta.map(({ Icon: M, text }) => (
                   <li
@@ -229,17 +242,21 @@ function Hero({ doc, minutes }: { doc: LegalDoc; minutes: number }) {
         </div>
 
         {/* switch between the three pages */}
-        <nav aria-label="Policies" className="mt-3 grid grid-cols-3 gap-2 sm:mt-4 sm:gap-3">
-          {legalDocs.map((d) => {
-            const on = d.slug === doc.slug;
+        <nav
+          aria-label="Policies"
+          className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5"
+        >
+          {legalDocs.map((d, di) => {
+            const on = d.href === doc.href;
             const DIcon = icons[d.icon];
             return (
               <Link
-                key={d.slug}
-                href={`/${d.slug}`}
+                key={d.href}
+                href={d.href}
                 aria-current={on ? "page" : undefined}
                 className={cn(
-                  "group flex flex-col items-center gap-2 rounded-2xl p-3 text-center ring-1 transition-[box-shadow,background-color] duration-500 sm:rounded-3xl xl:flex-row xl:gap-4 xl:p-4 xl:pr-5 xl:text-left",
+                  "group flex flex-col items-center gap-2 rounded-2xl p-3 text-center ring-1 transition-[box-shadow,background-color] duration-500 sm:rounded-3xl xl:flex-row xl:gap-3 xl:p-4 xl:text-left",
+                  di === legalDocs.length - 1 && "max-sm:col-span-2",
                   on
                     ? "bg-white shadow-lift ring-brand-500/30"
                     : "bg-white/60 ring-line hover:bg-white hover:shadow-soft",
@@ -259,11 +276,7 @@ function Hero({ doc, minutes }: { doc: LegalDoc; minutes: number }) {
                   <span className="block text-[0.8125rem] font-semibold text-ink sm:text-base">{d.title}</span>
                   <span className="mt-1 hidden text-sm text-muted xl:block">{d.blurb}</span>
                 </span>
-                {on ? (
-                  <span className="hidden shrink-0 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold tracking-wide text-brand-700 uppercase xl:inline-block">
-                    Reading
-                  </span>
-                ) : (
+                {!on && (
                   <ArrowUpRight className="hidden size-4 shrink-0 text-brand-500 transition-transform duration-500 group-hover:rotate-45 xl:block" />
                 )}
               </Link>
@@ -288,10 +301,16 @@ function Glance({ doc }: { doc: LegalDoc }) {
             </h2>
           </div>
           <p className="max-w-md text-lg leading-relaxed">
-            The four things worth knowing. The full {doc.title.toLowerCase()} follows below.
+            {doc.glance.length === 4 ? "The four" : `The ${doc.glance.length}`} things worth knowing. The full{" "}
+            {doc.title.toLowerCase()} follows below.
           </p>
         </div>
-        <RevealGroup className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup
+          className={cn(
+            "mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2",
+            doc.glance.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4",
+          )}
+        >
           {doc.glance.map((g, i) => {
             const GIcon = icons[g.icon];
             return (
@@ -338,6 +357,35 @@ function Block({ block }: { block: LegalBlock }) {
       </ul>
     );
   }
+  if ("links" in block) {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {block.links.map((l) => (
+          <Link
+            key={l.href + l.text}
+            href={l.href}
+            className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+          >
+            {l.text}
+            <ArrowUpRight className="size-3.5 transition-transform duration-500 group-hover:rotate-45" />
+          </Link>
+        ))}
+      </div>
+    );
+  }
+  if ("pending" in block) {
+    return (
+      <div className="flex gap-4 rounded-3xl border-2 border-dashed border-amber-300 bg-amber-50 p-5 sm:p-6">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white text-amber-600 shadow-soft">
+          <Hourglass className="size-5" />
+        </span>
+        <div className="min-w-0">
+          <p className="font-semibold text-ink">Awaiting the practice&apos;s approved wording</p>
+          <p className="mt-1 text-[0.9375rem] leading-relaxed text-body">{block.pending}</p>
+        </div>
+      </div>
+    );
+  }
   if (block.call) {
     return (
       <div className="flex flex-col gap-5 rounded-3xl bg-ink p-5 text-white sm:flex-row sm:items-center sm:p-6">
@@ -376,7 +424,7 @@ function Questions() {
     <Reveal>
       <div className="relative isolate mt-6 overflow-hidden rounded-4xl bg-linear-to-br from-brand-600 via-brand-700 to-brand-900 p-7 text-white sm:rounded-5xl sm:p-10 lg:p-12">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-24 -right-16 size-96 rounded-full bg-glow/25 blur-[100px]" />
+          <div className="absolute -top-24 -right-16 size-96 rounded-full glow-blob text-glow/25" />
           <ToothWatermark size={340} className="absolute -right-16 -bottom-28 text-white/6" />
         </div>
         <div className="grid grid-cols-1 items-center gap-8 xl:grid-cols-[1fr_auto]">

@@ -20,6 +20,8 @@ export function ScrubText({ children, className }: { children: ReactNode; classN
         SplitText.create(el.querySelectorAll("[data-scrub]"), {
           type: "words",
           autoSplit: true,
+          /* own compositor layer per word, so the scrubbed opacity never repaints the paragraph */
+          wordsClass: "will-change-[opacity]",
           onSplit(self) {
             return gsap.fromTo(
               self.words,
@@ -40,7 +42,7 @@ export function ScrubText({ children, className }: { children: ReactNode; classN
           stagger: 0.15,
           ease: "back.out(1.6)",
           duration: 1,
-          scrollTrigger: { trigger: el, start: "top 75%", once: true },
+          scrollTrigger: { trigger: el, start: "top 75%", toggleActions: "play none none none" },
         });
       });
     },

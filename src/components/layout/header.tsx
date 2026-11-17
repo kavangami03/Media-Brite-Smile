@@ -8,19 +8,22 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import { useLenis } from "lenis/react";
 import {
   ArrowUpRight,
+  BookOpen,
   Building2,
   ChevronDown,
-  Cpu,
+  Clock,
   CreditCard,
   HeartHandshake,
   MapPin,
   Phone,
-  PiggyBank,
   Siren,
+  Sparkles,
   Star,
+  UserPlus,
+  Users,
   type LucideIcon,
 } from "lucide-react";
-import { doctors, mainNav, serviceGroups, site, type NavGroup, type NavLink } from "@/content/site";
+import { doctors, mainNav, serviceGroups, servicesHref, site, type NavGroup, type NavLink } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "./mobile-menu";
 import { ease } from "@/lib/motion";
@@ -144,7 +147,7 @@ export function Header() {
               href={site.phone.href}
               className="hidden min-h-6 items-center gap-2 py-0.5 font-medium text-white lg:flex"
             >
-              <Siren className="size-3.5 text-glow" /> Same-day emergency appointments
+              <Siren className="size-3.5 text-glow" /> Dental emergency? Call {site.phone.display}
             </a>
           </div>
         </motion.div>
@@ -153,7 +156,7 @@ export function Header() {
         <div
           className={cn(
             "transition-[background-color,box-shadow,backdrop-filter] duration-500",
-            scrolled || open ? "bg-white/85 shadow-[0_1px_0_var(--color-line)] backdrop-blur-xl" : "bg-transparent",
+            scrolled || open ? "bg-white/95 shadow-[0_1px_0_var(--color-line)]" : "bg-transparent",
           )}
         >
           <div className="container-site flex h-20 items-center justify-between gap-6">
@@ -188,7 +191,7 @@ export function Header() {
                       onClick={closeNow}
                       onFocus={() => (isGroup(item) ? openMenu(item.label) : closeNow())}
                       className={cn(
-                        "flex items-center gap-1 rounded-full px-4 py-2.5 text-[0.9375rem] font-medium text-ink transition-colors hover:bg-brand-50 hover:text-brand-700",
+                        "flex items-center gap-1 rounded-full px-3 py-2.5 text-[0.9375rem] font-medium whitespace-nowrap text-ink transition-colors hover:bg-brand-50 hover:text-brand-700 2xl:px-4",
                         open === item.label && "bg-brand-50 text-brand-700",
                       )}
                       aria-expanded={isGroup(item) ? open === item.label : undefined}
@@ -211,7 +214,7 @@ export function Header() {
             <div className="flex items-center gap-3">
               <a
                 href={site.phone.href}
-                className="group hidden items-center gap-3 rounded-full py-1.5 pr-2 lg:flex"
+                className="group hidden items-center gap-3 rounded-full py-1.5 pr-2 lg:flex xl:hidden 2xl:flex"
                 aria-label={`Call ${site.phone.display}`}
               >
                 <span className="relative grid size-11 place-items-center rounded-full bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-500 group-hover:text-white">
@@ -222,7 +225,7 @@ export function Header() {
                   <span className="block font-bold text-ink">{site.phone.display}</span>
                 </span>
               </a>
-              <Button href={site.bookingHref} className="hidden sm:inline-flex">
+              <Button href={site.bookingHref} className="hidden whitespace-nowrap sm:inline-flex">
                 Book Appointment
               </Button>
               <button
@@ -256,12 +259,11 @@ export function Header() {
                   onPointerEnter={cancelClose}
                   onPointerLeave={scheduleClose}
                 >
-                  <div className="overflow-hidden rounded-4xl border border-line bg-white shadow-lift">
-                    {open === "Services" ? (
-                      <ServicesMega onNavigate={closeNow} />
-                    ) : (
-                      <SimpleMenu group={mainNav.find((i) => i.label === open) as NavGroup} onNavigate={closeNow} />
-                    )}
+                  <div
+                    className="max-h-[calc(100svh-8rem)] overflow-y-auto overscroll-contain rounded-4xl border border-line bg-white shadow-lift"
+                    data-lenis-prevent
+                  >
+                    <DropdownPanel label={open} onNavigate={closeNow} />
                   </div>
                 </div>
               </motion.div>
@@ -278,98 +280,28 @@ export function Header() {
   );
 }
 
-function ServicesMega({ onNavigate }: { onNavigate: () => void }) {
-  return (
-    <div className="grid grid-cols-[1fr_1fr_1fr_22rem] gap-10 p-10">
-      {serviceGroups.map((group) => (
-        <div key={group.id}>
-          <Link
-            href={group.href}
-            onClick={onNavigate}
-            className="group mb-4 flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-brand-600 uppercase"
-          >
-            {group.title}
-            <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-          <ul className="space-y-0.5">
-            {group.links.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  onClick={onNavigate}
-                  className="group flex items-center justify-between rounded-xl px-3 py-2 text-[0.9375rem] text-body transition-colors hover:bg-pearl hover:text-ink"
-                >
-                  {l.label}
-                  <ArrowUpRight className="size-3.5 opacity-0 transition-all group-hover:opacity-100" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <Link
-        href="/special-offers"
-        onClick={onNavigate}
-        className="group relative flex flex-col justify-end overflow-hidden rounded-3xl bg-brand-950 p-7 text-white"
-      >
-        <Image
-          src="/images/hero/girl-smiling.webp"
-          alt=""
-          fill
-          sizes="22rem"
-          className="object-cover opacity-55 transition-transform duration-1000 ease-out-expo group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-brand-950 via-brand-950/40 to-transparent" />
-        <div className="relative">
-          <p className="text-xs font-bold tracking-[0.16em] text-glow uppercase">New patient special</p>
-          <p className="mt-2 text-5xl font-bold tracking-tight">$99</p>
-          <p className="mt-2 text-sm text-white/80">Regularly $315, for uninsured patients.</p>
-          <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
-            View all offers <ArrowUpRight className="size-4" />
-          </span>
-        </div>
-      </Link>
-    </div>
-  );
+/** Picks the right dropdown for the open top-level item. */
+function DropdownPanel({ label, onNavigate }: { label: string; onNavigate: () => void }) {
+  if (label === "Services") return <ServicesMega onNavigate={onNavigate} />;
+  const group = mainNav.find((i) => i.label === label) as NavGroup;
+  if (label === "About") return <AboutMenu group={group} onNavigate={onNavigate} />;
+  if (label === "Patients") return <PatientsMenu group={group} onNavigate={onNavigate} />;
+  return <AreasMenu group={group} onNavigate={onNavigate} />;
 }
-
-/* Icon + one-line description for every non-doctor dropdown link (published facts only). */
-const linkMeta: Record<string, { icon: LucideIcon; desc: string }> = {
-  "/about-us/office-tour": { icon: Building2, desc: "Step inside our new office at 8 N Pennell Rd." },
-  "/about-us/patient-reviews": {
-    icon: Star,
-    desc: `Rated ${site.rating.score} from ${site.rating.count} Google reviews.`,
-  },
-  "/about-us/dental-savings-plan": { icon: PiggyBank, desc: "In-office membership for patients without insurance." },
-  "/patient-information/why-choose-us": { icon: HeartHandshake, desc: "Gentle, mercury-free care for every age." },
-  "/patient-information/care-and-comfort/advanced-technology": {
-    icon: Cpu,
-    desc: "Modern tools for precise, comfortable visits.",
-  },
-  "/patient-information/care-credit": { icon: CreditCard, desc: "Flexible financing to fit your budget." },
-};
 
 function MenuLabel({ children }: { children: ReactNode }) {
   return <p className="mb-4 text-xs font-bold tracking-[0.16em] text-brand-600 uppercase">{children}</p>;
 }
 
-function QuickLink({ href, label, onNavigate }: NavLink & { onNavigate: () => void }) {
-  const meta = linkMeta[href];
-  const Icon = meta?.icon ?? ArrowUpRight;
+function AllLink({ href, children, onNavigate }: { href: string; children: ReactNode; onNavigate: () => void }) {
   return (
     <Link
       href={href}
       onClick={onNavigate}
-      className="group flex items-center gap-4 rounded-2xl p-3 transition-colors hover:bg-pearl"
+      className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
     >
-      <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-mist text-brand-600 transition-colors duration-300 group-hover:bg-brand-500 group-hover:text-white">
-        <Icon className="size-5" />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block font-semibold text-ink">{label}</span>
-        {meta && <span className="mt-0.5 block text-sm text-muted">{meta.desc}</span>}
-      </span>
-      <ArrowUpRight className="size-4 shrink-0 text-brand-500 opacity-0 transition-all duration-300 group-hover:opacity-100" />
+      {children}
+      <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
     </Link>
   );
 }
@@ -381,31 +313,36 @@ function FeatureCard({
   title,
   cta,
   onNavigate,
+  className,
 }: {
   href: string;
   image: string;
   eyebrow: string;
-  title: string;
+  title: ReactNode;
   cta: string;
   onNavigate: () => void;
+  className?: string;
 }) {
   return (
     <Link
       href={href}
       onClick={onNavigate}
-      className="group relative flex min-h-80 flex-col justify-end overflow-hidden rounded-3xl bg-brand-950 p-7 text-white"
+      className={cn(
+        "group relative flex min-h-80 flex-col justify-end overflow-hidden rounded-3xl bg-brand-950 p-7 text-white",
+        className,
+      )}
     >
       <Image
         src={image}
         alt=""
         fill
-        sizes="22rem"
+        sizes="20rem"
         className="object-cover opacity-70 transition-transform duration-1000 ease-out-expo group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-linear-to-t from-brand-950 via-brand-950/45 to-transparent" />
       <div className="relative">
         <p className="text-xs font-bold tracking-[0.16em] text-glow uppercase">{eyebrow}</p>
-        <p className="mt-2 text-2xl leading-tight font-bold tracking-tight">{title}</p>
+        <div className="mt-2 text-2xl leading-tight font-bold tracking-tight">{title}</div>
         <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
           {cta} <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
         </span>
@@ -414,90 +351,138 @@ function FeatureCard({
   );
 }
 
-/** Patients: four rich tiles + a contact strip, with the feature card on the right. */
-function PatientsMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => void }) {
+/* ---------------------------------------------------------------------------
+   Services: pick a category on the left, its sitemap sub-sections fill the panel.
+--------------------------------------------------------------------------- */
+function ServicesMega({ onNavigate }: { onNavigate: () => void }) {
+  const [active, setActive] = useState(0);
+  const g = serviceGroups[active];
+
   return (
-    <div className="grid grid-cols-[1fr_22rem] gap-8 p-10">
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <MenuLabel>Patient information</MenuLabel>
-          <Link
-            href={group.href}
-            onClick={onNavigate}
-            className="group mb-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
-          >
-            All patient information
-            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </div>
-        <ul className="grid flex-1 grid-cols-2 gap-4">
-          {group.links.map((l, i) => {
-            const meta = linkMeta[l.href];
-            const Icon = meta?.icon ?? ArrowUpRight;
+    <div className="grid grid-cols-[16rem_1fr] gap-10 p-10 2xl:grid-cols-[17rem_1fr_19rem]">
+      <div className="flex flex-col">
+        <MenuLabel>Treatments</MenuLabel>
+        <ul className="space-y-1.5">
+          {serviceGroups.map((sg, i) => {
+            const on = i === active;
             return (
-              <li key={l.href}>
+              <li key={sg.id}>
                 <Link
-                  href={l.href}
+                  href={sg.href}
                   onClick={onNavigate}
-                  className="group relative flex h-full items-start gap-5 overflow-hidden rounded-3xl bg-pearl p-6 ring-1 ring-line transition-[background-color,box-shadow] duration-500 hover:bg-white hover:shadow-lift"
+                  onPointerEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  className={cn(
+                    "group flex items-center gap-3 rounded-2xl px-4 py-3.5 transition-colors duration-300",
+                    on ? "bg-brand-500 text-white shadow-glow" : "text-ink hover:bg-pearl",
+                  )}
                 >
-                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white text-brand-600 shadow-soft transition-colors duration-500 group-hover:bg-brand-500 group-hover:text-white">
-                    <Icon className="size-6" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold">{sg.title}</span>
+                    <span className={cn("mt-0.5 block text-sm", on ? "text-white/75" : "text-muted")}>
+                      {sg.total} treatments
+                    </span>
                   </span>
-                  <span className="min-w-0 flex-1 pt-1">
-                    <span className="block text-lg font-semibold tracking-tight text-ink">{l.label}</span>
-                    {meta && <span className="mt-1 block text-sm leading-relaxed text-body">{meta.desc}</span>}
-                  </span>
-                  <span className="absolute top-5 right-5 text-xs font-semibold text-muted tabular-nums transition-opacity duration-300 group-hover:opacity-0">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <ArrowUpRight className="absolute top-5 right-5 size-4 text-brand-500 opacity-0 transition-all duration-300 group-hover:opacity-100" />
+                  <ArrowUpRight
+                    className={cn(
+                      "size-4 shrink-0 transition-transform duration-500 group-hover:rotate-45",
+                      on ? "text-white" : "text-brand-500",
+                    )}
+                  />
                 </Link>
               </li>
             );
           })}
         </ul>
-        <div className="flex items-center justify-between gap-6 rounded-3xl bg-ink px-6 py-4 text-white">
-          <a href={site.phone.href} className="group flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-full bg-brand-500 transition-colors group-hover:bg-white group-hover:text-brand-600">
-              <Phone className="size-4" />
-            </span>
-            <span className="leading-tight">
-              <span className="block text-xs text-white/60">Questions? Call us</span>
-              <span className="block font-bold">{site.phone.display}</span>
-            </span>
-          </a>
-          <span className="flex items-center gap-2 text-sm text-white/75">
-            <MapPin className="size-4 text-glow" /> {site.address.full}
-          </span>
-          <span className="flex items-center gap-2 text-sm text-white/75">
-            <Star className="size-4 fill-amber-400 text-amber-400" />
-            <strong className="text-white">{site.rating.score}</strong> from {site.rating.count} reviews
-          </span>
+        <div className="mt-auto border-t border-line pt-5">
+          <AllLink href={servicesHref} onNavigate={onNavigate}>
+            All dental services
+          </AllLink>
         </div>
       </div>
+
+      <motion.div
+        key={g.id}
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.35, ease: ease.out }}
+        className="min-w-0"
+      >
+        <div className="mb-6 flex items-end justify-between gap-6 border-b border-line pb-5">
+          <div className="min-w-0">
+            <p className="text-2xl font-bold tracking-tight text-ink">{g.title}</p>
+            <p className="mt-1 text-sm text-body">{g.blurb}</p>
+          </div>
+          <span className="shrink-0">
+            <AllLink href={g.href} onNavigate={onNavigate}>
+              Overview
+            </AllLink>
+          </span>
+        </div>
+        <div className="columns-2 gap-x-10 xl:columns-3 2xl:columns-2">
+          {g.sections.map((sec) => (
+            <div key={sec.title} className="mb-6 break-inside-avoid">
+              <p className="mb-2 text-xs font-bold tracking-[0.14em] text-muted uppercase">{sec.title}</p>
+              <ul>
+                {sec.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      onClick={onNavigate}
+                      className="group -mx-2.5 flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 text-[0.9375rem] text-body transition-colors hover:bg-pearl hover:text-ink"
+                    >
+                      {l.label}
+                      <ArrowUpRight className="size-3.5 shrink-0 text-brand-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
       <FeatureCard
-        href={site.bookingHref}
-        image="/images/office/operatory-3.jpg"
-        eyebrow="New patients welcome"
-        title="Gentle care for toddlers to grandparents"
-        cta="Book your visit"
+        href="/special-offers"
+        image="/images/hero/girl-smiling.webp"
+        eyebrow="New patient special"
+        title={
+          <>
+            <span className="block text-5xl">$99</span>
+            <span className="mt-2 block text-sm font-normal text-white/80">
+              Regularly $315, for uninsured patients.
+            </span>
+          </>
+        }
+        cta="View all offers"
         onNavigate={onNavigate}
+        className="hidden 2xl:flex"
       />
     </div>
   );
 }
 
-function SimpleMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => void }) {
-  const doctorLinks = doctors.filter((d) => group.links.some((l) => l.href === d.href));
-  const otherLinks = group.links.filter((l) => !doctors.some((d) => d.href === l.href));
-  const isAbout = doctorLinks.length > 0;
-  if (!isAbout) return <PatientsMenu group={group} onNavigate={onNavigate} />;
+/* ---------------------------------------------------------------------------
+   About: the three dentists, then the team and proof pages.
+--------------------------------------------------------------------------- */
+const aboutMeta: Record<string, { icon: LucideIcon; desc: string }> = {
+  "/about-us/meet-the-staff": { icon: Users, desc: "The people you meet at the front desk and in the chair." },
+  "/about-us/office-tour": { icon: Building2, desc: `Step inside our office at ${site.address.street}.` },
+  "/about-us/patient-reviews": {
+    icon: Star,
+    desc: `Rated ${site.rating.score} from ${site.rating.count} Google reviews.`,
+  },
+  "/about-us/smile-gallery": { icon: Sparkles, desc: "Before-and-after results from real treatment." },
+};
+
+function AboutMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => void }) {
+  const [dentists, team] = group.sections ?? [];
+  const doctorLinks = doctors.filter((d) => dentists?.links.some((l) => l.href === d.href));
 
   return (
-    <div className="grid grid-cols-[1fr_1fr_22rem] gap-10 p-10">
+    <div className="grid grid-cols-[1fr_1fr_20rem] gap-10 p-10">
       <div>
-        <MenuLabel>Meet our dentists</MenuLabel>
+        <MenuLabel>{dentists?.title}</MenuLabel>
         <ul className="space-y-1">
           {doctorLinks.map((d) => (
             <li key={d.href}>
@@ -530,30 +515,161 @@ function SimpleMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => 
       </div>
 
       <div>
-        <MenuLabel>Get to know us</MenuLabel>
+        <MenuLabel>{team?.title}</MenuLabel>
         <ul className="space-y-1">
-          {otherLinks.map((l) => (
-            <li key={l.href}>
-              <QuickLink {...l} onNavigate={onNavigate} />
-            </li>
-          ))}
+          {team?.links.map((l) => {
+            const meta = aboutMeta[l.href];
+            const Icon = meta?.icon ?? ArrowUpRight;
+            return (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  onClick={onNavigate}
+                  className="group flex items-center gap-4 rounded-2xl p-3 transition-colors hover:bg-pearl"
+                >
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-mist text-brand-600 transition-colors duration-300 group-hover:bg-brand-500 group-hover:text-white">
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-ink">{l.label}</span>
+                    {meta && <span className="mt-0.5 block text-sm text-muted">{meta.desc}</span>}
+                  </span>
+                  <ArrowUpRight className="size-4 shrink-0 text-brand-500 opacity-0 transition-all duration-300 group-hover:opacity-100" />
+                </Link>
+              </li>
+            );
+          })}
         </ul>
-        <Link
-          href={group.href}
-          onClick={onNavigate}
-          className="group mt-4 ml-3 inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
-        >
-          About Media Brite Smile
-          <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
+        <div className="mt-4 ml-3">
+          <AllLink href={group.href} onNavigate={onNavigate}>
+            About Media Brite Smile
+          </AllLink>
+        </div>
       </div>
 
       <FeatureCard
         href="/about-us/office-tour"
         image="/images/office/office-5.jpg"
-        eyebrow={`Since ${site.since}`}
-        title="Caring for Media families in our new office"
+        eyebrow="Office tour"
+        title="Three dentists under one roof in Media"
         cta="Take the office tour"
+        onNavigate={onNavigate}
+      />
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Patients: four labelled columns (new patients, paying, comfort, resources).
+--------------------------------------------------------------------------- */
+const patientIcons: Record<string, LucideIcon> = {
+  "New patients": UserPlus,
+  "Paying for care": CreditCard,
+  "Comfort & safety": HeartHandshake,
+  Resources: BookOpen,
+};
+
+/* ---------------------------------------------------------------------------
+   Patients: a compact band of four link columns with icon headings.
+--------------------------------------------------------------------------- */
+function PatientsMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => void }) {
+  return (
+    <div className="px-8 py-6">
+      <div className="flex items-center justify-between gap-4">
+        <MenuLabel>Patient information</MenuLabel>
+        <span className="mb-4">
+          <AllLink href={group.href} onNavigate={onNavigate}>
+            All patient information
+          </AllLink>
+        </span>
+      </div>
+      <div className="grid grid-cols-4 divide-x divide-line">
+        {group.sections?.map((sec) => {
+          const Icon = patientIcons[sec.title] ?? ArrowUpRight;
+          return (
+            <div key={sec.title} className="min-w-0 px-6 first:pl-0 last:pr-0">
+              <p className="flex items-center gap-2.5 font-semibold text-ink">
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
+                  <Icon className="size-4" />
+                </span>
+                {sec.title}
+              </p>
+              <ul className="mt-3 space-y-0.5">
+                {sec.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      onClick={onNavigate}
+                      className="group -mx-2 flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-[0.9375rem] text-body transition-colors hover:bg-pearl hover:text-brand-700"
+                    >
+                      {l.label}
+                      <ArrowUpRight className="size-3.5 shrink-0 text-brand-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Areas We Serve: towns grouped by area, each with its measured drive time.
+--------------------------------------------------------------------------- */
+function AreasMenu({ group, onNavigate }: { group: NavGroup; onNavigate: () => void }) {
+  return (
+    <div className="grid grid-cols-[1fr_20rem] gap-10 p-10">
+      <div className="flex min-w-0 flex-col">
+        <div className="flex items-center justify-between">
+          <MenuLabel>Delaware County towns we serve</MenuLabel>
+          <span className="mb-4">
+            <AllLink href={group.href} onNavigate={onNavigate}>
+              All areas &amp; routes
+            </AllLink>
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-8">
+          {group.sections?.map((sec) => (
+            <div key={sec.title}>
+              <p className="mb-2 text-xs font-bold tracking-[0.14em] text-muted uppercase">{sec.title}</p>
+              <ul>
+                {sec.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      onClick={onNavigate}
+                      className="group -mx-2.5 flex items-center justify-between gap-3 rounded-xl px-2.5 py-2 transition-colors hover:bg-pearl"
+                    >
+                      <span className="flex items-center gap-2.5 font-medium text-ink">
+                        <MapPin className="size-4 shrink-0 text-brand-500" />
+                        {l.label}
+                      </span>
+                      {l.note && (
+                        <span className="shrink-0 rounded-full bg-mist px-2.5 py-0.5 text-xs font-semibold text-brand-700 tabular-nums transition-colors group-hover:bg-brand-500 group-hover:text-white">
+                          {l.note}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p className="mt-auto flex items-center gap-2 border-t border-line pt-4 text-sm text-muted">
+          <Clock className="size-4 text-brand-500" />
+          Drive times measured in Google Maps from {site.address.full}. Times vary with traffic.
+        </p>
+      </div>
+      <FeatureCard
+        href={group.href}
+        image="/images/office/office-41.jpg"
+        eyebrow="Delaware County"
+        title="Every town here is within a 12-minute drive"
+        cta="See all areas"
         onNavigate={onNavigate}
       />
     </div>

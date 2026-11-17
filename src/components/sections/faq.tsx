@@ -40,7 +40,7 @@ export function Faq() {
   }
 
   return (
-    <section className="section-y relative bg-pearl" aria-labelledby="faq-heading">
+    <section className="relative bg-pearl section-y" aria-labelledby="faq-heading">
       <div className="container-site grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
         {/* ---------------- Left: heading + live photo ---------------- */}
         <div className="lg:col-span-5">
@@ -49,7 +49,7 @@ export function Faq() {
               <span className="text-brand-500">({pad(faqs.length)})</span> Frequently asked
             </p>
             <SplitReveal as="h2" id="faq-heading" className="mt-3 text-display-md font-bold">
-              Questions, answered.
+              Common questions
             </SplitReveal>
             <p className="mt-4 max-w-md leading-relaxed">
               Straight answers about visits, costs and comfort. Anything else, just{" "}
@@ -91,11 +91,19 @@ export function Faq() {
                     transition={{ duration: 1.1, ease: ease.out }}
                     className="absolute inset-0"
                   >
-                    <Image src={photos[current].src} alt={photos[current].alt} fill sizes="34rem" className="object-cover" />
+                    <Image
+                      src={photos[current].src}
+                      alt={photos[current].alt}
+                      fill
+                      sizes="34rem"
+                      className="object-cover"
+                    />
                   </motion.div>
                 </motion.div>
                 <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between bg-linear-to-t from-ink/70 to-transparent p-5 text-white">
-                  <span className="text-4xl leading-none font-bold tracking-tighter tabular-nums">{pad(current + 1)}</span>
+                  <span className="text-4xl leading-none font-bold tracking-tighter tabular-nums">
+                    {pad(current + 1)}
+                  </span>
                   <span className="text-xs font-medium text-white/80">/ {pad(faqs.length)}</span>
                 </div>
               </div>
@@ -124,7 +132,11 @@ export function Faq() {
             const isOpen = open === i;
             const id = `faq-panel-${i}`;
             return (
-              <div key={f.q} className="border-b border-line" onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(i)}>
+              <div
+                key={f.q}
+                className="border-b border-line"
+                onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(i)}
+              >
                 <h3>
                   <button
                     type="button"
@@ -154,11 +166,23 @@ export function Faq() {
                       <span
                         className={cn(
                           "absolute inset-0 rounded-full border transition-all duration-500",
-                          isOpen ? "scale-100 border-ink bg-ink" : "scale-90 border-line group-hover:scale-100 group-hover:border-ink",
+                          isOpen
+                            ? "scale-100 border-ink bg-ink"
+                            : "scale-90 border-line group-hover:scale-100 group-hover:border-ink",
                         )}
                       />
-                      <span className={cn("absolute h-px w-3.5 transition-colors duration-500", isOpen ? "bg-white" : "bg-ink")} />
-                      <span className={cn("absolute h-3.5 w-px transition-all duration-500", isOpen ? "scale-y-0 bg-white" : "bg-ink")} />
+                      <span
+                        className={cn(
+                          "absolute h-px w-3.5 transition-colors duration-500",
+                          isOpen ? "bg-white" : "bg-ink",
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "absolute h-3.5 w-px transition-all duration-500",
+                          isOpen ? "scale-y-0 bg-white" : "bg-ink",
+                        )}
+                      />
                     </span>
                   </button>
                 </h3>
@@ -198,7 +222,7 @@ export function Faq() {
 
 function FaqLink({ link }: { link: { label: string; href: string; external?: boolean } }) {
   const className =
-    "group/link mt-4 inline-flex items-center gap-2 text-sm font-semibold text-ink underline decoration-brand-400 decoration-2 underline-offset-[5px] transition-colors hover:text-brand-600";
+    "group/link mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-ink underline decoration-brand-400 decoration-2 underline-offset-[5px] transition-colors hover:text-brand-600";
   const inner = (
     <>
       {link.label}

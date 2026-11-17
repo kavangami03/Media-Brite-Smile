@@ -21,7 +21,9 @@ const pages = [
   { label: "Contact", href: "/contact-us" },
 ];
 const legal = [
-  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Privacy Policy", href: "/patient-information/privacy" },
+  { label: "HIPAA Notice", href: "/hipaa-notice-of-privacy-practices" },
+  { label: "Accessibility", href: "/patient-information/web-accessibility" },
   { label: "Terms of Use", href: "/terms-of-use" },
   { label: "Disclaimer", href: "/disclaimer" },
   { label: "Sitemap", href: "/sitemap" },
@@ -105,7 +107,7 @@ export function Footer({ year }: { year: ReactNode }) {
       </motion.svg>
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-1/3 left-1/2 size-200 -translate-x-1/2 rounded-full bg-glow/15 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/2 size-200 -translate-x-1/2 rounded-full glow-blob text-glow/15" />
       </div>
 
       <div className="relative container-site pt-[clamp(6.5rem,11vw,10rem)]">
@@ -174,7 +176,7 @@ export function Footer({ year }: { year: ReactNode }) {
               {locations.map((l) => (
                 <li key={l.slug}>
                   <Link
-                    href={`/locations/${l.slug}`}
+                    href={l.href}
                     className="group inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:text-brand-700 max-xl:min-h-11"
                   >
                     {l.name}

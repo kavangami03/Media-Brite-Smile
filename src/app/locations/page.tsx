@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ChevronRight, MapPin, Phone, Star } from "lucide-react";
+import { MapPin, Phone, Star } from "lucide-react";
 import { locations, site } from "@/content/site";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
@@ -18,8 +17,8 @@ export const metadata: Metadata = {
 
 const stats = [
   { value: String(locations.length), label: "Communities served" },
-  { value: site.rating.score.toFixed(2), label: `Rating from ${site.rating.count} reviews`, star: true },
-  { value: String(site.since), label: "Caring for smiles since" },
+  { value: site.rating.score.toFixed(1), label: `Rating from ${site.rating.count} reviews`, star: true },
+  { value: "3", label: "Dentists under one roof" },
 ];
 
 export default function LocationsPage() {
@@ -31,23 +30,9 @@ export default function LocationsPage() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-40 -right-40 size-160 rounded-full bg-brand-200/50 blur-[140px]"
+          className="pointer-events-none absolute -top-40 -right-40 size-160 rounded-full glow-blob text-brand-200/50"
         />
         <div className="relative container-site">
-          <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
-            <ol className="flex items-center gap-1.5">
-              <li>
-                <Link href="/" className="hover:text-ink">
-                  Home
-                </Link>
-              </li>
-              <ChevronRight className="size-3.5" aria-hidden="true" />
-              <li aria-current="page" className="font-medium text-ink">
-                Locations
-              </li>
-            </ol>
-          </nav>
-
           {/* ---------- intro ---------- */}
           <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-7">
@@ -94,7 +79,7 @@ export default function LocationsPage() {
                   sizes="(min-width:768px) 55vw, 100vw"
                   className="object-cover object-[50%_45%]"
                 />
-                <span className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-bold tracking-[0.14em] text-brand-700 uppercase shadow-soft backdrop-blur">
+                <span className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-bold tracking-[0.14em] text-brand-700 uppercase shadow-soft">
                   <span className="size-2 rounded-full bg-brand-500" /> We&apos;ve moved!
                 </span>
               </div>

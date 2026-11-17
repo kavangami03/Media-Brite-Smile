@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    "Media Brite Smile offers gentle family, cosmetic and implant dentistry in Media, PA. Mercury-free, minimally invasive care, same-day emergencies and new patients welcome. Call (610) 566-2711.",
+    "Family, cosmetic and implant dentistry in Media, PA. Three dentists, 4.9 stars from 375 Google reviews. Call (610) 566-2711 to book.",
   keywords: [
     "dentist Media PA",
     "family dentist Media",

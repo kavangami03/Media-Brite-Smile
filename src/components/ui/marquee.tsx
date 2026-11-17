@@ -28,7 +28,9 @@ export function Marquee({
     >
       <div
         className="flex w-max shrink-0 animate-marquee group-hover/marquee:[animation-play-state:paused]"
-        style={{ animationDuration: `${duration}s`, animationDirection: reverse ? "reverse" : "normal" } as CSSProperties}
+        style={
+          { animationDuration: `${duration}s`, animationDirection: reverse ? "reverse" : "normal" } as CSSProperties
+        }
       >
         <div className={cn("flex shrink-0", align)}>{children}</div>
         <div className={cn("flex shrink-0", align)} aria-hidden="true">

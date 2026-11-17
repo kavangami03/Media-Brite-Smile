@@ -15,30 +15,28 @@ export function Visit() {
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-5xl bg-linear-to-br from-brand-500 via-brand-600 to-brand-900">
             <div aria-hidden="true" className="absolute inset-0 -z-10">
-              <div className="absolute -top-32 -left-20 size-[30rem] rounded-full bg-glow/30 blur-[120px]" />
+              <div className="absolute -top-32 -left-20 size-[30rem] rounded-full glow-blob text-glow/30" />
               <ToothWatermark size={520} className="absolute -bottom-40 left-[38%] text-white/[0.07]" />
             </div>
             <div className="grid grid-cols-1 items-center lg:grid-cols-2">
               <div className="p-6 pt-2 pb-10 sm:p-8 sm:pt-4 sm:pb-12 md:p-16 lg:py-16">
-                <p className="text-xs font-bold tracking-[0.2em] text-brand-100 uppercase">
-                  Now welcoming new patients
-                </p>
+                <p className="text-xs font-bold tracking-[0.2em] text-brand-100 uppercase">New patients welcome</p>
                 <SplitReveal as="h2" id="visit-heading" className="mt-5 text-display-lg font-bold text-white">
-                  Ready for your <span className="accent-serif text-glow">brightest</span> smile?
+                  Book a check-up in <span className="accent-serif text-glow">Media, PA</span>
                 </SplitReveal>
                 <p className="mt-6 max-w-md text-lg text-brand-50/85">
-                  Drs. Zan, Suvagiya and Makani offer treatments that keep your mouth healthy and your smile beautiful.
-                  Contact us today.
+                  One practice for check-ups, gum care, cosmetic work and implants. Three dentists, appointments from
+                  8am, and the cost explained before treatment starts.
                 </p>
                 <div className="mt-10 flex flex-wrap gap-3">
                   <Button href={site.bookingHref} variant="white" size="lg">
-                    Book an Appointment
+                    Request an Appointment
                   </Button>
                   <a
                     href={site.phone.href}
                     className="flex h-14 items-center gap-3 rounded-full border border-white/30 px-7 font-semibold text-white transition-colors hover:bg-white/10"
                   >
-                    <Phone className="size-4" /> {site.phone.display}
+                    <Phone className="size-4" /> Call {site.phone.display}
                   </a>
                 </div>
               </div>
@@ -90,17 +88,17 @@ export function Visit() {
                   </li>
                   <li className="flex gap-4">
                     <Siren className="mt-0.5 size-5 shrink-0 text-brand-400" />
-                    <span>Call us for a same-day emergency appointment</span>
+                    <span>In pain? Call and we will tell you how soon you need to be seen.</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Proudly serving</p>
+                <p className="text-sm font-semibold text-white">Towns we serve</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {locations.map((l) => (
                     <Link
                       key={l.slug}
-                      href={`/locations/${l.slug}`}
+                      href={l.href}
                       className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/75 transition-colors hover:border-brand-400 hover:bg-white/10 hover:text-white"
                     >
                       {l.name}

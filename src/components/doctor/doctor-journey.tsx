@@ -31,13 +31,13 @@ export function DoctorJourney({ doctor, profile }: { doctor: Doctor; profile: Do
             scale: 0,
             duration: 0.6,
             ease: "back.out(2.4)",
-            scrollTrigger: { trigger: s, start: desktop ? "top 70%" : "top 80%", once: true },
+            scrollTrigger: { trigger: s, start: desktop ? "top 70%" : "top 80%", toggleActions: "play none none none" },
           });
           gsap.from(s.querySelector("[data-card]"), {
             y: 30,
             opacity: 0,
             duration: 0.9,
-            scrollTrigger: { trigger: s, start: desktop ? "top 70%" : "top 80%", once: true },
+            scrollTrigger: { trigger: s, start: desktop ? "top 70%" : "top 80%", toggleActions: "play none none none" },
           });
         });
       });

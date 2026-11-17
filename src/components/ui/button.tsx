@@ -15,8 +15,8 @@ type Size = "md" | "lg";
 const base: Record<Variant, string> = {
   primary: "bg-brand-500 text-white shadow-glow",
   dark: "bg-ink text-white",
-  outline: "bg-white/70 text-ink ring-1 ring-ink/15 backdrop-blur",
-  "outline-light": "bg-white/5 text-white ring-1 ring-white/30 backdrop-blur",
+  outline: "bg-white/85 text-ink ring-1 ring-ink/15",
+  "outline-light": "bg-white/10 text-white ring-1 ring-white/30",
   white: "bg-white text-ink shadow-soft",
   ghost: "text-ink",
 };
@@ -53,7 +53,7 @@ export function Button({ variant = "primary", size = "md", icon, children, class
   return (
     <Link
       className={cn(
-        "group/btn relative isolate inline-flex items-center justify-between gap-3 overflow-hidden rounded-full max-w-full font-semibold tracking-[-0.01em] transition-colors duration-500 focus-visible:outline-2 focus-visible:outline-offset-4",
+        "group/btn relative isolate inline-flex max-w-full items-center justify-between gap-3 overflow-hidden rounded-full font-semibold tracking-[-0.01em] transition-colors duration-500 focus-visible:outline-2 focus-visible:outline-offset-4",
         isGhost ? "h-auto" : s.h,
         isGhost ? "" : showIcon ? s.pl : "px-7",
         s.text,

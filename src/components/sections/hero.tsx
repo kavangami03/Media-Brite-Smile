@@ -24,7 +24,7 @@ type Tile =
   | { kind: "quote"; text: string; name: string }
   | { kind: "offer" }
   | { kind: "emergency" }
-  | { kind: "since" };
+  | { kind: "team" };
 
 const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?: string }[] = [
   {
@@ -104,7 +104,7 @@ const columns: { tiles: Tile[]; duration: number; reverse?: boolean; className?:
         shape: "arch",
         pos: "62% 40%",
       },
-      { kind: "since" },
+      { kind: "team" },
       {
         kind: "photo",
         src: "/images/services/teeth-whitening.jpg",
@@ -147,7 +147,7 @@ function TileView({ tile }: { tile: Tile }) {
             style={{ objectPosition: tile.pos }}
           />
           {tile.label && (
-            <span className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 px-3 py-1.5 text-center text-xs font-semibold text-ink backdrop-blur">
+            <span className="absolute inset-x-3 bottom-3 rounded-full bg-white/90 px-3 py-1.5 text-center text-xs font-semibold text-ink">
               {tile.label}
             </span>
           )}
@@ -202,16 +202,18 @@ function TileView({ tile }: { tile: Tile }) {
           <span className="relative grid size-12 place-items-center rounded-2xl bg-rose-50 text-rose-500">
             <Siren className="size-5" />
           </span>
-          <p className="mt-4 text-lg font-bold tracking-tight text-ink sm:text-xl">Same-day emergencies</p>
+          <p className="mt-4 text-[0.9375rem] font-bold tracking-tight text-ink min-[375px]:text-lg sm:text-xl">
+            Dental emergency? Call us
+          </p>
           <p className="mt-1 text-sm font-semibold text-brand-600">{site.phone.display}</p>
         </a>
       );
-    case "since":
+    case "team":
       return (
         <div className="rounded-4xl bg-mist p-4 ring-1 ring-brand-100 sm:p-6">
           <BrandTooth size={30} />
-          <p className="mt-4 text-4xl font-bold tracking-tighter text-ink sm:text-5xl">{site.since}</p>
-          <p className="mt-1 text-sm text-body">Caring for Media families since</p>
+          <p className="mt-4 text-4xl font-bold tracking-tighter text-ink sm:text-5xl">3</p>
+          <p className="mt-1 text-sm text-body">Dentists in one practice</p>
         </div>
       );
   }
@@ -222,7 +224,7 @@ function SmileColumn({ tiles, duration, reverse }: { tiles: Tile[]; duration: nu
   return (
     <div className="group/col -mx-3 h-full overflow-hidden px-3">
       <div
-        className="flex animate-marquee-y flex-col gap-4 group-hover/col:[animation-play-state:paused]"
+        className="flex animate-marquee-y flex-col gap-4 will-change-transform group-hover/col:[animation-play-state:paused]"
         style={{ animationDuration: `${duration}s`, animationDirection: reverse ? "reverse" : "normal" }}
       >
         {[0, 1].map((copy) => (
@@ -305,8 +307,8 @@ export function Hero() {
   return (
     <section ref={root} className="relative overflow-hidden bg-pearl pt-32 lg:pt-28" aria-labelledby="hero-title">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-40 size-160 rounded-full bg-brand-200/45 blur-[140px]" />
-        <div className="absolute right-0 bottom-0 size-140 rounded-full bg-glow/20 blur-[140px]" />
+        <div className="absolute -top-40 -left-40 size-160 rounded-full glow-blob text-brand-200/45" />
+        <div className="absolute right-0 bottom-0 size-140 rounded-full glow-blob text-glow/20" />
       </div>
 
       <div className="relative container-site grid grid-cols-1 items-center gap-12 lg:min-h-[min(100svh,58rem)] lg:grid-cols-12 lg:gap-10">
@@ -318,18 +320,19 @@ export function Hero() {
             </Eyebrow>
           </motion.div>
           <h1 id="hero-title" data-hero-title className="gsap-hidden mt-7 text-display-xl font-bold text-ink">
-            Brighter smiles, <span className="text-gradient-brand pr-1">gentler</span> care in Media, PA
+            Dentist in <span className="text-gradient-brand pr-1">Media, PA</span>
           </h1>
           <motion.p {...appear(0.3)} className="mt-7 max-w-xl text-lg leading-relaxed text-body lg:text-xl">
-            Since {site.since}, our Media dentists have helped patients of all ages achieve strong, beautiful smiles
-            using modern technology, safe biocompatible materials and a genuinely caring approach.
+            {site.name} is a family, cosmetic and implant dental practice at 8 N Pennell Rd in Media, Pennsylvania,
+            serving Delaware County. Check-ups through to implants, handled by three dentists in one place. New patients
+            welcome.
           </motion.p>
           <motion.div {...appear(0.45)} className="mt-9 flex flex-wrap items-center gap-3">
             <Button href={site.bookingHref} size="lg">
-              Book an Appointment
+              Request an Appointment
             </Button>
             <Button href={site.phone.href} variant="outline" size="lg" icon={<Phone className="size-4" />}>
-              {site.phone.display}
+              Call {site.phone.display}
             </Button>
           </motion.div>
         </div>
@@ -337,8 +340,21 @@ export function Hero() {
         {/* ---------------- Right: wall of smiles (desktop) ---------------- */}
         <div
           data-wall
-          className="relative grid h-[30rem] grid-cols-2 gap-3 mask-[linear-gradient(180deg,transparent,#000_12%,#000_88%,transparent)] sm:h-[38rem] sm:gap-4 lg:col-span-6 lg:h-[min(88svh,52rem)] xl:grid-cols-3"
+          /* grid-rows-1 sizes the row to the wall, so each column is clipped at the wall's edge
+             (an auto row grew to the full photo stack and spilled below the bottom fade);
+             on desktop the wall sits on the service ribbon, so no empty band shows between them */
+          className="relative grid h-[30rem] grid-cols-2 grid-rows-1 gap-3 sm:h-[38rem] sm:gap-4 lg:col-span-6 lg:h-[min(88svh,52rem)] lg:self-end xl:grid-cols-3"
         >
+          {/* Edge fades: static overlays instead of a mask-image on the moving wall (a mask on
+              animated content is recomposited every frame and cost ~5ms per frame) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[12%] bg-linear-to-b from-pearl to-transparent"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[12%] bg-linear-to-t from-pearl to-transparent"
+          />
           {columns.map((c, i) => (
             <div key={i} data-wall-col className={cn("h-full", c.className)}>
               <SmileColumn tiles={c.tiles} duration={c.duration} reverse={c.reverse} />

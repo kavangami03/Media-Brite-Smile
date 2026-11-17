@@ -7,6 +7,45 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ScrubText } from "@/components/motion/scrub-text";
 import { cn } from "@/lib/utils";
 
+/** Chapter copy: blank lines split paragraphs, "- " lines become a bullet list. */
+function ChapterText({ text }: { text: string }) {
+  return (
+    <div className="mt-3 space-y-4">
+      {text.split("\n\n").map((block, i) => {
+        const lines = block.split("\n");
+        if (lines.every((l) => l.startsWith("- ")))
+          return (
+            <ul key={i} className="space-y-3">
+              {lines.map((l) => {
+                const t = l.slice(2);
+                const m = t.match(/^([^.]{3,48})\.\s+(.+)$/);
+                return (
+                  <li key={t} className="flex gap-3 text-lg leading-relaxed">
+                    <span className="mt-2.5 size-2 shrink-0 rounded-full bg-brand-500" />
+                    <span>
+                      {m ? (
+                        <>
+                          <strong className="font-semibold text-ink">{m[1]}.</strong> {m[2]}
+                        </>
+                      ) : (
+                        t
+                      )}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        return (
+          <p key={i} className="text-lg leading-relaxed">
+            {block}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 /**
  * The full bio as an editorial read: a scroll-lit statement, then chapters
  * with a sticky index that tracks the chapter in view.
@@ -120,7 +159,7 @@ export function DoctorStory({ doctor, profile }: { doctor: Doctor; profile: Doct
                 </span>
                 <div>
                   <h3 className="text-2xl font-bold tracking-tight">{c.title}</h3>
-                  <p className="mt-3 text-lg leading-relaxed">{c.text}</p>
+                  <ChapterText text={c.text} />
                 </div>
               </article>
             ))}

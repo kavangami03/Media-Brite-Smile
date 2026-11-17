@@ -56,21 +56,23 @@ export function Comfort() {
   const [active, setActive] = useState(DEFAULT_PANEL);
 
   return (
-    <section className="section-y relative overflow-hidden bg-white" aria-labelledby="comfort-heading">
+    <section className="relative overflow-hidden bg-white section-y" aria-labelledby="comfort-heading">
       <div className="container-site">
         {/* Header */}
-        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+        <div className="grid grid-cols-1 items-end gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-8">
             <Eyebrow>Your Comfort</Eyebrow>
             <SplitReveal as="h2" id="comfort-heading" className="mt-6 text-display-md font-bold">
               Dentistry that puts <span className="text-brand-500">you</span> first
             </SplitReveal>
+            <Reveal>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed">
+                At {site.name}, your comfort is our foremost priority. We take the time to hear your concerns,
+                understand your needs and build a relationship you can trust.
+              </p>
+            </Reveal>
           </div>
-          <Reveal className="flex flex-col items-start gap-6 lg:col-span-5">
-            <p className="text-lg leading-relaxed">
-              At {site.name}, your comfort is our foremost priority. We take the time to hear your concerns, understand
-              your needs and build a relationship you can trust.
-            </p>
+          <Reveal className="lg:col-span-4 lg:justify-self-end">
             <Button href="/patient-information/why-choose-us" variant="dark">
               Why choose us
             </Button>
@@ -100,18 +102,23 @@ export function Comfort() {
                   alt={alt}
                   fill
                   sizes="(min-width:1024px) 60vw, 100vw"
-                  className={cn("object-cover transition-transform duration-[1.2s] ease-out-expo", on ? "scale-100" : "scale-110")}
+                  className={cn(
+                    "object-cover transition-transform duration-[1.2s] ease-out-expo",
+                    on ? "scale-100" : "scale-110",
+                  )}
                 />
                 {/* tint: strong when collapsed, gentle when open */}
                 <span
                   className={cn(
                     "absolute inset-0 transition-colors duration-700",
-                    on ? "bg-linear-to-t from-ink/85 via-ink/20 to-transparent" : "bg-brand-900/70 group-hover:bg-brand-800/60",
+                    on
+                      ? "bg-linear-to-t from-ink/85 via-ink/20 to-transparent"
+                      : "bg-brand-900/70 group-hover:bg-brand-800/60",
                   )}
                 />
 
                 {/* icon + number */}
-                <span className="absolute top-6 left-6 grid size-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-md">
+                <span className="absolute top-6 left-6 grid size-11 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30">
                   <Icon className="size-5" />
                 </span>
                 <span className="absolute top-7 right-6 text-xs font-semibold text-white/70 tabular-nums">

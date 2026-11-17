@@ -38,7 +38,9 @@ export function ImageReveal({
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const tl = gsap.timeline({
           delay,
-          scrollTrigger: immediate ? undefined : { trigger: el, start: "top 85%", once: true },
+          scrollTrigger: immediate
+            ? undefined
+            : { trigger: el, start: "top 85%", toggleActions: "play none none none" },
         });
         tl.fromTo(
           el,

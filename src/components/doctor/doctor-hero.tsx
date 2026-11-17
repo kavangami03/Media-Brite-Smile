@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { doctors, site } from "@/content/site";
 import type { Doctor, DoctorProfile } from "@/content/doctors";
 import { Button } from "@/components/ui/button";
@@ -21,31 +21,11 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
   return (
     <section className="relative bg-pearl pt-30 pb-10 lg:pt-36 lg:pb-14" aria-labelledby="doctor-name">
       <div className="container-site">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
-          <ol className="flex flex-wrap items-center gap-1.5">
-            <li>
-              <Link href="/" className="hover:text-ink">
-                Home
-              </Link>
-            </li>
-            <ChevronRight className="size-3.5" aria-hidden="true" />
-            <li>
-              <Link href="/about-us" className="hover:text-ink">
-                About
-              </Link>
-            </li>
-            <ChevronRight className="size-3.5" aria-hidden="true" />
-            <li aria-current="page" className="font-medium text-ink">
-              {doctor.name}
-            </li>
-          </ol>
-        </nav>
-
         <div className="relative isolate overflow-hidden rounded-5xl bg-ink text-white">
           {/* decor */}
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -top-40 -left-32 size-140 rounded-full bg-brand-500/25 blur-[140px]" />
-            <div className="absolute right-0 -bottom-48 size-120 rounded-full bg-glow/15 blur-[140px]" />
+            <div className="absolute -top-40 -left-32 size-140 rounded-full glow-blob text-brand-500/25" />
+            <div className="absolute right-0 -bottom-48 size-120 rounded-full glow-blob text-glow/15" />
             <ToothWatermark size={620} className="absolute -right-40 -bottom-40 text-white/3" />
           </div>
 
@@ -57,7 +37,7 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
                 as="h1"
                 id="doctor-name"
                 immediate
-                className="mt-6 text-display-lg font-bold wrap-anywhere text-white"
+                className="mt-6 text-display-lg font-bold wrap-anywhere text-white max-[375px]:text-[2.125rem]"
               >
                 {given} <span className="text-gradient-brand">{surname}</span>
               </SplitReveal>
@@ -74,16 +54,16 @@ export function DoctorHero({ doctor, profile }: { doctor: Doctor; profile: Docto
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">{profile.lead}</p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button href={site.bookingHref} size="lg">
-                    Book with {doctor.short}
+                    {profile.bookLabel}
                   </Button>
                   <Button href={site.phone.href} variant="outline-light" size="lg" icon={<Phone className="size-4" />}>
-                    {site.phone.display}
+                    Call {site.phone.display}
                   </Button>
                 </div>
               </Reveal>
 
               <Reveal delay={0.3}>
-                <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-3">
+                <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-3xl bg-white/10 sm:grid-cols-3 lg:max-[1200px]:grid-cols-1">
                   {profile.facts.map((f) => (
                     <div key={f.label} className="bg-ink/80 p-5">
                       <dt className="text-xs font-semibold tracking-[0.16em] text-glow uppercase">{f.label}</dt>

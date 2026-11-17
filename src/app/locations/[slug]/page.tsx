@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { doctors, getLocalFaqs, getLocation, locations, site } from "@/content/site";
-import { LocationHero } from "@/components/location/location-hero";
-import { WhyLocal } from "@/components/location/why-local";
-import { CareGrid } from "@/components/location/care-grid";
-import { LocalFaq } from "@/components/location/local-faq";
+import { getLocation, locations, site } from "@/content/site";
+import { getTown } from "@/content/towns";
+import { TownHero } from "@/components/location/town-hero";
+import { TownGuide } from "@/components/location/town-guide";
+import { TownFaq } from "@/components/location/town-faq";
 import { NearbyAreas } from "@/components/location/nearby-areas";
+import { CtaBand } from "@/components/page/cta-band";
 import { Doctors } from "@/components/sections/doctors";
-import { Reviews } from "@/components/sections/reviews";
 import { Offers } from "@/components/sections/offers";
-import { Visit } from "@/components/sections/visit";
+import { JsonLd, pageSchema } from "@/lib/schema";
 
 /**
- * Every location page is fully prerendered from generateStaticParams, so the
- * whole page may wait on `params` (no partial shell needed).
+ * Town pages. Served at the sitemap URL /dentist-{town}-pa (rewrite in next.config.ts);
+ * every word of copy comes from that town's approved draft (src/content/towns.ts).
  */
 export const instant = false;
 
@@ -24,85 +24,56 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/locations/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const loc = getLocation(slug);
-  if (!loc) return {};
-  const title = loc.isHome ? "Dentist in Media, PA" : `Dentist Near ${loc.name}, PA`;
-  const description = `Family, cosmetic and implant dentistry for patients from ${loc.name}, PA. Media Brite Smile at ${site.address.full}. New patients welcome, same-day emergencies. Call ${site.phone.display}.`;
+  const town = getTown(slug);
+  if (!loc || !town) return {};
   return {
-    title,
-    description,
-    alternates: { canonical: `/locations/${loc.slug}` },
-    openGraph: { title: `${title} | ${site.name}`, description, url: `/locations/${loc.slug}` },
+    title: { absolute: town.title },
+    description: town.description,
+    alternates: { canonical: loc.href },
+    openGraph: { title: town.title, description: town.description, url: loc.href },
   };
 }
 
-export default async function LocationPage({ params }: PageProps<"/locations/[slug]">) {
+export default async function TownPage({ params }: PageProps<"/locations/[slug]">) {
   const { slug } = await params;
   const loc = getLocation(slug);
-  if (!loc) notFound();
+  const town = getTown(slug);
+  if (!loc || !town) notFound();
 
-  const localFaqs = getLocalFaqs(loc);
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
+  const jsonLd = pageSchema({
+    path: loc.href,
+    name: town.title,
+    description: town.description,
+    crumbs: [
+      { label: "Home", href: "/" },
+      { label: "Areas We Serve", href: "/areas-we-serve" },
+      { label: `Dentist near ${town.name}, PA` },
+    ],
+    faqs: town.faqs,
+    extra: [
       {
         "@type": "Dentist",
         "@id": `${site.url}/#dentist`,
-        name: site.name,
-        url: site.url,
-        telephone: "+1-610-566-2711",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: site.address.street,
-          addressLocality: site.address.city,
-          addressRegion: site.address.region,
-          postalCode: site.address.zip,
-          addressCountry: "US",
-        },
-        geo: { "@type": "GeoCoordinates", latitude: site.address.geo.lat, longitude: site.address.geo.lng },
-        areaServed: { "@type": "City", name: `${loc.name}, PA` },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: site.rating.score,
-          reviewCount: site.rating.count,
-          bestRating: 5,
-        },
-        employee: doctors.map((d) => ({ "@type": "Person", name: d.name, honorificSuffix: d.credential, jobTitle: "Dentist" })),
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: site.url },
-          { "@type": "ListItem", position: 2, name: "Locations", item: `${site.url}/locations` },
-          { "@type": "ListItem", position: 3, name: `${loc.name}, PA`, item: `${site.url}/locations/${loc.slug}` },
-        ],
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: localFaqs.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
-        })),
+        areaServed: { "@type": "City", name: `${town.name}, PA`, postalCode: town.zip },
       },
     ],
-  };
+  });
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
-      />
-      <LocationHero location={loc} />
-      <WhyLocal location={loc} />
-      <CareGrid location={loc} />
+      <JsonLd data={jsonLd} />
+      <TownHero location={loc} town={town} />
+      <TownGuide town={town} />
       <Doctors />
-      <Reviews />
       <Offers />
-      <LocalFaq town={loc.name} items={localFaqs} />
+      <TownFaq town={town} />
       <NearbyAreas current={loc} />
-      <Visit />
+      <CtaBand
+        title={town.cta.title}
+        text={town.cta.text}
+        image="/images/office/office-41.jpg"
+        imageAlt={`The ${site.name} building on N Pennell Rd, Media PA`}
+      />
     </>
   );
 }

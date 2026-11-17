@@ -10,23 +10,29 @@ import { cn } from "@/lib/utils";
 
 export function Offers() {
   return (
-    <section className="section-y relative overflow-hidden bg-brand-950 text-white" aria-labelledby="offers-heading">
+    <section className="relative overflow-hidden bg-brand-950 section-y text-white" aria-labelledby="offers-heading">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -bottom-60 -left-40 size-[45rem] rounded-full bg-brand-500/25 blur-[160px]" />
-        <div className="absolute top-0 right-0 size-[30rem] rounded-full bg-glow/10 blur-[140px]" />
+        <div className="absolute -bottom-60 -left-40 size-[45rem] rounded-full glow-blob text-brand-500/25" />
+        <div className="absolute top-0 right-0 size-[30rem] rounded-full glow-blob text-glow/10" />
       </div>
 
-      <div className="container-site relative">
-        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-2">
-          <div>
+      <div className="relative container-site">
+        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-7">
             <Eyebrow tone="light">Special Offers</Eyebrow>
-            <SplitReveal as="h2" id="offers-heading" className="mt-6 text-display-lg font-bold text-white">
-              Smart ways to <span className="accent-serif text-brand-300">save</span> on your smile
+            <SplitReveal
+              as="h2"
+              id="offers-heading"
+              className="mt-6 max-w-3xl text-display-md font-bold text-balance text-white"
+            >
+              How do patients pay <span className="accent-serif text-brand-300">without</span> dental insurance?
             </SplitReveal>
           </div>
-          <Reveal className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-relaxed text-white/65">
-              Quality care should be accessible to everyone. Ask us to confirm the details of any offer when you book.
+          <Reveal className="lg:col-span-5 lg:justify-self-end">
+            <p className="max-w-lg text-lg leading-relaxed text-white/65">
+              Uninsured patients use the in-house Dental Savings Plan, and CareCredit spreads larger treatment monthly.
+              We also work with more than 40 dental plans and bill your insurer for you. Coverage depends on your
+              policy, so call with your plan name and we will check it before you book.
             </p>
           </Reveal>
         </div>
@@ -50,16 +56,25 @@ export function Offers() {
                     className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-white/40 to-transparent transition-transform duration-1000 ease-out-expo group-hover:translate-x-[300%]"
                   />
                   <div className="p-7 pb-6">
-                    <p className={cn("text-xs font-bold tracking-[0.18em] uppercase", featured ? "text-brand-50" : "text-brand-600")}>
+                    <p
+                      className={cn(
+                        "text-xs font-bold tracking-[0.18em] uppercase",
+                        featured ? "text-brand-50" : "text-brand-600",
+                      )}
+                    >
                       {featured ? "New patients" : "Limited offer"}
                     </p>
                     <p className="mt-4 flex items-baseline gap-2">
                       <span className="text-6xl font-bold tracking-[-0.05em]">{o.value}</span>
-                      <span className={cn("text-sm font-bold uppercase", featured ? "text-brand-50" : "text-brand-500")}>
+                      <span
+                        className={cn("text-sm font-bold uppercase", featured ? "text-brand-50" : "text-brand-500")}
+                      >
                         {o.unit}
                       </span>
                     </p>
-                    <h3 className={cn("mt-2 text-xl font-semibold tracking-tight", featured ? "text-white" : "text-ink")}>
+                    <h3
+                      className={cn("mt-2 text-xl font-semibold tracking-tight", featured ? "text-white" : "text-ink")}
+                    >
                       {o.title}
                     </h3>
                   </div>
@@ -77,7 +92,9 @@ export function Offers() {
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between gap-6 p-7 pt-5">
-                    <p className={cn("text-sm leading-relaxed", featured ? "text-brand-50/90" : "text-body")}>{o.detail}</p>
+                    <p className={cn("text-sm leading-relaxed", featured ? "text-brand-50/90" : "text-body")}>
+                      {o.detail}
+                    </p>
                     <span className="flex items-center gap-2 text-sm font-semibold">
                       Claim this offer
                       <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
@@ -113,7 +130,10 @@ export function Offers() {
             </div>
 
             <div className="relative flex flex-col justify-center gap-6 overflow-hidden bg-linear-to-br from-brand-500 to-brand-800 p-7 text-white md:p-9 lg:col-span-5">
-              <div aria-hidden="true" className="absolute -top-24 -right-24 size-72 rounded-full border-[40px] border-white/10" />
+              <div
+                aria-hidden="true"
+                className="absolute -top-24 -right-24 size-72 rounded-full border-[40px] border-white/10"
+              />
               <div className="relative">
                 <p className="text-sm font-semibold text-brand-50/90">Membership pricing</p>
                 <div className="mt-3 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
@@ -125,7 +145,12 @@ export function Offers() {
                         i === 0 ? "bg-white text-ink shadow-lift" : "bg-white/15 text-white ring-1 ring-white/30",
                       )}
                     >
-                      <p className={cn("text-xs font-bold tracking-[0.16em] uppercase", i === 0 ? "text-brand-600" : "text-brand-50")}>
+                      <p
+                        className={cn(
+                          "text-xs font-bold tracking-[0.16em] uppercase",
+                          i === 0 ? "text-brand-600" : "text-brand-50",
+                        )}
+                      >
                         {p.label}
                       </p>
                       <p className="text-4xl font-bold tracking-[-0.05em] min-[420px]:mt-1.5">${p.price}</p>
@@ -172,7 +197,7 @@ export function Offers() {
             <RevealItem key={title} className="h-full">
               <SpotlightCard href={href}>
                 <div className="flex h-full gap-5">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-linear-to-br from-brand-400 to-brand-600 text-white shadow-glow transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-105">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-linear-to-br from-brand-400 to-brand-600 text-white shadow-glow transition-transform duration-500 group-hover:scale-105 group-hover:-rotate-6">
                     <Icon className="size-5" />
                   </span>
                   <div className="flex min-w-0 flex-1 flex-col">

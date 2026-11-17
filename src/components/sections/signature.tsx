@@ -66,10 +66,10 @@ export function Signature() {
   }
 
   return (
-    <section className="section-y relative overflow-hidden bg-ink text-white" aria-labelledby="signature-heading">
+    <section className="relative overflow-hidden bg-ink section-y text-white" aria-labelledby="signature-heading">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-60 right-0 size-200 rounded-full bg-brand-500/20 blur-[160px]" />
-        <div className="absolute -bottom-60 -left-40 size-160 rounded-full bg-glow/10 blur-[160px]" />
+        <div className="absolute -top-60 right-0 size-200 rounded-full glow-blob text-brand-500/20" />
+        <div className="absolute -bottom-60 -left-40 size-160 rounded-full glow-blob text-glow/10" />
       </div>
 
       <div className="relative container-site grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
@@ -82,8 +82,8 @@ export function Signature() {
             </SplitReveal>
             <Reveal>
               <p className="mt-5 max-w-md text-lg leading-relaxed text-white/70">
-                Life-changing implants, invisible aligners and natural-looking cosmetic work, planned with 3D imaging and
-                placed with precision.
+                Life-changing implants, invisible aligners and natural-looking cosmetic work, planned with 3D imaging
+                and placed with precision.
               </p>
               <Button href="/special-offers" variant="white" className="mt-8">
                 See all special offers
@@ -100,7 +100,11 @@ export function Signature() {
           onPointerLeave={() => setHovered(null)}
         >
           {/* Floating preview (desktop) */}
-          <motion.div aria-hidden="true" style={{ x, y }} className="pointer-events-none absolute top-0 left-0 z-20 hidden lg:block">
+          <motion.div
+            aria-hidden="true"
+            style={{ x, y }}
+            className="pointer-events-none absolute top-0 left-0 z-20 hidden lg:block"
+          >
             <AnimatePresence>
               {hovered !== null && (
                 <motion.div

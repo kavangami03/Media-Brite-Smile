@@ -20,10 +20,10 @@ export function NearbyAreas({ current }: { current: Location }) {
             </SplitReveal>
           </div>
           <Link
-            href="/locations"
-            className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
+            href="/areas-we-serve"
+            className="inline-flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
           >
-            All locations <ArrowUpRight className="size-4" />
+            All areas <ArrowUpRight className="size-4" />
           </Link>
         </div>
 
@@ -31,7 +31,7 @@ export function NearbyAreas({ current }: { current: Location }) {
           {others.map((l, i, all) => (
             <RevealItem key={l.slug}>
               <Link
-                href={`/locations/${l.slug}`}
+                href={l.href}
                 className={
                   l.isHome
                     ? "group relative flex h-full min-h-36 flex-col justify-between gap-6 overflow-hidden rounded-3xl bg-brand-500 p-5 text-white shadow-glow sm:p-6"
@@ -75,7 +75,7 @@ export function NearbyAreas({ current }: { current: Location }) {
                     {l.name}
                   </p>
                   <p className={l.isHome ? "mt-1 text-sm text-brand-50" : "mt-1 text-sm text-muted"}>
-                    {l.isHome ? site.address.street : "Pennsylvania"}
+                    {l.isHome ? site.address.street : l.drive.time ? `${l.drive.time} drive` : "Next door"}
                   </p>
                 </div>
               </Link>
@@ -90,14 +90,17 @@ export function NearbyAreas({ current }: { current: Location }) {
                 <p className="mt-1 text-sm text-white/65">We welcome patients from all over the area.</p>
               </div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
-                <a href={site.phone.href} className="inline-flex items-center gap-2 text-glow hover:text-white">
+                <a
+                  href={site.phone.href}
+                  className="inline-flex min-h-11 items-center gap-2 text-glow hover:text-white"
+                >
                   <Phone className="size-4" /> {site.phone.display}
                 </a>
                 <a
                   href={site.address.directions}
                   target="_blank"
                   rel="noopener"
-                  className="inline-flex items-center gap-2 text-white/85 hover:text-white"
+                  className="inline-flex min-h-11 items-center gap-2 text-white/85 hover:text-white"
                 >
                   <Navigation className="size-4" /> Directions
                 </a>

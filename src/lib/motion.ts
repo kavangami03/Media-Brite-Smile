@@ -9,4 +9,5 @@ export const ease = {
 } as const;
 
 /** Default viewport config for whileInView reveals */
-export const inView = { once: true, amount: 0.25 } as const;
+// "some" + a bottom margin: tall blocks (e.g. the sitemap list on phones) still reveal; short ones wait until 10% in.
+export const inView = { once: true, amount: "some", margin: "0px 0px -10% 0px" } as const;

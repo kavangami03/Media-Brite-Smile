@@ -49,24 +49,24 @@ export function Technology() {
   return (
     <section className="bg-white section-y" aria-labelledby="tech-heading">
       <div className="container-site">
-        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-2">
-          <div>
+        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-7">
             <Eyebrow>Advanced Technology</Eyebrow>
-            <SplitReveal as="h2" id="tech-heading" className="mt-6 text-display-lg font-bold">
-              Precision you can <span className="accent-serif text-brand-500">see</span>
+            <SplitReveal as="h2" id="tech-heading" className="mt-6 max-w-3xl text-display-md font-bold text-balance">
+              Why does this practice use <span className="accent-serif text-brand-500">microscopes</span>?
             </SplitReveal>
           </div>
-          <Reveal className="lg:justify-self-end">
+          <Reveal className="lg:col-span-5 lg:justify-self-end">
             <p className="max-w-lg text-lg leading-relaxed">
-              Dentistry is micro-surgery. Using microscopes similar to the ones ophthalmologists use, we create
-              restorations with an incredibly precise fit and finish. That&apos;s a level of care you can&apos;t achieve
-              with the naked eye.
+              A crown or filling usually fails at the margin, where the restoration meets the tooth. A gap too small to
+              see with the naked eye is large enough for bacteria. Restorative work here is prepared and checked under
+              high-powered microscopes, so that join is worked on magnified.
             </p>
           </Reveal>
         </div>
 
         <RevealGroup
-          className="mt-16 grid grid-cols-1 auto-rows-[17rem] gap-4 md:grid-cols-2 lg:auto-rows-[15.5rem] lg:grid-cols-12"
+          className="mt-16 grid auto-rows-[17rem] grid-cols-1 gap-4 md:grid-cols-2 lg:auto-rows-[15.5rem] lg:grid-cols-12"
           stagger={0.07}
         >
           {/* Video tile */}
@@ -98,7 +98,7 @@ export function Technology() {
                     Step inside our new office
                   </h3>
                 </div>
-                <span className="hidden items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm backdrop-blur md:flex">
+                <span className="hidden items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm md:flex">
                   <Volume2 className="size-4" /> Watch video
                 </span>
               </div>
@@ -110,7 +110,7 @@ export function Technology() {
               src="/images/office/cbct-scanner.webp"
               alt="CBCT 3D imaging system"
               title="CBCT 3D imaging"
-              text="Detailed 3D scans for digital implant planning and guided surgery."
+              text="Implant cases are planned in 3D with guided surgery, so the position is worked out before the appointment."
             />
           </RevealItem>
 
@@ -124,7 +124,8 @@ export function Technology() {
               <div className="relative">
                 <h3 className="text-2xl font-semibold tracking-tight text-white">High-power microscopes</h3>
                 <p className="mt-2 max-w-sm text-sm text-brand-50/85">
-                  Light is focused directly on the teeth for precise close-up work while minimizing glare for you.
+                  Fillings, crowns and other restorations are prepared and checked magnified, right where they meet the
+                  tooth.
                 </p>
               </div>
             </div>
@@ -132,11 +133,12 @@ export function Technology() {
 
           <RevealItem className="lg:col-span-4">
             <div className="flex size-full flex-col justify-between rounded-4xl border border-line bg-pearl p-8">
-              <span className="text-5xl font-bold tracking-tighter text-brand-500">Quieter.</span>
+              <span className="text-5xl font-bold tracking-tighter text-brand-500">No putty.</span>
               <div>
-                <h3 className="text-xl font-semibold tracking-tight">Electric handpieces</h3>
+                <h3 className="text-xl font-semibold tracking-tight">Intraoral scanner</h3>
                 <p className="mt-2 text-sm">
-                  Smoother than air-driven drills, for precise restorations with less vibration and less noise.
+                  Impressions are scanned rather than taken in putty. That fits better and avoids the gag reflex. X-rays
+                  are digital.
                 </p>
               </div>
             </div>
@@ -147,7 +149,7 @@ export function Technology() {
               src="/images/office/waiting-room-2.webp"
               alt="Our comfortable waiting area"
               title="Calm, modern spaces"
-              text="A relaxed, worry-free experience from the moment you arrive."
+              text="The new office on N Pennell Rd, open from 8am every weekday."
             />
           </RevealItem>
 
@@ -181,7 +183,7 @@ export function Technology() {
 
         <div className="mt-10 flex justify-center">
           <Button href="/patient-information/care-and-comfort/advanced-technology" variant="outline">
-            Explore our technology
+            The equipment we use and why it matters
           </Button>
         </div>
       </div>
@@ -192,7 +194,7 @@ export function Technology() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-80 grid place-items-center bg-ink/90 p-4 backdrop-blur-md"
+            className="fixed inset-0 z-80 grid place-items-center bg-ink/90 p-4"
             onClick={() => setVideo(false)}
             role="dialog"
             aria-modal="true"

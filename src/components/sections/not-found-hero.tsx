@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight, BadgePercent, MapPin, Phone, Stethoscope, Users } from "lucide-react";
-import { site } from "@/content/site";
+import { servicesHref, site } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ToothWatermark } from "@/components/ui/icons";
@@ -11,10 +11,10 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { useIntroReady } from "@/lib/intro";
 
 const quickLinks = [
-  { label: "Our services", href: "/services", icon: Stethoscope },
+  { label: "Our services", href: servicesHref, icon: Stethoscope },
   { label: "Meet our dentists", href: "/about-us", icon: Users },
   { label: "Special offers", href: "/special-offers", icon: BadgePercent },
-  { label: "Areas we serve", href: "/locations", icon: MapPin },
+  { label: "Areas we serve", href: "/areas-we-serve", icon: MapPin },
 ];
 
 /**
@@ -114,7 +114,7 @@ export function NotFoundHero() {
       {/* backdrop */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgb(0_158_203/0.14)_1px,transparent_0)] mask-[radial-gradient(ellipse_at_center,#000_30%,transparent_75%)] bg-size-[28px_28px]" />
-        <div className="absolute top-1/3 left-1/2 size-200 -translate-x-1/2 -translate-y-1/2 rounded-full bg-glow/25 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/2 size-200 -translate-x-1/2 -translate-y-1/2 rounded-full glow-blob text-glow/25" />
       </div>
 
       <div className="container-site flex flex-col items-center text-center">

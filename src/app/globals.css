@@ -209,6 +209,12 @@
   font-weight: inherit;
 }
 
+/* Soft colour glow. A radial gradient painted once, instead of filter: blur(140px),
+   which is re-rasterised on scroll and was the main cause of dropped frames. Colour = text colour. */
+@utility glow-blob {
+  background-image: radial-gradient(closest-side, currentColor, transparent);
+}
+
 /* Prevents FOUC on elements GSAP will animate in */
 @utility gsap-hidden {
   visibility: hidden;

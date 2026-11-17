@@ -2,37 +2,39 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { Leaf, Microscope, ScanLine, ShieldCheck, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, BadgeDollarSign, HeartHandshake, ListChecks, MessageCircle, ScanLine } from "lucide-react";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { SplitReveal } from "@/components/motion/split-reveal";
 import { ImageReveal } from "@/components/motion/image-reveal";
 import { gsap, useGSAP } from "@/lib/gsap";
 
+/* "What Happens at Your First Visit?" from the approved Home draft. */
 const pillars = [
   {
-    icon: Leaf,
-    title: "Mercury-free & metal-free",
-    text: "High-quality porcelain and composite restorations, plus metal-free crowns, bridges and fillings.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Biocompatible materials",
-    text: "We carefully test every material we use to ensure it's safe and compatible with your body.",
-  },
-  {
-    icon: Sparkles,
-    title: "Low-radiation digital X-rays",
-    text: "Digital imaging uses significantly less radiation, and we take diagnostic images only when necessary.",
-  },
-  {
     icon: ScanLine,
-    title: "iTero® digital impressions",
-    text: "Advanced intraoral scanning replaces goopy molds with comfortable, mess-free 3D impressions.",
+    title: "An examination, not treatment",
+    text: "A dentist examines your teeth and gums and takes any X-rays you are due. A first appointment is an examination and a conversation, not treatment on the day.",
   },
   {
-    icon: Microscope,
-    title: "Minimally invasive precision",
-    text: "High-power microscopes and electric handpieces mean precise fit, less vibration and less noise.",
+    icon: MessageCircle,
+    title: "Findings in plain words",
+    text: "You hear what was found in plain words, with the problems ranked by urgency.",
+  },
+  {
+    icon: ListChecks,
+    title: "Options before anything is booked",
+    text: "You get the treatment options with what each one involves, before anything is booked.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Been a while? Say so",
+    text: "If it has been years since your last visit, say so when you call. That changes how the appointment is paced. You will not get a lecture about the gap.",
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "$99 if you are uninsured",
+    text: "If you are new and uninsured, the New Patient Special is $99 instead of the usual $315.",
   },
 ];
 
@@ -46,7 +48,9 @@ export function Wellness() {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.utils.toArray<HTMLElement>("[data-pillar]", el).forEach((row) => {
-          const tl = gsap.timeline({ scrollTrigger: { trigger: row, start: "top 82%", once: true } });
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: row, start: "top 82%", toggleActions: "play none none none" },
+          });
           tl.from(row.querySelector("[data-line]"), { scaleX: 0, duration: 1.2, ease: "brite.inOut" })
             .from(row.querySelector("[data-icon]"), { scale: 0, rotate: -45, duration: 0.8, ease: "back.out(2)" }, 0.2)
             .from(row.querySelectorAll("[data-fade]"), { y: 24, opacity: 0, stagger: 0.08, duration: 0.9 }, 0.25);
@@ -64,18 +68,24 @@ export function Wellness() {
   );
 
   return (
-    <section ref={root} className="section-y relative bg-mist" aria-labelledby="wellness-heading">
+    <section ref={root} className="relative bg-mist section-y" aria-labelledby="wellness-heading">
       <div className="container-site grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
-            <Eyebrow>Holistic Approach</Eyebrow>
+            <Eyebrow>Your first visit</Eyebrow>
             <SplitReveal as="h2" id="wellness-heading" className="mt-6 text-display-md font-bold">
-              Dentistry designed for <span className="accent-serif text-brand-500">wellness</span> &amp; safety
+              What happens at your <span className="accent-serif text-brand-500">first visit</span>?
             </SplitReveal>
             <p className="mt-6 max-w-lg text-lg leading-relaxed">
-              Your well-being is at the center of everything we do. Our holistic approach emphasizes biocompatible,
-              mercury-free and minimally invasive care: modern treatment at the highest safety standards.
+              A first appointment is an examination and a conversation, not treatment on the day.
             </p>
+            <Link
+              href="/patient-information/new-patients"
+              className="group mt-5 inline-flex min-h-11 items-center gap-2 font-semibold text-brand-600 hover:text-brand-700"
+            >
+              What new patients need to know
+              <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
+            </Link>
 
             <div className="relative mt-12 pr-10 pb-16">
               <ImageReveal className="aspect-[4/3] rounded-4xl" direction="up">
@@ -108,7 +118,7 @@ export function Wellness() {
           {pillars.map(({ icon: Icon, title, text }, i) => (
             <li key={title} data-pillar className="group relative py-10 first:pt-0">
               <div className="flex gap-3 sm:gap-6 md:gap-10">
-                <span data-fade className="w-7 shrink-0 pt-2 sm:w-10 text-sm font-semibold text-muted tabular-nums">
+                <span data-fade className="w-7 shrink-0 pt-2 text-sm font-semibold text-muted tabular-nums sm:w-10">
                   0{i + 1}
                 </span>
                 <div className="min-w-0 flex-1">

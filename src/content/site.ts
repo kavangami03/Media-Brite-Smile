@@ -3,6 +3,7 @@
  * Every value below was taken from the live site (mediabritesmile.com).
  * Do not add figures here that the practice hasn't published.
  */
+import { towns } from "./towns";
 
 export const site = {
   name: "Media Brite Smile",
@@ -21,23 +22,44 @@ export const site = {
       "https://maps.google.com/maps?q=Media%20Brite%20Smile%2C%208%20N%20Pennell%20Rd%2C%20Media%2C%20PA%2019063&z=15&output=embed",
     geo: { lat: 39.9318304, lng: -75.3882651 },
   },
-  rating: { score: 4.93, count: 379 },
+  /** Client-confirmed 12 Nov 2026 (fact sheet rev 8). */
+  rating: { score: 4.9, count: 375 },
+  /** Google Business Profile: where patients read and leave reviews. */
+  gbp: "https://share.google/Z17lNb61NwzjEhpLz",
+  /** From /contact-us/. Friday alternates, so it is shown as text and never put in structured data. */
+  hours: [
+    { day: "Monday", short: "Mon", open: "8:00am", close: "3:00pm" },
+    { day: "Tuesday", short: "Tue", open: "8:00am", close: "5:00pm" },
+    { day: "Wednesday", short: "Wed", open: "8:00am", close: "5:00pm" },
+    { day: "Thursday", short: "Thu", open: "8:00am", close: "5:00pm" },
+    { day: "Friday", short: "Fri", open: "8:00am", close: "2:00pm", note: "Alternate Fridays" },
+    { day: "Saturday", short: "Sat", closed: true },
+    { day: "Sunday", short: "Sun", closed: true },
+  ] as { day: string; short: string; open?: string; close?: string; note?: string; closed?: boolean }[],
+  insurancePlans: 42,
   social: {
     facebook: "https://www.facebook.com/mediabritesmile",
     google:
       "https://www.google.com/maps/place/Media+Brite+Smile/@39.9318304,-75.3882651,15z/data=!4m6!3m5!1s0x89c6e9758c11ae31:0x619cd5cf2e3c3f8f!8m2!3d39.9318304!4d-75.3882651!16s%2Fg%2F1th7nv_f",
     yelp: "https://www.yelp.com/biz/media-brite-smile-media",
   },
-  bookingHref: "/contact-us",
+  bookingHref: "/patient-information/scheduling",
+  /** Town pages from the approved sitemap (Media is the office itself; Philadelphia is a mention only). */
   serviceAreas: [
-    "Media",
-    "Nether Providence",
-    "Upper Providence",
     "Rose Valley",
-    "Swarthmore",
-    "Brookhaven",
+    "Wallingford",
+    "Upper Providence",
     "Springfield",
-    "Philadelphia",
+    "Brookhaven",
+    "Swarthmore",
+    "Morton",
+    "Ridley Park",
+    "Clifton Heights",
+    "Glen Mills",
+    "Newtown Square",
+    "Broomall",
+    "Garnet Valley",
+    "Aston",
   ],
 } as const;
 
@@ -45,32 +67,167 @@ export const site = {
 /* Navigation                                                                 */
 /* -------------------------------------------------------------------------- */
 
-export type NavLink = { label: string; href: string };
-export type NavGroup = { label: string; href: string; links: NavLink[] };
+/* Every URL below comes from the approved sitemap (Keyword Map & Sitemap, 12-13 Nov 2026). */
 
+/** `note` is a short fact shown beside the link (e.g. a measured drive time). */
+export type NavLink = { label: string; href: string; note?: string };
+export type NavSection = { title: string; links: NavLink[] };
+export type NavGroup = { label: string; href: string; links: NavLink[]; sections?: NavSection[] };
+
+const group = (label: string, href: string, sections: NavSection[]): NavGroup => ({
+  label,
+  href,
+  sections,
+  links: sections.flatMap((s) => s.links),
+});
+
+/** Services index page (sitemap: Patient Info > Our Dental Services) */
+export const servicesHref = "/patient-information/services";
+
+const serviceSections = {
+  general: [
+    {
+      title: "Routine care",
+      links: [
+        { label: "Family Dentistry", href: "/preventative-care/family-dentistry" },
+        { label: "General Dentistry", href: "/preventative-care/general-dentistry" },
+        { label: "Teeth Cleaning & Check-Ups", href: "/preventative-care/teeth-cleaning-and-check-ups" },
+        { label: "Oral Hygiene", href: "/preventative-care/oral-hygiene" },
+        { label: "Fluoride Treatment", href: "/preventative-care/fluoride" },
+      ],
+    },
+    {
+      title: "Gum disease",
+      links: [
+        { label: "Gum Disease Treatment", href: "/preventative-care/gum-disease-treatment" },
+        { label: "Deep Teeth Cleaning", href: "/preventative-care/gum-disease-treatment/deep-teeth-cleaning" },
+        {
+          label: "Gum Disease Laser Therapy",
+          href: "/preventative-care/gum-disease-treatment/gum-disease-laser-therapy",
+        },
+        {
+          label: "Periodontal Maintenance",
+          href: "/preventative-care/gum-disease-treatment/periodontal-maintenance",
+        },
+        { label: "Arestin", href: "/preventative-care/arestin" },
+      ],
+    },
+    {
+      title: "Children & protection",
+      links: [
+        { label: "Child Dentistry", href: "/preventative-care/child-dentistry" },
+        { label: "Night Guards", href: "/preventative-care/night-guards" },
+      ],
+    },
+    {
+      title: "Urgent care",
+      links: [{ label: "Emergency Dentistry", href: "/preventative-care/emergency-dentistry" }],
+    },
+    {
+      title: "Diagnostics & technology",
+      links: [
+        { label: "Oral Cancer Screening", href: "/preventative-care/oral-cancer-screenings" },
+        { label: "Intraoral Scanner", href: "/preventative-care/intraoral-scanner" },
+        { label: "Digital X-Rays", href: "/preventative-care/digital-x-rays" },
+      ],
+    },
+    {
+      title: "Jaw & facial pain",
+      links: [{ label: "TMJ & TMD Treatment", href: "/tmj-tmd-treatment-media-pa" }],
+    },
+  ],
+  cosmetic: [
+    {
+      title: "Whitening & straightening",
+      links: [
+        { label: "Teeth Whitening", href: "/cosmetic-dentistry/teeth-whitening" },
+        { label: "Invisalign", href: "/cosmetic-dentistry/invisalign" },
+      ],
+    },
+    {
+      title: "Smile restoration",
+      links: [
+        { label: "Porcelain Veneers", href: "/cosmetic-dentistry/porcelain-veneers" },
+        { label: "Dental Bonding", href: "/cosmetic-dentistry/dental-bonding" },
+        { label: "Inlays & Onlays", href: "/cosmetic-dentistry/inlays-onlays" },
+      ],
+    },
+  ],
+  restorative: [
+    {
+      title: "Repair damaged teeth",
+      links: [
+        { label: "Dental Fillings", href: "/restorative-dentistry/dental-fillings" },
+        { label: "Dental Crowns", href: "/restorative-dentistry/dental-crowns" },
+        { label: "Dental Sealants", href: "/restorative-dentistry/dental-sealants" },
+      ],
+    },
+    {
+      title: "Replace missing teeth",
+      links: [
+        { label: "Dental Implants", href: "/restorative-dentistry/dental-implants" },
+        { label: "Full-Arch Implants (All-on-X)", href: "/restorative-dentistry/full-arch-dental-implants" },
+        { label: "Dental Bridges", href: "/restorative-dentistry/dental-bridges" },
+        { label: "Dentures", href: "/restorative-dentistry/dentures" },
+      ],
+    },
+    {
+      title: "Denture services",
+      links: [
+        { label: "Partial Dentures", href: "/restorative-dentistry/dentures/partial-dentures" },
+        { label: "Immediate Dentures", href: "/restorative-dentistry/dentures/immediate-dentures" },
+        {
+          label: "Implant-Retained Dentures",
+          href: "/restorative-dentistry/dentures/implant-retained-dentures",
+        },
+        { label: "Denture Relines", href: "/restorative-dentistry/dentures/denture-relines" },
+        { label: "Denture Care", href: "/restorative-dentistry/dentures/denture-care" },
+        { label: "Denture Rebase & Repairs", href: "/restorative-dentistry/rebase-repairs" },
+        { label: "Soft Liners", href: "/restorative-dentistry/dentures/soft-liners" },
+      ],
+    },
+    {
+      title: "Save or remove teeth",
+      links: [
+        { label: "Root Canal", href: "/restorative-dentistry/root-canal" },
+        { label: "Non-Surgical Root Canal", href: "/restorative-dentistry/non-surgical-root-canal" },
+        { label: "Tooth Extractions", href: "/restorative-dentistry/tooth-extractions" },
+        { label: "Wisdom Teeth Removal", href: "/restorative-dentistry/wisdom-teeth-removal" },
+      ],
+    },
+  ],
+} satisfies Record<string, NavSection[]>;
+
+/** Pick links by label from a category's sections (keeps one source of URLs). */
+const pick = (sections: NavSection[], labels: string[]) =>
+  labels.map((label) => sections.flatMap((s) => s.links).find((l) => l.label === label)!);
+
+/**
+ * The three treatment categories. `sections` is the full sitemap list (header menus);
+ * `links` is a shorter highlight list for page sections and the footer; `total` counts every page.
+ */
 export const serviceGroups = [
   {
     id: "general",
     label: "Preventive & Family",
-    title: "General & Preventive Dentistry",
-    blurb: "Exams, cleanings and gentle everyday care that keeps every generation healthy.",
+    title: "Preventative Care",
+    blurb: "Check-ups, cleanings, gum care and children's dentistry that keep every generation healthy.",
     href: "/preventative-care",
     image: "/images/hero/banner-4.jpg",
-    links: [
-      { label: "Family Dentistry", href: "/preventative-care" },
-      { label: "Exam & Cleaning", href: "/preventative-care/dental-exam-and-cleaning" },
-      { label: "Child Dentistry", href: "/preventative-care/child-dentistry" },
-      { label: "Emergency Dentistry", href: "/preventative-care/emergency-dentistry" },
-      { label: "Periodontal Maintenance", href: "/preventative-care/gum-disease-treatment/periodontal-maintenance" },
-      { label: "Deep Teeth Cleaning", href: "/preventative-care/gum-disease-treatment/deep-teeth-cleaning" },
-      {
-        label: "Gum Disease Laser Therapy",
-        href: "/preventative-care/gum-disease-treatment/gum-disease-laser-therapy",
-      },
-      { label: "Night Guards", href: "/preventative-care/night-guards" },
-      { label: "Fluoride", href: "/preventative-care/fluoride" },
-      { label: "Oral Cancer Screenings", href: "/preventative-care/oral-cancer-screenings" },
-    ],
+    sections: serviceSections.general,
+    total: serviceSections.general.flatMap((s) => s.links).length,
+    links: pick(serviceSections.general, [
+      "Family Dentistry",
+      "Teeth Cleaning & Check-Ups",
+      "Child Dentistry",
+      "Emergency Dentistry",
+      "Gum Disease Treatment",
+      "Deep Teeth Cleaning",
+      "Night Guards",
+      "TMJ & TMD Treatment",
+      "Fluoride Treatment",
+      "Oral Cancer Screening",
+    ]),
   },
   {
     id: "cosmetic",
@@ -79,60 +236,124 @@ export const serviceGroups = [
     blurb: "Natural-looking smile design, from whitening to porcelain veneers.",
     href: "/cosmetic-dentistry",
     image: "/images/services/cosmetic-dentistry.webp",
-    links: [
-      { label: "Teeth Whitening", href: "/cosmetic-dentistry/teeth-whitening" },
-      { label: "Invisalign", href: "/cosmetic-dentistry/invisalign" },
-      { label: "Porcelain Veneers", href: "/cosmetic-dentistry/porcelain-veneers" },
-      { label: "Dental Bonding", href: "/cosmetic-dentistry/dental-bonding" },
-      { label: "Inlays & Onlays", href: "/cosmetic-dentistry/inlays-onlays" },
-    ],
+    sections: serviceSections.cosmetic,
+    total: serviceSections.cosmetic.flatMap((s) => s.links).length,
+    links: serviceSections.cosmetic.flatMap((s) => s.links),
   },
   {
     id: "restorative",
     label: "Restorative & Implants",
-    title: "Restorative & Implant Dentistry",
-    blurb: "Rebuild strength and confidence with implants, crowns, bridges and dentures.",
+    title: "Restorative Dentistry",
+    blurb: "Implants, crowns, bridges, dentures and root canals, all handled in the same practice.",
     href: "/restorative-dentistry",
     image: "/images/services/dental-implants.jpg",
+    sections: serviceSections.restorative,
+    total: serviceSections.restorative.flatMap((s) => s.links).length,
+    links: pick(serviceSections.restorative, [
+      "Dental Implants",
+      "Full-Arch Implants (All-on-X)",
+      "Dental Crowns",
+      "Dental Bridges",
+      "Dentures",
+      "Dental Fillings",
+      "Root Canal",
+      "Tooth Extractions",
+      "Wisdom Teeth Removal",
+      "Denture Rebase & Repairs",
+    ]),
+  },
+];
+
+/** Areas We Serve. Drive times measured in Google Maps from 8 N Pennell Rd on 12 Nov 2026 (content plan). */
+export const areasNav = group("Areas We Serve", "/areas-we-serve", [
+  {
+    title: "Closest to the practice",
     links: [
-      { label: "Dental Implants", href: "/restorative-dentistry/dental-implants" },
-      { label: "Dental Crowns", href: "/restorative-dentistry/dental-crowns" },
-      { label: "Dental Bridges", href: "/restorative-dentistry/dental-bridges" },
-      { label: "Dentures", href: "/restorative-dentistry/dentures" },
-      { label: "Dental Fillings", href: "/restorative-dentistry/dental-fillings" },
-      { label: "Non-Surgical Root Canal", href: "/restorative-dentistry/non-surgical-root-canal" },
-      { label: "Tooth Extractions", href: "/restorative-dentistry/tooth-extractions" },
-      { label: "Dental Sealants", href: "/restorative-dentistry/dental-sealants" },
-      { label: "Rebase & Repairs", href: "/restorative-dentistry/rebase-repairs" },
-      { label: "Soft Liners", href: "/restorative-dentistry/soft-liners" },
+      { label: "Rose Valley", href: "/dentist-rose-valley-pa", note: "~6 min" },
+      { label: "Wallingford", href: "/dentist-wallingford-pa", note: "~8 min" },
+      { label: "Upper Providence", href: "/dentist-upper-providence-pa", note: "Next door" },
     ],
   },
-] as const;
+  {
+    title: "Lower Delaware County",
+    links: [
+      { label: "Springfield", href: "/dentist-springfield-pa", note: "~7 min" },
+      { label: "Brookhaven", href: "/dentist-brookhaven-pa", note: "~9 min" },
+      { label: "Swarthmore", href: "/dentist-swarthmore-pa", note: "~10 min" },
+      { label: "Morton", href: "/dentist-morton-pa", note: "~11 min" },
+      { label: "Ridley Park", href: "/dentist-ridley-park-pa", note: "~11 min" },
+      { label: "Clifton Heights", href: "/dentist-clifton-heights-pa", note: "~12 min" },
+    ],
+  },
+  {
+    title: "Western & northern Delco",
+    links: [
+      { label: "Glen Mills", href: "/dentist-glen-mills-pa", note: "~8 min" },
+      { label: "Newtown Square", href: "/dentist-newtown-square-pa", note: "~8 min" },
+      { label: "Broomall", href: "/dentist-broomall-pa", note: "~10 min" },
+      { label: "Garnet Valley", href: "/dentist-garnet-valley-pa", note: "~10 min" },
+      { label: "Aston", href: "/dentist-aston-pa", note: "~11 min" },
+    ],
+  },
+]);
 
 export const mainNav: (NavLink | NavGroup)[] = [
-  {
-    label: "About",
-    href: "/about-us",
-    links: [
-      { label: "Meet Dr. Zan Chaudhary", href: "/about-us/meet-dr-zan-chaudhary-dmd" },
-      { label: "Meet Dr. Sanketkumar Suvagiya", href: "/about-us/meet-dr-sanketkumar-suvagiya-dmd" },
-      { label: "Meet Dr. Bhadresh Makani", href: "/about-us/meet-dr-bhadresh-makani-dds" },
-      { label: "Office Tour", href: "/about-us/office-tour" },
-      { label: "Patient Reviews", href: "/about-us/patient-reviews" },
-      { label: "Dental Savings Plan", href: "/about-us/dental-savings-plan" },
-    ],
-  },
-  { label: "Services", href: "/services", links: [] }, // rendered as mega-menu from serviceGroups
-  {
-    label: "Patients",
-    href: "/patient-information",
-    links: [
-      { label: "Why Choose Us", href: "/patient-information/why-choose-us" },
-      { label: "Advanced Technology", href: "/patient-information/care-and-comfort/advanced-technology" },
-      { label: "CareCredit", href: "/patient-information/care-credit" },
-      { label: "Dental Savings Plan", href: "/about-us/dental-savings-plan" },
-    ],
-  },
+  group("About", "/about-us", [
+    {
+      title: "Meet our dentists",
+      links: [
+        { label: "Meet Dr. Zan Chaudhary", href: "/about-us/meet-dr-zan-chaudhary-dmd" },
+        { label: "Meet Dr. Sanketkumar Suvagiya", href: "/about-us/meet-dr-sanketkumar-suvagiya-dmd" },
+        { label: "Meet Dr. Bhadresh Makani", href: "/about-us/meet-dr-bhadresh-makani-dds" },
+      ],
+    },
+    {
+      title: "Get to know us",
+      links: [
+        { label: "Meet the Staff", href: "/about-us/meet-the-staff" },
+        { label: "Office Tour", href: "/about-us/office-tour" },
+        { label: "Patient Reviews", href: "/about-us/patient-reviews" },
+        { label: "Smile Gallery", href: "/about-us/smile-gallery" },
+      ],
+    },
+  ]),
+  { label: "Services", href: servicesHref, links: [] }, // rendered as a mega-menu from serviceGroups
+  group("Patients", "/patient-information", [
+    {
+      title: "New patients",
+      links: [
+        { label: "New Patients", href: "/patient-information/new-patients" },
+        { label: "Request an Appointment", href: "/patient-information/scheduling" },
+        { label: "Patient Registration", href: "/patient-information/patient-registration" },
+        { label: "Why Choose Us", href: "/patient-information/why-choose-us" },
+      ],
+    },
+    {
+      title: "Paying for care",
+      links: [
+        { label: "Insurance & Payment Options", href: "/patient-information/insurance-payment-options" },
+        { label: "CareCredit", href: "/patient-information/care-credit" },
+        { label: "Dental Savings Plan", href: "/about-us/dental-savings-plan" },
+      ],
+    },
+    {
+      title: "Comfort & safety",
+      links: [
+        { label: "Care & Comfort", href: "/patient-information/care-and-comfort" },
+        { label: "Advanced Technology", href: "/patient-information/care-and-comfort/advanced-technology" },
+        { label: "Infection Control", href: "/patient-information/care-and-comfort/infection-control" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { label: "Patient Education", href: "/patient-information/patient-education" },
+        { label: "Home Care Instructions", href: "/patient-information/care-and-comfort/home-instructions" },
+        { label: "Dental Blog", href: "/blog" },
+      ],
+    },
+  ]),
+  areasNav,
   { label: "Special Offers", href: "/special-offers" },
   { label: "Contact", href: "/contact-us" },
 ];
@@ -367,7 +588,7 @@ export const reviews = [
 ] as const;
 
 /* -------------------------------------------------------------------------- */
-/* FAQ (answers drawn only from published site content)                       */
+/* Home FAQ (word for word from the approved Home draft v2)                   */
 /* -------------------------------------------------------------------------- */
 
 export const faqCategories = [
@@ -386,46 +607,70 @@ export const faqs: {
   link: { label: string; href: string; external?: boolean };
 }[] = [
   {
-    q: "Are you accepting new patients?",
-    a: "Yes! We are currently welcoming new patients of all ages, from toddlers to grandparents. Call us or request an appointment online.",
-    category: "visit",
-    link: { label: "Request an appointment", href: site.bookingHref },
-  },
-  {
-    q: "Where is your office located?",
-    a: `We've moved! You'll now find us at ${site.address.full}. We care for patients from Media, Nether Providence, Upper Providence, Rose Valley, Swarthmore, Brookhaven, Springfield and Philadelphia.`,
+    q: "Where is Media Brite Smile located?",
+    a: "Media Brite Smile is at 8 N Pennell Rd, Media, PA 19063, in Delaware County. Pennell Road runs south from Media toward Aston, off Baltimore Pike. Patients travel in from Swarthmore, Wallingford, Springfield, Brookhaven, Rose Valley and Aston.",
     category: "visit",
     link: { label: "Get directions", href: site.address.directions, external: true },
   },
   {
-    q: "Do you offer same-day emergency appointments?",
-    a: `Yes. If you're in pain or have a dental emergency, call ${site.phone.display} and we'll do our best to see you the same day.`,
+    q: "What are your opening hours?",
+    a: `The practice opens at 8am every weekday. Monday it closes at 3pm, Tuesday to Thursday at 5pm, and Friday at 2pm on alternate Fridays. Because Friday alternates, call ${site.phone.display} to check the date before travelling.`,
+    category: "visit",
+    link: { label: "Directions, map and opening hours", href: "/contact-us" },
+  },
+  {
+    q: "How many dentists work at the practice?",
+    a: "Three. Dr. Zan Chaudhary DMD, Dr. Sanketkumar Suvagiya DMD and Dr. Bhadresh Makani DDS all practise at Media Brite Smile. That gives more appointment slots across the week and keeps complex cases inside the practice instead of being referred out.",
+    category: "visit",
+    link: { label: "About the practice and the team", href: "/about-us" },
+  },
+  {
+    q: "Do you take my dental insurance?",
+    a: `Dental insurance is billed directly, so you are not left claiming it back. Which plans apply depends on your policy, and coverage cannot be confirmed from a website. Call ${site.phone.display} with your plan name and we will check it before you book.`,
+    category: "cost",
+    link: { label: "Insurance and payment options", href: "/patient-information/insurance-payment-options" },
+  },
+  {
+    q: "What if I have no dental insurance?",
+    a: "The in-house Dental Savings Plan covers routine care for a set annual cost, and CareCredit spreads larger treatment over monthly payments. Plenty of patients here have no insurance at all. Ask about both when you call and we will explain which one suits you.",
+    category: "cost",
+    link: { label: "Dental Savings Plan", href: "/about-us/dental-savings-plan" },
+  },
+  {
+    q: "Can I be seen if I have a dental emergency?",
+    a: `Call ${site.phone.display} and describe what has happened. Urgent problems are triaged on the phone, and you will be told how soon you need to be seen and what to do meanwhile. If you have severe facial swelling, trouble breathing or trouble swallowing, go to an emergency room or call 911 instead.`,
     category: "visit",
     link: { label: `Call ${site.phone.display}`, href: site.phone.href },
   },
   {
-    q: "I don't have dental insurance. What are my options?",
-    a: "Our In-Office Membership Plan covers preventive and diagnostic care, including 2 annual exams, X-rays and an emergency exam, plus 10-15% off additional procedures. Uninsured new patients can also take advantage of our $99 New Patient Special.",
+    q: "What does a first visit cost?",
+    a: `For uninsured patients the New Patient Special is $99, against a regular price of $315. If you have dental insurance, the practice bills your insurer and tracks the claim, and what you pay depends on your plan. Call ${site.phone.display} with your plan name to check before you book.`,
     category: "cost",
-    link: { label: "See the membership plan", href: "/about-us/dental-savings-plan" },
+    link: { label: "Current special offers", href: "/special-offers" },
   },
   {
-    q: "Do you accept insurance and offer financing?",
-    a: "We accept numerous dental insurance plans and are happy to help you navigate your benefits. CareCredit financing and in-office payment options are also available.",
-    category: "cost",
-    link: { label: "Learn about CareCredit", href: "/patient-information/care-credit" },
+    q: "Is Media Brite Smile accepting new patients?",
+    a: `Yes, new patients are welcome at the practice. Call ${site.phone.display} or send an appointment request and you will get a reply with the closest available times across the three dentists. First appointments run longer than a routine check-up because the examination is more thorough.`,
+    category: "visit",
+    link: { label: "Request an appointment", href: site.bookingHref },
   },
   {
-    q: "Is your dentistry mercury-free?",
-    a: "Yes. We focus on safe, mercury-free and minimally invasive procedures using high-quality porcelain and composite restorations and metal-free crowns, bridges and fillings.",
+    q: "Do you offer sedation for nervous patients?",
+    a: "Yes. Nitrous oxide and oral sedation are available to help you stay comfortable during treatment. Deeper hospital-level sedation is not something this practice provides. Tell us when you book that you are anxious, and the appointment will be paced around that.",
     category: "care",
-    link: { label: "Explore our technology", href: "/patient-information/care-and-comfort/advanced-technology" },
+    link: { label: "Care and comfort", href: "/patient-information/care-and-comfort" },
   },
   {
-    q: "I'm nervous about the dentist. Can you help?",
-    a: "Absolutely. We take a gentle, soothing approach for patients with dental anxiety and offer multiple anesthesia options, including nitrous oxide and oral sedation.",
+    q: "Do you treat children as well as adults?",
+    a: "Yes. Children's dentistry is provided by the general dentists at the practice, covering first visits, check-ups, fluoride and sealants. Families often book children alongside an adult appointment. Cases needing a paediatric specialist are referred on.",
     category: "care",
-    link: { label: "Why patients choose us", href: "/patient-information/why-choose-us" },
+    link: { label: "What new patients need to know", href: "/patient-information/new-patients" },
+  },
+  {
+    q: "How far is the practice from Swarthmore or Springfield?",
+    a: "Both are a short drive, measured in Google Maps from 8 N Pennell Rd. Swarthmore is about 10 minutes and 3.8 miles via N Providence Rd and E Baltimore Pike. Springfield, Delaware County, is about 7 minutes and 4.1 miles via US-1 N.",
+    category: "visit",
+    link: { label: "Find your town and how to get here", href: "/areas-we-serve" },
   },
 ];
 
@@ -436,10 +681,14 @@ export const faqs: {
 export type Location = {
   name: string;
   slug: string;
+  /** Sitemap URL, e.g. /dentist-swarthmore-pa */
+  href: string;
   isHome: boolean;
+  /** Measured in Google Maps from 8 N Pennell Rd on 12 Nov 2026 (Areas We Serve draft) */
+  drive: { time: string | null; miles: string | null; route: string };
   /** Google Maps turn-by-turn directions from the town to the office */
   directions: string;
-  /** Embeddable Google map: the route from the town (or the office itself for Media) */
+  /** Embeddable Google map: the route from the town to the office */
   routeEmbed: string;
 };
 
@@ -447,55 +696,27 @@ const toSlug = (s: string) => `${s.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-pa
 
 /**
  * Exact place names for Google Maps. "Upper Providence, PA" and "Springfield, PA"
- * also exist in Montgomery County, so these must name Delaware County explicitly.
+ * also exist elsewhere in Pennsylvania, so the ZIP pins them to Delaware County.
  */
 const mapPlace: Record<string, string> = {
-  // the ZIP pins Google to the Delaware County township (county names alone still resolved to Montgomery)
   "Upper Providence": "Upper Providence Township, PA 19063",
   Springfield: "Springfield Township, Delaware County, PA 19064",
-  "Nether Providence": "Nether Providence Township, PA 19086",
+  Wallingford: "Wallingford, PA 19086",
 };
 
 export const locations: Location[] = site.serviceAreas.map((name) => {
-  const isHome = name === site.address.city;
+  const town = towns.find((t) => t.name === name)!;
   const origin = encodeURIComponent(mapPlace[name] ?? `${name}, PA`);
   const destination = encodeURIComponent(site.address.full);
   return {
     name,
     slug: toSlug(name),
-    isHome,
+    href: `/dentist-${toSlug(name)}`,
+    isHome: false,
+    drive: town.drive,
     directions: `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`,
-    routeEmbed: isHome
-      ? site.address.mapEmbed
-      : `https://maps.google.com/maps?saddr=${origin}&daddr=${destination}&dirflg=d&output=embed`,
+    routeEmbed: `https://maps.google.com/maps?saddr=${origin}&daddr=${destination}&dirflg=d&output=embed`,
   };
 });
 
 export const getLocation = (slug: string) => locations.find((l) => l.slug === slug);
-
-/** Location-page FAQs, written only from the published facts above. */
-export function getLocalFaqs(loc: Location): (typeof faqs)[number][] {
-  const town = `${loc.name}, PA`;
-  const [newPatients, , emergency, uninsured, insurance, mercury, nervous] = faqs;
-  return [
-    loc.isHome
-      ? {
-          q: "Where is your Media office?",
-          a: `Media Brite Smile is at ${site.address.full}. We've moved to this new office and continue to care for patients from Media and the surrounding communities.`,
-          category: "visit",
-          link: { label: "Get directions", href: site.address.directions, external: true },
-        }
-      : {
-          q: `Do you see patients from ${town}?`,
-          a: `Yes. Many of our patients come from ${town}. Our office is at ${site.address.full}, and we welcome new patients of all ages from ${loc.name} and the surrounding communities.`,
-          category: "visit",
-          link: { label: `Directions from ${loc.name}`, href: loc.directions, external: true },
-        },
-    newPatients,
-    emergency,
-    insurance,
-    uninsured,
-    mercury,
-    nervous,
-  ];
-}

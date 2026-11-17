@@ -1,3 +1,4 @@
+import { servicesHref } from "@/content/site";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { Doctor, DoctorProfile } from "@/content/doctors";
@@ -11,7 +12,7 @@ export function DoctorFocus({ doctor, profile }: { doctor: Doctor; profile: Doct
     <section className="relative overflow-hidden bg-ink section-y text-white" aria-labelledby="focus-heading">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 right-0 size-160 rounded-full bg-brand-500/15 blur-[160px]"
+        className="pointer-events-none absolute -top-40 right-0 size-160 rounded-full glow-blob text-brand-500/15"
       />
       <div className="relative container-site grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
@@ -24,7 +25,7 @@ export function DoctorFocus({ doctor, profile }: { doctor: Doctor; profile: Doct
             <RevealGroup className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1" stagger={0.08}>
               {profile.extras.map((x) => (
                 <RevealItem key={x.title}>
-                  <div className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur">
+                  <div className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
                     <h3 className="text-xs font-bold tracking-[0.16em] text-glow uppercase">{x.title}</h3>
                     <ul className="mt-4 space-y-2.5">
                       {x.items.map((item) => (
@@ -48,7 +49,7 @@ export function DoctorFocus({ doctor, profile }: { doctor: Doctor; profile: Doct
             {profile.focus.map((f, i) => (
               <li key={f.label} className="border-b border-white/10">
                 <Link
-                  href={f.href ?? "/services"}
+                  href={f.href ?? servicesHref}
                   className="group relative flex items-center gap-5 overflow-hidden py-6 sm:gap-8 sm:py-7"
                 >
                   <span

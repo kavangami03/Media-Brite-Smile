@@ -92,7 +92,7 @@ function ReviewCard({
         <button
           type="button"
           onClick={() => onOpen(r, i)}
-          className="group/more mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700"
+          className="group/more mt-2 inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700"
         >
           Read full review
           <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover/more:rotate-45" />
@@ -166,14 +166,13 @@ export function Reviews() {
         <div className="lg:col-span-5">
           <Eyebrow>Patient Reviews</Eyebrow>
           <SplitReveal as="h2" id="reviews-heading" className="mt-6 text-display-md font-bold">
-            Smiles that speak <span className="text-brand-500">for us</span>
+            What do <span className="text-brand-500">patients</span> say?
           </SplitReveal>
-
           {/* Mobile: compact rating card */}
           <div className="mt-8 rounded-3xl bg-pearl p-5 ring-1 ring-line lg:hidden">
             <div className="flex items-center gap-4">
               <span className="text-5xl leading-none font-bold tracking-[-0.05em] text-ink">
-                <Counter to={site.rating.score} decimals={2} duration={2.4} />
+                <Counter to={site.rating.score} decimals={1} duration={2.4} />
               </span>
               <div className="min-w-0 flex-1">
                 <Stars size="size-4" animate />
@@ -215,14 +214,12 @@ export function Reviews() {
                   aria-label={`${site.name} on ${label}`}
                   className="flex flex-col items-center gap-1.5 rounded-2xl bg-white py-3 text-xs font-semibold text-ink shadow-soft transition-transform active:scale-95"
                 >
-                  <Icon size={20} className={tone} />
-                  {label}
+                  <Icon size={20} className={tone} /> {label}{" "}
                 </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Desktop: full rating panel */}
+              ))}{" "}
+            </div>{" "}
+          </div>{" "}
+          {/* Desktop: full rating panel */}{" "}
           <div className="mt-10 hidden rounded-4xl bg-pearl p-8 lg:block">
             <div className="flex items-center gap-3">
               <GoogleIcon size={26} />
@@ -230,7 +227,7 @@ export function Reviews() {
             </div>
             <div className="mt-5 flex items-end gap-2 whitespace-nowrap sm:gap-3">
               <span className="text-6xl leading-none font-bold tracking-[-0.05em] text-ink sm:text-7xl lg:text-8xl">
-                <Counter to={site.rating.score} decimals={2} duration={2.4} />
+                <Counter to={site.rating.score} decimals={1} duration={2.4} />
               </span>
               <span className="pb-1.5 text-base text-muted sm:pb-2 sm:text-lg">/ 5</span>
             </div>
@@ -273,9 +270,8 @@ export function Reviews() {
                   className="group flex items-center justify-between rounded-2xl bg-white px-5 py-4 font-medium text-ink shadow-soft transition-all duration-500 hover:-translate-y-0.5 hover:shadow-lift"
                 >
                   <span className="flex items-center gap-3">
-                    <Icon size={20} className={tone} />
-                    {long}
-                  </span>
+                    <Icon size={20} className={tone} /> {long}{" "}
+                  </span>{" "}
                   <ArrowUpRight className="size-4 text-brand-500 transition-transform duration-500 group-hover:rotate-45" />
                 </a>
               ))}
@@ -336,7 +332,7 @@ function ReviewModal({ selected, onClose }: { selected: { r: Review; i: number }
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-80 grid place-items-center bg-ink/70 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-80 grid place-items-center bg-ink/70 p-4"
           onClick={onClose}
           role="dialog"
           aria-modal="true"

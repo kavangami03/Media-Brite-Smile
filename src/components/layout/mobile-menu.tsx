@@ -18,15 +18,12 @@ type Entry =
   | { kind: "services" }
   | { kind: "group"; label: string; links: readonly NavLink[] };
 
-/** Menu order: About, Services (accordion), Patients (accordion), Special Offers, Locations, Contact */
-const entries: Entry[] = [
-  ...mainNav.map<Entry>((item) => {
-    if (item.label === "Services") return { kind: "services" };
-    if (isGroup(item) && item.links.length) return { kind: "group", label: item.label, links: item.links };
-    return { kind: "link", label: item.label, href: item.href };
-  }),
-];
-entries.splice(entries.length - 1, 0, { kind: "link", label: "Locations", href: "/locations" });
+/** Same order as the desktop header (sitemap): About, Services, Patients, Areas We Serve, Special Offers, Contact */
+const entries: Entry[] = mainNav.map<Entry>((item) => {
+  if (item.label === "Services") return { kind: "services" };
+  if (isGroup(item) && item.links.length) return { kind: "group", label: item.label, links: item.links };
+  return { kind: "link", label: item.label, href: item.href };
+});
 
 /**
  * Full-screen GSAP menu:
@@ -108,7 +105,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
       </div>
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -right-40 size-140 rounded-full bg-glow/15 blur-[120px]"
+        className="pointer-events-none absolute -top-40 -right-40 size-140 rounded-full glow-blob text-glow/15"
       />
 
       {/* Content */}
@@ -164,14 +161,14 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                         </Link>
                       ) : (
                         <button type="button" onClick={() => toggle(key)} aria-expanded={isOpen} className={rowCls}>
+                          {" "}
                           <span data-mm-num className="w-7 shrink-0 text-xs font-semibold text-glow tabular-nums">
                             {num}
                           </span>
                           <span className="min-w-0 flex-1">{key}</span>
                           <span
                             className={cn(
-                              // border (not ring): a ring draws outside the box and the row's overflow-hidden crops it
-                              "grid size-9 shrink-0 place-items-center rounded-full border border-white/25 transition-all duration-500",
+                              // border (not ring): a ring draws outside the box and the row's overflow-hidden crops it"grid size-9 shrink-0 place-items-center rounded-full border border-white/25 transition-all duration-500",
                               isOpen && "rotate-45 border-white bg-white text-ink",
                             )}
                           >
@@ -192,7 +189,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                     >
                       <div className="min-h-0 overflow-hidden">
                         {entry.kind === "services" ? (
-                          <div className="grid grid-cols-1 gap-6 pb-6 pl-11 sm:grid-cols-3">
+                          <div className="grid grid-cols-1 gap-7 pb-6 pl-11 sm:grid-cols-3">
                             {serviceGroups.map((g) => (
                               <div key={g.id}>
                                 <Link
@@ -203,17 +200,19 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                                   {g.title}
                                 </Link>
                                 <ul className="mt-3 space-y-2">
-                                  {g.links.slice(0, 6).map((l) => (
-                                    <li key={l.href}>
-                                      <Link
-                                        href={l.href}
-                                        onClick={onClose}
-                                        className="text-[0.9375rem] text-white/75 hover:text-white"
-                                      >
-                                        {l.label}
-                                      </Link>
-                                    </li>
-                                  ))}
+                                  {g.sections
+                                    .flatMap((sec) => sec.links)
+                                    .map((l) => (
+                                      <li key={l.href}>
+                                        <Link
+                                          href={l.href}
+                                          onClick={onClose}
+                                          className="text-[0.9375rem] text-white/75 hover:text-white"
+                                        >
+                                          {l.label}
+                                        </Link>
+                                      </li>
+                                    ))}
                                 </ul>
                               </div>
                             ))}
@@ -228,6 +227,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                                   className="text-base text-white/75 hover:text-white"
                                 >
                                   {l.label}
+                                  {l.note && <span className="ml-2 text-sm text-white/40 tabular-nums">{l.note}</span>}
                                 </Link>
                               </li>
                             ))}

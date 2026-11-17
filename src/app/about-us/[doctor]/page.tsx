@@ -8,7 +8,10 @@ import { DoctorJourney } from "@/components/doctor/doctor-journey";
 import { DoctorFocus } from "@/components/doctor/doctor-focus";
 import { DoctorPersonal } from "@/components/doctor/doctor-personal";
 import { Reviews } from "@/components/sections/reviews";
-import { Visit } from "@/components/sections/visit";
+import { SectionHead } from "@/components/page/section-head";
+import { FaqAccordion } from "@/components/page/faq-accordion";
+import { CtaBand } from "@/components/page/cta-band";
+import { Reveal } from "@/components/motion/reveal";
 
 /** All three doctor pages are prerendered from generateStaticParams. */
 export const instant = false;
@@ -22,13 +25,12 @@ export async function generateMetadata({ params }: PageProps<"/about-us/[doctor]
   const found = getDoctor(slug);
   if (!found) return {};
   const { doctor, profile } = found;
-  const title = `Meet ${doctor.name}, ${doctor.credential}`;
-  const description = `${profile.lead} ${doctor.name}, ${doctor.credential} at ${site.name}, ${site.address.full}.`;
+  const { title, description } = profile.seo;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: doctor.href },
-    openGraph: { title: `${title} | ${site.name}`, description, url: doctor.href, images: [doctor.image] },
+    openGraph: { title, description, url: doctor.href, images: [doctor.image] },
   };
 }
 
@@ -75,8 +77,30 @@ export default async function DoctorPage({ params }: PageProps<"/about-us/[docto
       <DoctorJourney doctor={doctor} profile={profile} />
       <DoctorFocus doctor={doctor} profile={profile} />
       <DoctorPersonal doctor={doctor} profile={profile} />
+      <section className="bg-pearl section-y" aria-labelledby="doctor-faq-heading">
+        <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionHead
+            id="doctor-faq-heading"
+            eyebrow="Questions"
+            title={
+              <>
+                Questions about <span className="text-brand-500">{doctor.short}</span>
+              </>
+            }
+          />
+          <Reveal>
+            <FaqAccordion items={profile.faqs} />
+          </Reveal>
+        </div>
+      </section>
       <Reviews />
-      <Visit />
+      <CtaBand
+        id="doctor-cta-heading"
+        title={profile.cta.title}
+        text={profile.cta.text}
+        image={doctor.image}
+        imageAlt={`${doctor.name}, ${doctor.credential}`}
+      />
     </>
   );
 }

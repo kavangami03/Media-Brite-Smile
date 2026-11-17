@@ -21,7 +21,7 @@ export function MobileCta() {
           animate={{ y: 0 }}
           exit={{ y: "120%" }}
           transition={{ duration: 0.5, ease: ease.out }}
-          className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-2 gap-2 rounded-full bg-ink/90 p-1.5 shadow-lift backdrop-blur-lg lg:hidden"
+          className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-2 gap-2 rounded-full bg-ink/90 p-1.5 shadow-lift lg:hidden"
         >
           <a
             href={site.phone.href}

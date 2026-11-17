@@ -45,7 +45,7 @@ export function DoctorPersonal({ doctor, profile }: { doctor: Doctor; profile: D
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-5xl bg-linear-to-br from-brand-600 via-brand-700 to-brand-900 p-7 text-white sm:p-12 lg:p-16">
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-              <div className="absolute -top-32 -left-24 size-120 rounded-full bg-glow/25 blur-[120px]" />
+              <div className="absolute -top-32 -left-24 size-120 rounded-full glow-blob text-glow/25" />
               <ToothWatermark size={520} className="absolute -right-24 -bottom-32 text-white/6" />
             </div>
 
@@ -103,7 +103,7 @@ export function DoctorPersonal({ doctor, profile }: { doctor: Doctor; profile: D
           <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">Meet the rest of the team</h3>
           <Link
             href="/about-us"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
           >
             About our practice <ArrowUpRight className="size-4" />
           </Link>

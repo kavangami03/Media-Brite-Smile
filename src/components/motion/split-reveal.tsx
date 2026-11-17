@@ -49,16 +49,16 @@ export function SplitReveal({
             gsap.set(el, { visibility: "visible" });
             const targets = mode === "lines" ? self.lines : self.words;
             const from =
-              mode === "lines"
-                ? { yPercent: 110, rotate: 2 }
-                : { yPercent: 60, opacity: 0, filter: "blur(8px)" };
+              mode === "lines" ? { yPercent: 110, rotate: 2 } : { yPercent: 60, opacity: 0, filter: "blur(8px)" };
             return gsap.from(targets, {
               ...from,
               duration: mode === "lines" ? 1.2 : 1,
               stagger: stagger ?? (mode === "lines" ? 0.1 : 0.04),
               delay,
               ease: "brite.out",
-              scrollTrigger: immediate ? undefined : { trigger: el, start: "top 85%", once: true },
+              scrollTrigger: immediate
+                ? undefined
+                : { trigger: el, start: "top 85%", toggleActions: "play none none none" },
               // Restore plain text once revealed: no masks left to clip descenders, and
               // the heading reflows naturally on resize.
               onComplete: () => self.revert(),

@@ -157,7 +157,7 @@ export function Preloader() {
         </svg>
 
         <div data-pl-fade className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 size-176 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-100/60 blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 size-176 -translate-x-1/2 -translate-y-1/2 rounded-full glow-blob text-brand-100/60" />
 
           {/* editorial corners */}
           <div className="absolute inset-0 text-xs font-semibold tracking-[0.18em] text-slate-500 uppercase">
@@ -165,7 +165,7 @@ export function Preloader() {
               {site.name}
             </span>
             <span data-pl-corner className="absolute top-6 right-6 md:top-10 md:right-10">
-              Since {site.since}
+              Media, PA
             </span>
             <span data-pl-corner className="absolute bottom-6 left-6 hidden sm:block md:bottom-10 md:left-10">
               Family · Cosmetic · Implant Dentistry
@@ -195,11 +195,20 @@ export function Preloader() {
           width={892}
           height={302}
           preload
+          loading="eager"
           unoptimized
           className="h-auto w-full opacity-25 grayscale"
         />
         <div data-pl-color className="absolute inset-0">
-          <Image src="/images/brand/logo.svg" alt="" width={892} height={302} unoptimized className="h-auto w-full" />
+          <Image
+            src="/images/brand/logo.svg"
+            alt=""
+            width={892}
+            height={302}
+            loading="eager"
+            unoptimized
+            className="h-auto w-full"
+          />
         </div>
         {/* light streak riding the reveal edge */}
         <span
