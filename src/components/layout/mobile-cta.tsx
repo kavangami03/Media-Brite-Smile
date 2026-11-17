@@ -32,7 +32,7 @@ export function MobileCta() {
           >
             <Phone className="size-4 shrink-0 text-brand-300" />
             <span>
-              Call<span className="max-[480px]:hidden"> Now</span>
+              Call<span className="max-[481px]:hidden"> Now</span>
             </span>
           </a>
           <Link
@@ -41,7 +41,7 @@ export function MobileCta() {
             className="flex h-12 min-w-0 items-center justify-center gap-2 rounded-full bg-white px-2 text-sm font-semibold text-ink transition-colors"
           >
             <span className="shrink-0 text-lg leading-none font-extrabold text-brand-600">$99</span>
-            <span className="max-[389px]:hidden">Offers</span>
+            <span className="max-[390px]:hidden">Offers</span>
           </Link>
           <Link
             href={site.bookingHref}
@@ -49,7 +49,7 @@ export function MobileCta() {
           >
             <CalendarCheck className="size-4 shrink-0" />
             <span>
-              Book<span className="max-[480px]:hidden"> Visit</span>
+              Book<span className="max-[481px]:hidden"> Visit</span>
             </span>
           </Link>
         </motion.div>
