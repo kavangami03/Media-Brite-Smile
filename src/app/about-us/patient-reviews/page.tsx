@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { topicImages as T } from "@/content/topic-images";
 import Link from "next/link";
 import { ArrowUpRight, Clock, MessageCircleHeart, PencilLine, Phone, Receipt, Scale, ShieldCheck } from "lucide-react";
 import { site } from "@/content/site";
@@ -301,8 +302,8 @@ export default function PatientReviewsPage() {
           </>
         }
         text="Then book a first visit and judge for yourself."
-        image="/images/office/operatory-1.webp"
-        imageAlt={`Treatment room at ${site.name}, Media PA`}
+        image={T.seniors2.src}
+        imageAlt={T.seniors2.alt}
       />
     </>
   );

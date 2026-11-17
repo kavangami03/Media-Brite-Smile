@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Town, TownItem } from "@/content/towns";
 import { topicImages, type TopicImage, type TopicKey } from "@/content/topic-images";
+import { townImages } from "@/content/town-images";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { SplitReveal } from "@/components/motion/split-reveal";
 import { ImageReveal } from "@/components/motion/image-reveal";
@@ -273,7 +274,12 @@ function Chapter({
 }
 
 export function TownGuide({ town }: { town: Town }) {
-  const images = pickImages(town.sections.map((s) => s.heading));
+  /* the generated plan spreads photos across the site; the heading rules are the fallback */
+  const planned = townImages[town.slug]?.chapters;
+  const images =
+    planned?.length === town.sections.length
+      ? planned.map((k) => topicImages[k])
+      : pickImages(town.sections.map((s) => s.heading));
 
   return (
     <section className="bg-white section-y" aria-labelledby="guide-heading">

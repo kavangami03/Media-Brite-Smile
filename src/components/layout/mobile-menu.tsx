@@ -18,7 +18,7 @@ type Entry =
   | { kind: "services" }
   | { kind: "group"; label: string; links: readonly NavLink[] };
 
-/** Same order as the desktop header (sitemap): About, Services, Patients, Areas We Serve, Special Offers, Contact */
+/** Same order as the desktop header (sitemap): About, the three treatment categories, Patients, Blog, Special Offers, Contact */
 const entries: Entry[] = mainNav.map<Entry>((item) => {
   if (item.label === "Services") return { kind: "services" };
   if (isGroup(item) && item.links.length) return { kind: "group", label: item.label, links: item.links };
@@ -168,7 +168,8 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
                           <span className="min-w-0 flex-1">{key}</span>
                           <span
                             className={cn(
-                              // border (not ring): a ring draws outside the box and the row's overflow-hidden crops it"grid size-9 shrink-0 place-items-center rounded-full border border-white/25 transition-all duration-500",
+                              // border (not ring): a ring draws outside the box and the row's overflow-hidden crops it
+                              "grid size-9 shrink-0 place-items-center rounded-full border border-white/25 transition-all duration-500",
                               isOpen && "rotate-45 border-white bg-white text-ink",
                             )}
                           >

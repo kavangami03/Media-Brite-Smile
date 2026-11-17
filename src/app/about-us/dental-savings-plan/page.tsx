@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { topicImages as T } from "@/content/topic-images";
 import Link from "next/link";
 import { ArrowUpRight, Briefcase, Building, Check, CircleAlert, Hourglass, Minus, Sunset, X } from "lucide-react";
 import { membership, site } from "@/content/site";
@@ -385,8 +386,8 @@ export default function SavingsPlanPage() {
         }
         text="$300 for the year, no claims to file, and 10 to 15% off additional procedures."
         primary={{ label: "Join the Plan", href: site.bookingHref }}
-        image="/images/office/waiting-room.webp"
-        imageAlt={`Waiting area at ${site.name}, Media PA`}
+        image={T.insurance5.src}
+        imageAlt={T.insurance5.alt}
       />
     </>
   );

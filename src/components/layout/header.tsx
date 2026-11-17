@@ -23,7 +23,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { doctors, mainNav, serviceGroups, servicesHref, site, type NavGroup, type NavLink } from "@/content/site";
+import { doctors, mainNav, serviceGroups, site, type NavGroup, type NavLink } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "./mobile-menu";
 import { ease } from "@/lib/motion";
@@ -176,38 +176,40 @@ export function Header() {
 
             <nav aria-label="Primary" className="hidden xl:block">
               <ul className="flex items-center gap-1">
-                {mainNav.map((item) => (
-                  <li
-                    key={item.label}
-                    onPointerEnter={(e) => {
-                      if (e.pointerType !== "mouse") return;
-                      if (isGroup(item)) openMenu(item.label);
-                      else closeNow();
-                    }}
-                    onPointerLeave={(e) => e.pointerType === "mouse" && scheduleClose()}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={closeNow}
-                      onFocus={() => (isGroup(item) ? openMenu(item.label) : closeNow())}
-                      className={cn(
-                        "flex items-center gap-1 rounded-full px-3 py-2.5 text-[0.9375rem] font-medium whitespace-nowrap text-ink transition-colors hover:bg-brand-50 hover:text-brand-700 2xl:px-4",
-                        open === item.label && "bg-brand-50 text-brand-700",
-                      )}
-                      aria-expanded={isGroup(item) ? open === item.label : undefined}
+                {mainNav
+                  .filter((item) => item.href !== "/special-offers") /* offers have their own tab on the right edge */
+                  .map((item) => (
+                    <li
+                      key={item.label}
+                      onPointerEnter={(e) => {
+                        if (e.pointerType !== "mouse") return;
+                        if (isGroup(item)) openMenu(item.label);
+                        else closeNow();
+                      }}
+                      onPointerLeave={(e) => e.pointerType === "mouse" && scheduleClose()}
                     >
-                      {item.label}
-                      {isGroup(item) && (
-                        <ChevronDown
-                          className={cn(
-                            "size-4 transition-transform duration-300",
-                            open === item.label && "rotate-180",
-                          )}
-                        />
-                      )}
-                    </Link>
-                  </li>
-                ))}
+                      <Link
+                        href={item.href}
+                        onClick={closeNow}
+                        onFocus={() => (isGroup(item) ? openMenu(item.label) : closeNow())}
+                        className={cn(
+                          "flex items-center gap-1 rounded-full px-3 py-2.5 text-[0.9375rem] font-medium whitespace-nowrap text-ink transition-colors hover:bg-brand-50 hover:text-brand-700 2xl:px-4",
+                          open === item.label && "bg-brand-50 text-brand-700",
+                        )}
+                        aria-expanded={isGroup(item) ? open === item.label : undefined}
+                      >
+                        {(isGroup(item) && item.short) || item.label}
+                        {isGroup(item) && (
+                          <ChevronDown
+                            className={cn(
+                              "size-4 transition-transform duration-300",
+                              open === item.label && "rotate-180",
+                            )}
+                          />
+                        )}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </nav>
 
@@ -282,7 +284,8 @@ export function Header() {
 
 /** Picks the right dropdown for the open top-level item. */
 function DropdownPanel({ label, onNavigate }: { label: string; onNavigate: () => void }) {
-  if (label === "Services") return <ServicesMega onNavigate={onNavigate} />;
+  const category = serviceGroups.find((g) => g.title === label);
+  if (category) return <CategoryMenu group={category} onNavigate={onNavigate} />;
   const group = mainNav.find((i) => i.label === label) as NavGroup;
   if (label === "About") return <AboutMenu group={group} onNavigate={onNavigate} />;
   if (label === "Patients") return <PatientsMenu group={group} onNavigate={onNavigate} />;
@@ -352,65 +355,33 @@ function FeatureCard({
 }
 
 /* ---------------------------------------------------------------------------
-   Services: pick a category on the left, its sitemap sub-sections fill the panel.
+   Treatment categories: the category's sitemap sub-sections fill the panel,
+   with the new patient offer beside them (the old Services panel, one category each).
 --------------------------------------------------------------------------- */
-function ServicesMega({ onNavigate }: { onNavigate: () => void }) {
-  const [active, setActive] = useState(0);
-  const g = serviceGroups[active];
+/** A different photo behind the $99 offer card in each category menu. */
+const offerImages: Record<string, string> = {
+  general: "/images/hero/young-patient-smile.jpg",
+  cosmetic: "/images/topics/smile-9.jpg",
+  restorative: "/images/topics/happy-patient-5.jpg",
+};
 
+/** Photo for each treatment card in a short category (licence rows in docs/image-licenses.md). */
+const cardImages: Record<string, string> = {
+  "/cosmetic-dentistry/teeth-whitening": "/images/services/whitening-result.jpg",
+  "/cosmetic-dentistry/invisalign": "/images/topics/aligner-smile.jpg",
+  "/cosmetic-dentistry/porcelain-veneers": "/images/topics/cosmetic-tools-5.jpg",
+  "/cosmetic-dentistry/dental-bonding": "/images/topics/cosmetic-tools-4.jpg",
+  "/cosmetic-dentistry/inlays-onlays": "/images/topics/crown-2.jpg",
+};
+
+function CategoryMenu({ group: g, onNavigate }: { group: (typeof serviceGroups)[number]; onNavigate: () => void }) {
   return (
-    <div className="grid grid-cols-[16rem_1fr] gap-10 p-10 2xl:grid-cols-[17rem_1fr_19rem]">
-      <div className="flex flex-col">
-        <MenuLabel>Treatments</MenuLabel>
-        <ul className="space-y-1.5">
-          {serviceGroups.map((sg, i) => {
-            const on = i === active;
-            return (
-              <li key={sg.id}>
-                <Link
-                  href={sg.href}
-                  onClick={onNavigate}
-                  onPointerEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  className={cn(
-                    "group flex items-center gap-3 rounded-2xl px-4 py-3.5 transition-colors duration-300",
-                    on ? "bg-brand-500 text-white shadow-glow" : "text-ink hover:bg-pearl",
-                  )}
-                >
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-semibold">{sg.title}</span>
-                    <span className={cn("mt-0.5 block text-sm", on ? "text-white/75" : "text-muted")}>
-                      {sg.total} treatments
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    className={cn(
-                      "size-4 shrink-0 transition-transform duration-500 group-hover:rotate-45",
-                      on ? "text-white" : "text-brand-500",
-                    )}
-                  />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="mt-auto border-t border-line pt-5">
-          <AllLink href={servicesHref} onNavigate={onNavigate}>
-            All dental services
-          </AllLink>
-        </div>
-      </div>
-
-      <motion.div
-        key={g.id}
-        initial={{ opacity: 0, x: 12 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.35, ease: ease.out }}
-        className="min-w-0"
-      >
+    <div className="grid grid-cols-1 gap-10 p-10 2xl:grid-cols-[1fr_19rem]">
+      <div className="min-w-0">
         <div className="mb-6 flex items-end justify-between gap-6 border-b border-line pb-5">
           <div className="min-w-0">
-            <p className="text-2xl font-bold tracking-tight text-ink">{g.title}</p>
+            <MenuLabel>{g.total} treatments</MenuLabel>
+            <p className="-mt-2 text-2xl font-bold tracking-tight text-ink">{g.title}</p>
             <p className="mt-1 text-sm text-body">{g.blurb}</p>
           </div>
           <span className="shrink-0">
@@ -419,32 +390,72 @@ function ServicesMega({ onNavigate }: { onNavigate: () => void }) {
             </AllLink>
           </span>
         </div>
-        <div className="columns-2 gap-x-10 xl:columns-3 2xl:columns-2">
-          {g.sections.map((sec) => (
-            <div key={sec.title} className="mb-6 break-inside-avoid">
-              <p className="mb-2 text-xs font-bold tracking-[0.14em] text-muted uppercase">{sec.title}</p>
-              <ul>
-                {sec.links.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      onClick={onNavigate}
-                      className="group -mx-2.5 flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 text-[0.9375rem] text-body transition-colors hover:bg-pearl hover:text-ink"
-                    >
-                      {l.label}
-                      <ArrowUpRight className="size-3.5 shrink-0 text-brand-500 opacity-0 transition-opacity group-hover:opacity-100" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </motion.div>
+        {g.total <= 6 ? (
+          /* a short list (Cosmetic): one photo card per treatment */
+          <ul className="grid grid-cols-5 gap-3">
+            {g.sections.flatMap((sec) =>
+              sec.links.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    onClick={onNavigate}
+                    className="group relative block aspect-4/5 overflow-hidden rounded-3xl bg-brand-950"
+                  >
+                    <Image
+                      src={cardImages[l.href] ?? g.image}
+                      alt=""
+                      fill
+                      sizes="14rem"
+                      className="object-cover transition-transform duration-1000 ease-out-expo group-hover:scale-105"
+                    />
+                    <span className="absolute inset-0 bg-linear-to-t from-brand-950 via-brand-950/45 to-transparent" />
+                    <span className="absolute top-2.5 left-2.5 rounded-full bg-white px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-brand-700 shadow-soft">
+                      {sec.title}
+                    </span>
+                    <span className="absolute inset-x-0 bottom-0 p-3.5 text-white">
+                      <span className="flex items-end justify-between gap-2 text-lg leading-tight font-bold">
+                        {l.label}
+                        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white/15 transition-colors duration-300 group-hover:bg-white group-hover:text-brand-700">
+                          <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
+                        </span>
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              )),
+            )}
+          </ul>
+        ) : (
+          <div className="columns-3 gap-x-10">
+            {g.sections.map((sec) => (
+              <div key={sec.title} className="mb-6 break-inside-avoid">
+                <p className="mb-2.5 flex items-center gap-2.5 text-sm font-extrabold tracking-[0.08em] text-brand-600 uppercase">
+                  <span aria-hidden="true" className="h-0.5 w-4 shrink-0 rounded-full bg-brand-500" />
+                  {sec.title}
+                </p>
+                <ul>
+                  {sec.links.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        onClick={onNavigate}
+                        className="group -mx-2.5 flex items-center justify-between gap-3 rounded-lg px-2.5 py-1.5 text-[0.9375rem] text-body transition-colors hover:bg-pearl hover:text-ink"
+                      >
+                        {l.label}
+                        <ArrowUpRight className="size-3.5 shrink-0 text-brand-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       <FeatureCard
         href="/special-offers"
-        image="/images/hero/woman-smiling.jpg"
+        image={offerImages[g.id] ?? "/images/hero/woman-smiling.jpg"}
         eyebrow="New patient special"
         title={
           <>

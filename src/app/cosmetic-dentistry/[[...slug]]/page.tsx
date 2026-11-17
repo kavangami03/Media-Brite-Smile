@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cosmeticPages } from "@/content/pages/cosmetic";
-import { topicImages as T, type TopicImage } from "@/content/topic-images";
-import { DraftPageView, officeAlt, type DraftLook } from "@/components/draft/draft-page";
+import { topicImages as T, ctaOf, type TopicImage } from "@/content/topic-images";
+import { DraftPageView, type DraftLook } from "@/components/draft/draft-page";
 import { TreatmentCards } from "@/components/draft/treatment-cards";
 
 /** The 6 Cosmetic Dentistry pages (sitemap section 04), rendered from their approved drafts. */
 export const instant = false;
 
 const BASE = "/cosmetic-dentistry";
-const office = (f: string) => `/images/office/${f}`;
 const hub = { label: "Cosmetic Dentistry", href: BASE };
 
 type Look = Omit<DraftLook, "crumbs" | "image" | "imageAlt"> & {
@@ -24,19 +23,17 @@ const looks: Record<string, Look> = {
     name: "Cosmetic Dentistry",
     eyebrow: "Cosmetic dentistry",
     hero: T.smileJoy,
-    images: [T.smileCloseup, T.smileGrin, T.shadeGuide, T.consultXray, T.cardPayment],
+    images: [T.smileCloseup, T.smileGrin, T.cosmeticTools4, T.consultXray4, T.cardPayment5],
     dark: 3,
-    ctaImage: office("operatory-1.webp"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.smile8),
   },
   [`${BASE}/invisalign`]: {
     name: "Invisalign",
     eyebrow: "Invisalign clear aligners",
     hero: T.alignerSmile,
-    images: [null, T.alignersHands, T.scan3d, T.consultDesk, T.smileYoung, T.digitalLab, T.cardPayment, T.aligner],
+    images: [null, T.alignersHands, T.scan3d3, T.consultDesk6, T.smileYoung, T.digitalLab, T.cardPayment6, T.smilePortrait],
     dark: 3,
-    ctaImage: office("operatory-3.jpg"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.smile9),
   },
   [`${BASE}/teeth-whitening`]: {
     name: "Teeth Whitening",
@@ -45,36 +42,33 @@ const looks: Record<string, Look> = {
     images: [
       null,
       T.smileLips,
-      T.aligner,
-      T.shadeGuide,
-      T.smileGrin,
-      T.treatmentChair,
-      T.toothache,
-      T.calendar,
-      T.piggyBank,
+      T.alignersHands,
+      T.cosmeticTools5,
+      T.smile7,
+      T.treatmentChair2,
+      T.toothache2,
+      T.calendar2,
+      T.piggyBank2,
     ],
     dark: 4,
-    ctaImage: office("operatory-1.webp"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.cosmeticTools6),
   },
   [`${BASE}/dental-bonding`]: {
     name: "Dental Bonding",
     eyebrow: "Dental bonding",
     hero: T.shadeGuide,
-    images: [T.smileLips, T.treatmentCloseup, T.smilePortrait, T.veneers, T.calendar, T.brushingWoman, T.cardPayment],
+    images: [T.smile8, T.treatmentCloseup7, T.smilePortrait, T.veneers, T.calendar3, T.brushingWoman, T.cardPayment7],
     dark: 1,
-    ctaImage: office("operatory-3.jpg"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.cosmeticTools5),
   },
   [`${BASE}/inlays-onlays`]: {
     name: "Inlays & Onlays",
     eyebrow: "Inlays and onlays",
-    hero: T.crown,
-    images: [T.xrayTablet, T.treatmentCloseup, T.scan3d, T.microscope, T.calendar],
+    hero: T.crown2,
+    images: [T.xray5, T.dentistHandpiece, T.scan3d4, T.microscope, T.calendar4],
     dark: 3,
     accent: "Onlays",
-    ctaImage: office("operatory-1.webp"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.smile10),
   },
   [`${BASE}/porcelain-veneers`]: {
     name: "Porcelain Veneers",
@@ -82,19 +76,18 @@ const looks: Record<string, Look> = {
     hero: T.veneers,
     images: [
       null,
-      T.smileLips,
-      T.smileGrin,
-      T.scan3d,
-      T.xrayTablet,
-      T.shadeGuide,
-      T.microscope,
-      T.treatmentCloseup,
-      T.piggyBank,
-      T.consultXray,
+      T.smile9,
+      T.smile10,
+      T.scan3d2,
+      T.xray6,
+      T.cosmeticTools6,
+      T.microscope1,
+      T.treatmentCloseup6,
+      T.piggyBank3,
+      T.consultXray5,
     ],
     dark: 6,
-    ctaImage: office("operatory-3.jpg"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    ...ctaOf(T.cosmeticTools7),
   },
 };
 
@@ -144,7 +137,7 @@ export default async function CosmeticPage({ params }: PageProps<"/cosmetic-dent
                   title: "Invisalign",
                   text: "Clear aligners with Dr. Zan Chaudhary, who is Invisalign certified.",
                   href: `${BASE}/invisalign`,
-                  image: T.alignerSmile,
+                  image: T.alignersHands,
                   tag: "$1,000 off",
                 },
                 {
@@ -158,19 +151,19 @@ export default async function CosmeticPage({ params }: PageProps<"/cosmetic-dent
                   title: "Porcelain Veneers",
                   text: "Porcelain shaped to change colour, shape and alignment.",
                   href: `${BASE}/porcelain-veneers`,
-                  image: T.veneers,
+                  image: T.cosmeticTools7,
                 },
                 {
                   title: "Dental Bonding",
                   text: "Tooth-coloured resin for chips and small gaps.",
                   href: `${BASE}/dental-bonding`,
-                  image: T.shadeGuide,
+                  image: T.whiteningShade,
                 },
                 {
                   title: "Inlays & Onlays",
                   text: "Lab-made porcelain for more than a filling, less than a crown.",
                   href: `${BASE}/inlays-onlays`,
-                  image: T.crown,
+                  image: T.crown5,
                 },
               ]}
             />

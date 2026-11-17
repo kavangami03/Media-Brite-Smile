@@ -25,8 +25,8 @@ const sections: Record<string, { chapter: string; blurb: string; image: SitemapI
   "Core Pages": {
     chapter: "core-pages",
     blurb: "The practice, the three dentists, the office, reviews, offers and how to reach us.",
-    image: { src: "/images/office/office-41.jpg", alt: `The ${site.name} building on N Pennell Rd, Media PA` },
-    tile: { src: "/images/office/waiting-room.webp", alt: `The waiting room at ${site.name}` },
+    image: T.writingDocuments,
+    tile: T.kids5,
   },
   "Patient Information": {
     chapter: "patient-information",
@@ -127,6 +127,8 @@ export default function SitemapPage() {
         phone={{ display: site.phone.display, href: site.phone.href }}
       />
       <CtaBand
+        image={T.insurance3.src}
+        imageAlt={T.insurance3.alt}
         title={
           <>
             Still can&apos;t find it? <span className="text-glow">Ask us.</span>

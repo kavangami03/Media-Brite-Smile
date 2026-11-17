@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { topicImages as T } from "@/content/topic-images";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -477,6 +478,8 @@ export default function SpecialOffersPage() {
       </section>
 
       <CtaBand
+        image={T.forms5.src}
+        imageAlt={T.forms5.alt}
         title={
           <>
             Book with an offer <span className="text-glow">applied</span>

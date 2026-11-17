@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { CurrentYear } from "@/components/layout/current-year";
 import { MobileCta } from "@/components/layout/mobile-cta";
 import { BackToTop } from "@/components/layout/back-to-top";
+import { OfferTab } from "@/components/layout/offer-tab";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main id="main">{children}</main>
           <Footer year={<CurrentYear />} />
           <MobileCta />
+          <OfferTab />
           <BackToTop />
         </SmoothScroll>
       </body>

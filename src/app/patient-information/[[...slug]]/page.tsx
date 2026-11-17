@@ -1,47 +1,46 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { patientInfoPages } from "@/content/pages/patient-info";
-import { DraftPageView, officeAlt, type DraftLook } from "@/components/draft/draft-page";
-import { topicImages, type TopicImage } from "@/content/topic-images";
+import { DraftPageView, type DraftLook } from "@/components/draft/draft-page";
+import { topicImages as T, ctaOf, type TopicImage } from "@/content/topic-images";
 
 /** All 13 Patient Info pages (sitemap section 02), rendered from their approved drafts. */
 export const instant = false;
 
 const BASE = "/patient-information";
-const img = (f: string) => `/images/office/${f}`;
 
 const hub = { label: "Patient Information", href: BASE };
 const cc = { label: "Care & Comfort", href: `${BASE}/care-and-comfort` };
 
 /* Photo, eyebrow and dark band per page. Hero and CTA photos differ on every page. */
-const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: string; href: string }; name: string }> = {
+type Look = Omit<DraftLook, "crumbs" | "image" | "imageAlt"> & {
+  parent?: { label: string; href: string };
+  name: string;
+  hero: TopicImage;
+};
+
+const looks: Record<string, Look> = {
   [BASE]: {
     name: "Patient Information",
     eyebrow: "Patient information",
-    image: img("office-5.jpg"),
-    imageAlt: officeAlt("Reception"),
-    ctaImage: img("waiting-room-2.webp"),
-    ctaImageAlt: officeAlt("Front desk"),
+    hero: T.formReview,
+    ...ctaOf(T.forms4),
     dark: 4,
   },
   [`${BASE}/services`]: {
     name: "Our Dental Services",
     parent: hub,
     eyebrow: "Our dental services",
-    image: img("operatory-1.webp"),
-    imageAlt: officeAlt("Treatment room"),
-    ctaImage: img("office-41.jpg"),
-    ctaImageAlt: officeAlt("The building on N Pennell Rd"),
+    hero: T.treatmentChair,
+    ...ctaOf(T.smile11),
     dark: 8,
   },
   [`${BASE}/why-choose-us`]: {
     name: "Why Choose Us",
     parent: hub,
     eyebrow: "Why choose us",
-    image: img("office-41.jpg"),
-    imageAlt: officeAlt("The building on N Pennell Rd"),
-    ctaImage: img("operatory-1.webp"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    hero: T.examTools5,
+    ...ctaOf(T.smile12),
     dark: 2,
     accent: "Media Brite Smile",
   },
@@ -49,30 +48,24 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "New Patients",
     parent: hub,
     eyebrow: "New patients",
-    image: img("operatory-3.jpg"),
-    imageAlt: officeAlt("Treatment room"),
-    ctaImage: img("waiting-room-2.webp"),
-    ctaImageAlt: officeAlt("Front desk"),
+    hero: T.consultDesk,
+    ...ctaOf(T.smile13),
     dark: 2,
   },
   [`${BASE}/insurance-payment-options`]: {
     name: "Insurance & Payment Options",
     parent: hub,
     eyebrow: "Insurance & payment",
-    image: img("office-5.jpg"),
-    imageAlt: officeAlt("Reception"),
-    ctaImage: img("waiting-room.webp"),
-    ctaImageAlt: officeAlt("Waiting area"),
+    hero: T.cardPayment,
+    ...ctaOf(T.smile14),
     dark: 4,
   },
   [`${BASE}/care-credit`]: {
     name: "CareCredit",
     parent: hub,
     eyebrow: "CareCredit financing",
-    image: img("waiting-room-2.webp"),
-    imageAlt: officeAlt("Front desk"),
-    ctaImage: img("office-5.jpg"),
-    ctaImageAlt: officeAlt("Reception"),
+    hero: T.piggyBank,
+    ...ctaOf(T.happyPatient1),
     dark: 3,
     accent: "CareCredit",
   },
@@ -80,10 +73,8 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "Care & Comfort",
     parent: hub,
     eyebrow: "Care & comfort",
-    image: img("waiting-room.webp"),
-    imageAlt: officeAlt("Waiting area"),
-    ctaImage: img("office-5.jpg"),
-    ctaImageAlt: officeAlt("Reception"),
+    hero: T.patientRelaxed,
+    ...ctaOf(T.happyPatient2),
     dark: 2,
     accent: "Nervous Patients",
   },
@@ -91,10 +82,8 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "Infection Control",
     parent: cc,
     eyebrow: "Infection control",
-    image: img("in-house-lab.webp"),
-    imageAlt: officeAlt("Clinical supply room"),
-    ctaImage: img("operatory-3.jpg"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    hero: T.glovesMask,
+    ...ctaOf(T.infection3),
     dark: 1,
     accent: "Safe",
   },
@@ -102,10 +91,8 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "Advanced Technology",
     parent: cc,
     eyebrow: "Advanced technology",
-    image: img("cbct-scanner.webp"),
-    imageAlt: officeAlt("X-ray and 3D imaging room"),
-    ctaImage: img("operatory-1.webp"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    hero: T.officeCbct,
+    ...ctaOf(T.happyPatient3),
     dark: 4,
     accent: "Why It Matters to You",
   },
@@ -114,20 +101,16 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     parent: hub,
     eyebrow: "Request an appointment",
     primary: { label: "Fill In the Request Form", href: "#s-1" },
-    image: img("office-5.jpg"),
-    imageAlt: officeAlt("Reception"),
-    ctaImage: img("waiting-room.webp"),
-    ctaImageAlt: officeAlt("Waiting area"),
+    hero: T.phoneCall,
+    ...ctaOf(T.happyPatient4),
     dark: 3,
   },
   [`${BASE}/patient-registration`]: {
     name: "Patient Registration",
     parent: hub,
     eyebrow: "Patient registration",
-    image: img("waiting-room-2.webp"),
-    imageAlt: officeAlt("Front desk"),
-    ctaImage: img("office-5.jpg"),
-    ctaImageAlt: officeAlt("Reception"),
+    hero: T.formSigning,
+    ...ctaOf(T.forms4),
     dark: 1,
     accent: "Forms",
   },
@@ -135,10 +118,8 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "Patient Education",
     parent: hub,
     eyebrow: "Patient education",
-    image: img("waiting-room.webp"),
-    imageAlt: officeAlt("Waiting area"),
-    ctaImage: img("operatory-3.jpg"),
-    ctaImageAlt: officeAlt("Treatment room"),
+    hero: T.readingDocuments,
+    ...ctaOf(T.insurance5),
     dark: 1,
     accent: "Library",
   },
@@ -146,47 +127,44 @@ const looks: Record<string, Omit<DraftLook, "crumbs"> & { parent?: { label: stri
     name: "Home Care Instructions",
     parent: cc,
     eyebrow: "Home care instructions",
-    image: img("operatory-1.webp"),
-    imageAlt: officeAlt("Treatment room"),
-    ctaImage: img("waiting-room.webp"),
-    ctaImageAlt: officeAlt("Waiting area"),
+    hero: T.brushingMan,
+    ...ctaOf(T.brushing8),
     dark: 5,
     accent: "Home Care Instructions",
   },
 };
 
 /* Topic photo per section (same order as the draft's sections; null = section without a photo). */
-const T = topicImages;
 const sectionImages: Record<string, (TopicImage | null)[]> = {
-  [BASE]: [T.calendar, T.consultDesk, T.cardPayment, T.formSigning, T.patientRelaxed, null, null],
+  [BASE]: [T.calendar5, T.consultDesk7, T.cardPayment8, T.formSigning, T.comfort6, null, null],
   [`${BASE}/services`]: [
     null,
-    T.treatmentChair,
-    T.treatmentCloseup,
-    T.veneers,
-    T.implant,
-    T.dentures,
+    T.treatmentChair3,
+    T.treatmentCloseup7,
+    T.cosmeticTools4,
+    T.modelExplain,
+    T.models6,
     T.jaw,
-    T.toothache,
+    T.toothache3,
     null,
   ],
-  [`${BASE}/why-choose-us`]: [T.consultXray, T.treatmentPatient, T.microscope, T.piggyBank, null],
-  [`${BASE}/new-patients`]: [null, T.consultDesk, T.patientCalm, T.medications, T.cardPayment, T.consultXray],
-  [`${BASE}/insurance-payment-options`]: [null, T.paperwork, T.cardPayment, T.piggyBank, T.readingDocuments],
-  [`${BASE}/care-credit`]: [T.cardPayment, T.implant, T.writingDocuments, T.readingDocuments, T.piggyBank],
-  [`${BASE}/care-and-comfort`]: [T.phoneCall, T.consultDesk, T.patientRelaxed, T.treatmentPatient, T.glovesMask],
-  [`${BASE}/care-and-comfort/infection-control`]: [T.glovesMask, null, T.dentistMask, T.treatmentChair],
-  [`${BASE}/care-and-comfort/advanced-technology`]: [T.microscope, T.scan3d, T.xrayTablet, T.xrayMonitor, null],
-  [`${BASE}/scheduling`]: [null, T.phoneCall, null, T.toothache, T.formReview],
-  [`${BASE}/patient-registration`]: [T.formSigning, T.medicationOrganizer, T.paperwork, T.formReview],
-  [`${BASE}/patient-education`]: [null, null, T.brushingWoman, T.readingDocuments],
+  [`${BASE}/why-choose-us`]: [T.consultXray6, T.treatmentPatient, T.microscope1, T.piggyBank4, null],
+  [`${BASE}/new-patients`]: [null, T.consultDesk2, T.comfort3, T.medications, T.cardPayment9, T.consultXray7],
+  [`${BASE}/insurance-payment-options`]: [null, T.paperwork, T.cardPayment2, T.piggyBank5, T.readingDocuments],
+  [`${BASE}/care-credit`]: [T.cardPayment3, T.models7, T.writingDocuments, T.insurance3, T.piggyBank6],
+  [`${BASE}/care-and-comfort`]: [T.phoneCall4, T.consultDesk3, T.comfort4, T.dentistHandpiece, T.infection3],
+  [`${BASE}/care-and-comfort/infection-control`]: [T.infection4, null, T.dentistMask, T.treatmentChair4],
+  [`${BASE}/care-and-comfort/advanced-technology`]: [T.microscope1, T.scan3d3, T.xray7, T.xray8, null],
+  [`${BASE}/scheduling`]: [null, T.phoneCall2, null, T.toothache4, T.forms4],
+  [`${BASE}/patient-registration`]: [T.forms5, T.medicationOrganizer, T.paperwork, T.forms6],
+  [`${BASE}/patient-education`]: [null, null, T.brushing4, T.insurance4],
   [`${BASE}/care-and-comfort/home-instructions`]: [
-    T.coldCompress,
-    T.treatmentPatient,
-    T.treatmentCloseup,
-    T.brushingMan,
-    T.patientRelaxed,
-    T.phoneCall,
+    T.toothache5,
+    T.fillingDrill,
+    T.treatmentCloseup6,
+    T.brushing5,
+    T.comfort5,
+    T.phoneCall3,
   ],
 };
 
@@ -223,5 +201,5 @@ export default async function PatientInfoPage({ params }: PageProps<"/patient-in
     { label: look.name },
   ];
 
-  return <DraftPageView page={page} look={{ ...look, crumbs, images: sectionImages[url] }} />;
+  return <DraftPageView page={page} look={{ ...look, crumbs, image: look.hero.src, imageAlt: look.hero.alt, images: sectionImages[url] }} />;
 }

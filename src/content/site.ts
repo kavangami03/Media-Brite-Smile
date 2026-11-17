@@ -72,7 +72,8 @@ export const site = {
 /** `note` is a short fact shown beside the link (e.g. a measured drive time). */
 export type NavLink = { label: string; href: string; note?: string };
 export type NavSection = { title: string; links: NavLink[] };
-export type NavGroup = { label: string; href: string; links: NavLink[]; sections?: NavSection[] };
+/** `short` is the label shown in the desktop bar (the full one does not fit beside the phone and booking button). */
+export type NavGroup = { label: string; href: string; links: NavLink[]; sections?: NavSection[]; short?: string };
 
 const group = (label: string, href: string, sections: NavSection[]): NavGroup => ({
   label,
@@ -317,7 +318,8 @@ export const mainNav: (NavLink | NavGroup)[] = [
       ],
     },
   ]),
-  { label: "Services", href: servicesHref, links: [] }, // rendered as a mega-menu from serviceGroups
+  /* the three treatment categories, each with its own dropdown */
+  ...serviceGroups.map((g) => ({ ...group(g.title, g.href, g.sections), short: g.title.split(" ")[0] })),
   group("Patients", "/patient-information", [
     {
       title: "New patients",
@@ -353,7 +355,7 @@ export const mainNav: (NavLink | NavGroup)[] = [
       ],
     },
   ]),
-  areasNav,
+  { label: "Blog", href: "/blog" },
   { label: "Special Offers", href: "/special-offers" },
   { label: "Contact", href: "/contact-us" },
 ];

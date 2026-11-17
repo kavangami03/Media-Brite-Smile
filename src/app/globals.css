@@ -96,6 +96,27 @@
       transform: rotate(360deg);
     }
   }
+  /* special offers tab: a light sweep down the tab and a gently bobbing price badge */
+  --animate-offer-shine: offer-shine 3.2s ease-in-out infinite;
+  @keyframes offer-shine {
+    0% {
+      transform: translateY(-120%);
+    }
+    55%,
+    100% {
+      transform: translateY(320%);
+    }
+  }
+  --animate-offer-bob: offer-bob 2.6s ease-in-out infinite;
+  @keyframes offer-bob {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-8deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(8deg);
+    }
+  }
 }
 
 /* ==========================================================================

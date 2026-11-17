@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { topicImages as T } from "@/content/topic-images";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -356,8 +357,8 @@ export default function ContactPage() {
           </>
         }
         text="Three dentists, appointments from 8am, and a reply with real times rather than a callback promise."
-        image="/images/office/waiting-room-2.webp"
-        imageAlt={`Front desk at ${site.name}, Media PA`}
+        image={T.kids7.src}
+        imageAlt={T.kids7.alt}
       />
     </>
   );

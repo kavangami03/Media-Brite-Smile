@@ -4,6 +4,8 @@ import { getLocation, locations, site } from "@/content/site";
 import { getTown } from "@/content/towns";
 import { TownHero } from "@/components/location/town-hero";
 import { TownGuide } from "@/components/location/town-guide";
+import { topicImages } from "@/content/topic-images";
+import { townImages } from "@/content/town-images";
 import { TownFaq } from "@/components/location/town-faq";
 import { NearbyAreas } from "@/components/location/nearby-areas";
 import { CtaBand } from "@/components/page/cta-band";
@@ -59,6 +61,8 @@ export default async function TownPage({ params }: PageProps<"/locations/[slug]"
     ],
   });
 
+  const ctaPhoto = topicImages[townImages[town.slug]?.cta ?? "officeBuilding"];
+
   return (
     <>
       <JsonLd data={jsonLd} />
@@ -71,8 +75,8 @@ export default async function TownPage({ params }: PageProps<"/locations/[slug]"
       <CtaBand
         title={town.cta.title}
         text={town.cta.text}
-        image="/images/office/office-41.jpg"
-        imageAlt={`The ${site.name} building on N Pennell Rd, Media PA`}
+        image={ctaPhoto.src}
+        imageAlt={ctaPhoto.alt}
       />
     </>
   );

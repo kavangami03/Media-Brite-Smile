@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { topicImages as T } from "@/content/topic-images";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Camera, FileCheck2, Sparkles } from "lucide-react";
@@ -304,8 +305,8 @@ export default function SmileGalleryPage() {
         }
         text="Book a consultation and get a plan with the costs set out before anything starts."
         primary={{ label: "Book a Cosmetic Consultation", href: site.bookingHref }}
-        image="/images/office/operatory-1.webp"
-        imageAlt={`Treatment room at ${site.name}, Media PA`}
+        image={T.cosmeticTools4.src}
+        imageAlt={T.cosmeticTools4.alt}
       />
     </>
   );
