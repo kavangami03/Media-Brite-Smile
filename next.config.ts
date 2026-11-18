@@ -6,9 +6,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    // WebP at q90: AVIF at the default q75 looks soft on photography.
-    formats: ["image/webp"],
-    qualities: [90],
+    // Serve the files in /public as they are. Vercel image optimisation is a paid allowance on the
+    // Hobby plan and answers 402 once it is used up, which leaves every next/image blank.
+    // The photos are already resized and compressed, so they can be served directly.
+    unoptimized: true,
   },
   // Old /locations URLs (before the approved sitemap) move to their sitemap addresses.
   redirects() {
