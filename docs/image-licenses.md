@@ -356,3 +356,13 @@ The four blog images carried over from the old website were Shutterstock stock p
 | public/images/blog/implant-candidate-xray-review.jpg | Blog post /blog/best-candidate-for-dental-implants-near-me-media (replaces the Shutterstock image) | https://www.pexels.com/photo/6529217/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
 | public/images/blog/implant-cost-consultation.jpg | Blog post /blog/dental-implants-associated-costs-in-media-pa (replaces the Shutterstock image) | https://www.pexels.com/photo/5355710/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
 | public/images/blog/invisalign-adult-at-work.jpg | Blog post /blog/invisalign-for-adults-in-media (replaces the Shutterstock image) | https://www.pexels.com/photo/39853316/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-17 |
+
+
+## Home page FAQ photos, 18 Nov 2026
+
+The home FAQ grew to 11 questions; four photos were added so each question has its own.
+
+| File | Used on | Source | Licence | Date |
+|---|---|---|---|---|
+| public/images/topics/comfort-7.jpg | Home page, FAQ (sedation for nervous patients) | https://www.pexels.com/photo/3845553/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-18 |
+| public/images/topics/driving-8.jpg | Home page, FAQ (distance from Swarthmore or Springfield) | https://www.pexels.com/photo/5875895/ | Pexels License (free for commercial use, no attribution required; downloaded from images.pexels.com) | 2026-11-18 |
