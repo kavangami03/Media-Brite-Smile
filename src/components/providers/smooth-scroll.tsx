@@ -2,7 +2,8 @@
 
 import { ReactLenis, useLenis } from "lenis/react";
 import { useReducedMotion } from "motion/react";
-import { useEffect, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 /**
@@ -51,6 +52,21 @@ function LenisGsapBridge() {
 
     return () => gsap.ticker.remove(update);
   }, [lenis]);
+
+  // Every new page starts at the top. Next.js resets the native scroll on navigation, but
+  // Lenis keeps its own target position (and any wheel momentum) and would glide the new
+  // page back to where the old one was, so reset Lenis itself before the first paint.
+  // Links to an #anchor are left alone so Lenis can scroll to the section.
+  const pathname = usePathname();
+  const lastPath = useRef(pathname);
+  useLayoutEffect(() => {
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    if (window.location.hash) return;
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  }, [pathname, lenis]);
 
   return null;
 }

@@ -128,13 +128,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Lenis hides the page scrollbar while paused (intro, mobile menu). Keep it visible instead:
-     Lenis still blocks wheel/touch scrolling, but the page width never changes, so there is
-     no empty strip beside the header and no layout shift for pinned sections. */
-  html.lenis.lenis-stopped {
-    overflow: visible;
-  }
-
   /* Safety net against any stray horizontal overflow; clip (unlike hidden) keeps position: sticky working */
   body {
     overflow-x: clip;
@@ -290,6 +283,15 @@
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 0.3) transparent;
   }
+}
+
+/* Lenis hides the page scrollbar while paused (intro, mobile menu) with
+   `.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip }`. Keep it visible instead:
+   Lenis still blocks wheel/touch scrolling, but the page width never changes, so the page does
+   not jump sideways when the intro ends. This rule must stay outside @layer and out-rank
+   Lenis's selector (unlayered CSS always beats layered CSS, whatever the specificity). */
+html.lenis.lenis-stopped:not(.lenis-autoToggle) {
+  overflow: visible;
 }
 
 /* While the intro plays, the header logo is hidden: the intro logo flies into its place. */

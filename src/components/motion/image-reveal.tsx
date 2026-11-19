@@ -45,7 +45,9 @@ export function ImageReveal({
         tl.fromTo(
           el,
           { clipPath: clips[direction] },
-          { clipPath: "inset(0% 0% 0% 0% round 0rem)", duration: 1.6, ease: "brite.inOut" },
+          // clearProps: a leftover clip-path (even inset(0%)) also clips the frame's box-shadow,
+          // which hid the photo's own shadow and left only the overlapping card's shadow showing.
+          { clipPath: "inset(0% 0% 0% 0% round 0rem)", duration: 1.6, ease: "brite.inOut", clearProps: "clipPath" },
         ).from(el.querySelector("[data-reveal-media]"), { scale: 1.35, duration: 2, ease: "brite.out" }, 0);
       });
     },
